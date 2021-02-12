@@ -26,7 +26,7 @@ client.on('messageReactionAdd', (reaction, user) => {
 client.on('message', message => {
 
 	let command;
-	message.mentions.channels.first().
+	
 	if (!message.content.startsWith(prefix) || message.author.bot || message.channel.type === "dm") {
 		if (message.channel.id == "522437669582667787") {
 			command = client.commands.get("sondage");
