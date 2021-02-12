@@ -19,8 +19,8 @@ client.once('ready', () => {
 
 // this code is executed every time they add a reaction
 client.on('messageReactionAdd', (reaction, user) => {
-	let limit = 2;
-	if (reaction.emoji.name == '♻️' && reaction.count >= limit && reaction.message.channel.id === '635159004003434507') reaction.message.delete();
+	let limit = 5;
+	if (reaction.emoji.name == '♻️' && reaction.count >= limit && reaction.message.channel.id === '476826071489052695') reaction.message.delete();
 });
 
 client.on('message', message => {
@@ -30,7 +30,7 @@ client.on('message', message => {
 	let command;
 
 	if (!message.content.startsWith(prefix) || message.author.bot || message.channel.type === "dm") {
-		if (message.channel.id == "635159004003434507") {
+		if (message.channel.id == "522437669582667787") {
 			command = client.commands.get("sondage");
 		} else {
 			return;
