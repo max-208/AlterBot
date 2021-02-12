@@ -8,7 +8,7 @@ module.exports = {
 	aliases: [],	            //autres manières d'appeler la commande
     permissions : "MANAGE_MESSAGES",
 	execute(message, args) {
-        if(message.mentions.channels.first().has("TextChannel")){
+        if(message.mentions.channels.first() != undefined && message.mentions.channels.first().has("TextChannel")){
             args.shift();
             message.mentions.channels.first().send(args.join(' '));
         } else {
