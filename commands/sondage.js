@@ -12,36 +12,36 @@ module.exports = {
         const client = message.client;
         const regex = new RegExp(/(:[^:\s]+:|<:[^:\s]+:[0-9]+>|<a:[^:\s]+:[0-9]+>)|(\u00a9|\u00ae|[\u2000-\u3300]|\ud83c[\ud000-\udfff]|\ud83d[\ud000-\udfff]|\ud83e[\ud000-\udfff])/g);
         const regexMatch = message.content.match(regex);
-        //console.log(regexMatch);
-        //prise en compte des drapeaux de pays / teintes de peau
-        let i = 0
-        while (i < regexMatch.length - 1) {
-            if ((regexMatch[i].match(/[\uD83C][\uDDE6-\uDDFF]/) && regexMatch[i + 1].match(/[\uD83C][\uDDE6-\uDDFF]/)) || (regexMatch[i + 1].match(/🏻|🏼|🏽|🏾|🏿/))) {
-                if (message.content.match(regexMatch[i] + regexMatch[i + 1])) {
-                    regexMatch[i] = regexMatch[i] + regexMatch[i + 1]
-                    regexMatch.splice(i + 1, 1);
+        if (regexMatch !== null && !message.author.bot) {
+            //console.log(regexMatch);
+            //prise en compte des drapeaux de pays / teintes de peau
+            let i = 0
+            while (i < regexMatch.length - 1) {
+                if ((regexMatch[i].match(/[\uD83C][\uDDE6-\uDDFF]/) && regexMatch[i + 1].match(/[\uD83C][\uDDE6-\uDDFF]/)) || (regexMatch[i + 1].match(/🏻|🏼|🏽|🏾|🏿/))) {
+                    if (message.content.match(regexMatch[i] + regexMatch[i + 1])) {
+                        regexMatch[i] = regexMatch[i] + regexMatch[i + 1]
+                        regexMatch.splice(i + 1, 1);
+                    }
                 }
+                i++;
             }
-            i++;
-        }
-        //console.log(regexMatch);
-        //prise en compte des drapeaux gay/trangenre/pirate
-        i = 0;
-        while (i < regexMatch.length - 2) {
-            if (regexMatch[i].match(/🏳|🏴/) && regexMatch[i + 1].match(/\u200D/)) {
-                if (regexMatch[i + 2].match("🌈")) {
-                    regexMatch[i + 2] = "🏳️‍🌈";
-                } else if (regexMatch[i + 2].match("☠")) {
-                    regexMatch[i + 2] = "🏴‍☠️";
+            //console.log(regexMatch);
+            //prise en compte des drapeaux gay/trangenre/pirate
+            i = 0;
+            while (i < regexMatch.length - 2) {
+                if (regexMatch[i].match(/🏳|🏴/) && regexMatch[i + 1].match(/\u200D/)) {
+                    if (regexMatch[i + 2].match("🌈")) {
+                        regexMatch[i + 2] = "🏳️‍🌈";
+                    } else if (regexMatch[i + 2].match("☠")) {
+                        regexMatch[i + 2] = "🏴‍☠️";
+                    }
+                    regexMatch.splice(i, 2);
                 }
-                regexMatch.splice(i, 2);
+                i++;
             }
-            i++;
-        }
-        //console.log(regexMatch);
-        //boucle qui detecte quel type d'emoji est en jeu et reagi de manière accordée
-        i = 0;
-        if (regexMatch !== null) {
+            //console.log(regexMatch);
+            //boucle qui detecte quel type d'emoji est en jeu et reagi de manière accordée
+            i = 0;
             while (i < regexMatch.length) {
                 //console.log(regexMatch[i]);
                 const emojiMessage = regexMatch[i];
