@@ -23,7 +23,7 @@
         }
     },
 
-    "organisation" : {
+    "organisations" : {
         "1" : {
             "nom" : "l'alliance des patates",
             "dirigeants" : ["352459053928022017" , "809808995081912370"],
