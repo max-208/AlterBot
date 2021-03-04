@@ -4,18 +4,25 @@
     "drapeau": "",
     "regime": "",
     "devise": "",
-    "PM": 0,
-    "armee": 0,
-    "marine": 0,
-    "science": 0,
-    "culture": 0,
-    "religion": 0,
-    "economie": 0,
-    "nbCases": 0,
-    "provinces": [],
-    "villes": [],
+    "PM": 2,
+    "armee": 3,
+    "marine": 7,
+    "science": 1,
+    "culture": 1,
+    "religion": 3,
+    "economie": 1,
+    "nbCases": 1,
+    "provinces": [
+      1
+    ],
+    "villes": [
+      1,
+      2,
+      3
+    ],
     "cultures": [
-      0
+      0,
+      1
     ],
     "technologies": [
       0

@@ -2,7 +2,9 @@
     "feature" : {
         "1" : {
             "nom" : "centre ville",
-            "description" : "est au centre de la ville quoi"
+            "description" : "est au centre de la ville quoi",
+            "reqTech" : 0,
+            "reqCult" : 1
         }
     },
 

@@ -5,7 +5,7 @@ module.exports = {
     name: 'info',
     description: 'affiche les infos sur vous meme ou bien un joueur',
     args: false, 				//mettre a true quand la commande nécésite des arguments
-    usage: '[mention]',	//décrit les arguments nécéssaires a la commande
+    usage: '[{mention utilisateur}]',	//décrit les arguments nécéssaires a la commande
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	    //autres manières d'appeler la commande
@@ -69,7 +69,7 @@ module.exports = {
 
             embed.addField("\u200b", "\u200b", false);
             
-            var allies = "";
+            var allies = "\u200b";
             if(dataUser.allies == null || dataUser.allies == undefined || dataUser.allies.length == 0){
                 allies = "aucun allies";
             } else {
@@ -79,7 +79,7 @@ module.exports = {
             }
             embed.addField("Allies", allies, true);
 
-            var ennemis = "";
+            var ennemis = "\u200b";
             if(dataUser.ennemis == null || dataUser.ennemis == undefined || dataUser.ennemis.length == 0){
                 ennemis = "aucun ennemis";
             } else {
@@ -89,7 +89,7 @@ module.exports = {
             }
             embed.addField("Ennemis", ennemis, true);
 
-            var vassaux = "";
+            var vassaux = "\u200b";
             if(dataUser.vassaux == null || dataUser.vassaux == undefined || dataUser.vassaux.length == 0){
                 vassaux = "aucun vassaux";
             } else {
@@ -99,7 +99,7 @@ module.exports = {
             }
             embed.addField("Vassaux", vassaux, true);
 
-            var organisations = "";
+            var organisations = "\u200b";
             if(dataUser.organisations == null || dataUser.organisations == undefined || dataUser.organisations.length == 0){
                 organisations = "aucune organisations";
             } else {

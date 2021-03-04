@@ -4,7 +4,7 @@ module.exports = {
     name: 'join',
     description: 'rejoins le rp',
     args: true, 				//mettre a true quand la commande nécésite des arguments
-    usage: '<nom du pays>',	//décrit les arguments nécéssaires a la commande
+    usage: '<{nom du pays}>',	//décrit les arguments nécéssaires a la commande
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande

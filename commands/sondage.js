@@ -4,7 +4,7 @@ module.exports = {
     name: 'sondage',
     description: 'Reagis au emojis present dans le message',
     args: false, 				//mettre a true quand la commande nécésite des arguments
-    usage: '[message]',	    //décrit les arguments nécéssaires a la commande
+    usage: '[{message}]',	    //décrit les arguments nécéssaires a la commande
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	            //autres manières d'appeler la commande

@@ -2,7 +2,7 @@ module.exports = {
     name: 'redirection',
     description: 'redirige un utilisateur vers un autre salon',
     args: true, 				//mettre a true quand la commande nécésite des arguments
-    usage: '<salon> <utilisateur1> [utilisateurs2...]',	//décrit les arguments nécéssaires a la commande
+    usage: '<{salon}> <{utilisateur1}> [{utilisateurs2}...]',	//décrit les arguments nécéssaires a la commande
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: ["rd"],	    //autres manières d'appeler la commande
