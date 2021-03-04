@@ -4,7 +4,7 @@
     "drapeau": "",
     "regime": "",
     "devise": "",
-    "PM": 2,
+    "PM": 1,
     "armee": 3,
     "marine": 7,
     "science": 1,
@@ -13,12 +13,14 @@
     "economie": 1,
     "nbCases": 1,
     "provinces": [
-      1
+      1,
+      2
     ],
     "villes": [
       1,
       2,
-      3
+      3,
+      4
     ],
     "cultures": [
       0,

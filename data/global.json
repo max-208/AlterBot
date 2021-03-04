@@ -1,11 +1,19 @@
 {
   "provinces": {
     "1": {
-      "nom": "pays des pandas",
+      "nom": "des pates",
       "proprietaire": "352459053928022017",
       "villes": [
         1,
         2
+      ]
+    },
+    "2": {
+      "nom": "la province du cuk",
+      "proprietaire": "352459053928022017",
+      "villes": [
+        "1",
+        "4"
       ]
     }
   },
@@ -13,7 +21,7 @@
     "1": {
       "nom": "owo",
       "proprietaire": "352459053928022017",
-      "province": 1,
+      "province": "2",
       "infReligion": {
         "352459053928022017": 1,
         "809808995081912370": 2,
@@ -30,8 +38,8 @@
     },
     "2": {
       "nom": "pandaville",
-      "proprietaire": "11111111111",
-      "province": 0,
+      "proprietaire": "352459053928022017",
+      "province": "0",
       "infReligion": {
         "352459053928022017": 1
       },
@@ -44,6 +52,18 @@
       "nom": "panda",
       "proprietaire": "352459053928022017",
       "province": 1,
+      "infReligion": {
+        "352459053928022017": 1
+      },
+      "infEconomie": {
+        "352459053928022017": 1
+      },
+      "features": []
+    },
+    "4": {
+      "nom": "uwu city",
+      "proprietaire": "352459053928022017",
+      "province": "2",
       "infReligion": {
         "352459053928022017": 1
       },
