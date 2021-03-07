@@ -6,8 +6,8 @@ module.exports = {
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
+    permissions: "MANAGE_MESSAGES",
     async execute(message, args) {
-        console.log("bataille")
         var J1;
         var J2;
         var forceJ1;
@@ -126,11 +126,11 @@ module.exports = {
                 ])
                 var arr = ["🔇", "⛰️", "📜", "⚔️", "❌" ];
                 await messagePublic.edit(messagePublic.content + "\n"  + arr[choixJ1] + " vs " + arr[choixJ2]);
-                await messagej1.edit(messagej1.content + "\n" + arr[choixJ1] + " vs " + arr[choixJ2] );
-                await messagej2.edit(messagej2.content + "\n" + arr[choixJ1] + " vs " + arr[choixJ2] );
+                await messagej1.edit(messagej1.content + "\n\n" + arr[choixJ1] + " vs " + arr[choixJ2] );
+                await messagej2.edit(messagej2.content + "\n\n" + arr[choixJ1] + " vs " + arr[choixJ2] );
                 //console.log(arr[choixJ1] + " vs " + arr[choixJ2]);
 
-                if (choixJ1 == -1 || choixJ2 == -1) {
+                if (choixJ1 == 4 || choixJ2 == 4) {
                     //console.log("erreur pas de reponse");
                     await messagePublic.edit(messagePublic.content+  " un des participant shouaite arreter");
                     messagej1.edit( messagej1.content + "\nun des participant **shouaite arreter**");
@@ -183,7 +183,7 @@ module.exports = {
         }
 
         async function pfc(message, round, nomEnnemi, texteEquilibre) {
-            await message.edit("**combat contre " + nomEnnemi + "**\n__round " + round + " - " + texteEquilibre + "__\nréagissez ⛰️, 📜 ou ⚔️ pour faire votre mouvement. \nréagissez ❌ pour demander d'arrêter le combat (paix blanche)");
+            await message.edit("**combat contre " + nomEnnemi + "**\n__round " + round + " - " + texteEquilibre + "__\n\nréagissez ⛰️, 📜 ou ⚔️ pour faire votre mouvement. \nréagissez ❌ pour demander d'arrêter le combat (paix blanche)");
             await message.react("⛰️");
             await message.react("📜");
             await message.react("⚔️");
