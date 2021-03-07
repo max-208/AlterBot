@@ -102,3 +102,7 @@ dist
 
 # TernJS port file
 .tern-port
+
+# do not copy data
+./data/global.json
+./data/joueurs.json

@@ -1,0 +1,38 @@
+{
+  "352459053928022017": {
+    "pays": "empire des patates",
+    "drapeau": "",
+    "regime": "",
+    "devise": "",
+    "PM": 1,
+    "armee": 3,
+    "marine": 7,
+    "science": 1,
+    "culture": 1,
+    "religion": 3,
+    "economie": 1,
+    "nbCases": 1,
+    "provinces": [
+      1,
+      2
+    ],
+    "villes": [
+      1,
+      2,
+      3,
+      4
+    ],
+    "cultures": [
+      0,
+      1
+    ],
+    "technologies": [
+      0
+    ],
+    "allies": [],
+    "ennemis": [],
+    "suzerain": "",
+    "vassaux": [],
+    "organisations": []
+  }
+}
