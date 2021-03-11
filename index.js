@@ -46,6 +46,17 @@ client.on('message', message => {
 	}
 	//implementation commande sondage random
 
+	if(commandName === "kill"){
+		const authorPerms = message.channel.permissionsFor(message.author);
+		if (!authorPerms || !authorPerms.has("ADMINISTRATOR")) {
+			return message.reply('Vous ne pouvez pas faire cela !');
+		} else {
+			message.reply( '<@' + message.author.id + '> a detruit le bot !');
+			client.destroy();
+			return;
+		}
+	}
+
 	if (!command) return;
 
 	if (command.guildOnly && message.channel.type === 'dm') {
