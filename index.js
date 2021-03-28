@@ -1,14 +1,20 @@
 const fs = require('fs');
 const Discord = require('discord.js');
-const { Sequelize } = require('sequelize');
 require("dotenv").config();
 
 const client = new Discord.Client();
 client.commands = new Discord.Collection();
-const commandFiles = fs.readdirSync('./commands').filter(file => file.endsWith('.js'));
+var commandFiles = fs.readdirSync('./commands/rp').filter(file => file.endsWith('.js'));
 
 for (const file of commandFiles) {
-	const command = require(`./commands/${file}`);
+	const command = require(`./commands/rp/${file}`);
+	client.commands.set(command.name, command);
+}
+
+commandFiles = fs.readdirSync('./commands/utility').filter(file => file.endsWith('.js'));
+
+for (const file of commandFiles) {
+	const command = require(`./commands/utility/${file}`);
 	client.commands.set(command.name, command);
 }
 

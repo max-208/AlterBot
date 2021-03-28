@@ -13,7 +13,6 @@ module.exports = {
     execute(message, args) {
         var user;
         if (message.content.match(/<@!?(\d+)>/)){
-            console.log("pog")
             user = message.mentions.users.first()
         } else {
             user = message.author
