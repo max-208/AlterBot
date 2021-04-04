@@ -8,12 +8,12 @@
 x-y valeur entre x et y compris
 |   alternative
 
-v  a!bataille		<{j1}> <{j2}> <{force j1}> <{force j2}>  [{equilibre% (10-90)}] [{nb tour max (1-)}] [{difficulte (1-15)}]
+v  a!bataille		   <{j1}> <{j2}> <{force j1}> <{force j2}>  [{equilibre% (10-90)}] [{nb tour max (1-)}] [{difficulte (1-15)}]
 
    a!rejoindre 		<{nom du pays}...>
-v  a!info			[{mention joueur}]
-   a!drapeau 		<{nouvelle url du drapeau}...>
-   a!devise 		<{nouvelle devise}...>
+v  a!info			   [{mention joueur}]
+   a!drapeau 		   <{nouvelle url du drapeau}...>
+   a!devise 		   <{nouvelle devise}...>
 
    a!ajouterEnnemi 	<{id joueur}>
    a!ajouterAllie 	<{id joueur}>
@@ -33,22 +33,21 @@ v  a!info			[{mention joueur}]
    a!provinceNom 		<{id province}> <{nouveau nom}...>
    a!provinceInfo 	<{id province}>
    a!provinceListe 	[{mention joueur}]
-   a!provinceAjouter 	<{id province}> <{id ville}> [{id ville}...]
+   a!provinceAjouter <{id province}> <{id ville}> [{id ville}...]
 
    a!villeCreer		<{nom de la ville}...> \n [{commentaire mj}...]
-   a!villeNom		<{id ville}> <{nouveau nom}>
-   a!villeInfo		<{id ville}>
+   a!villeNom		   <{id ville}> <{nouveau nom}>
+   a!villeInfo		   <{id ville}>
    a!villeListe		[{mention joueur}]
 
-   a!route		<{id ville 1}> <{id ville 2}> [{commentaire mj}]
+   a!route		      <{id ville 1}> <{id ville 2}> [{commentaire mj}]
 
-   a!ameliorationInfo 	<{id amelioration}>
+   a!ameliorationInfo 	   <{id amelioration}>
    a!ameliorationAjouter 	<{id amelioration}> <{id ville}>
 
-   a!influencerEco	<{id ville}> <{quantité d'influence}>
-   a!influencerRel	<{id ville}> <{quantité d'influence}>
+   a!influencer	   <{id ville}> <{quantité d'influence}>
 
    a!rechercher		<{id recherche}>
    a!rechercheInfo	<{id recherche}>
 
-   a!traite 		<{joueurs 1}...> \n <{joueurs 2}...> \n <{duree traité en nb tours}> \n <{texte du traité}...>
+   a!traite 		   <{joueurs 1}...> \n <{joueurs 2}...> \n <{duree traité en nb tours}> \n <{texte du traité}...>

@@ -7,19 +7,12 @@
             "reqCult" : 1
         }
     },
-
-    "culture" : {
+    "recherche" : {
         "1" : {
             "nom": "une culture",
             "description" : "description",
-            "parent" : [0]
-        }
-    },
-
-    "technologie" : {
-        "1" : {
-            "nom": "une tech",
-            "description" : "description",
+            "culture" : 2,
+            "science" : 3,
             "parent" : [0]
         }
     }

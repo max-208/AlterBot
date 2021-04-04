@@ -22,15 +22,10 @@
       "nom": "owo",
       "proprietaire": "352459053928022017",
       "province": "2",
-      "infReligion": {
+      "influence": {
         "352459053928022017": 1,
         "809808995081912370": 2,
         "280726849842053120": 6
-      },
-      "infEconomie": {
-        "352459053928022017": 6,
-        "809808995081912370": 2,
-        "280726849842053120": 3
       },
       "features": [
         1
@@ -40,10 +35,7 @@
       "nom": "pandaville",
       "proprietaire": "352459053928022017",
       "province": "0",
-      "infReligion": {
-        "352459053928022017": 1
-      },
-      "infEconomie": {
+      "influence": {
         "352459053928022017": 1
       },
       "features": []
@@ -52,10 +44,7 @@
       "nom": "panda",
       "proprietaire": "352459053928022017",
       "province": 1,
-      "infReligion": {
-        "352459053928022017": 1
-      },
-      "infEconomie": {
+      "influence": {
         "352459053928022017": 1
       },
       "features": []
@@ -64,10 +53,7 @@
       "nom": "uwu city",
       "proprietaire": "352459053928022017",
       "province": "2",
-      "infReligion": {
-        "352459053928022017": 1
-      },
-      "infEconomie": {
+      "influence": {
         "352459053928022017": 1
       },
       "features": []
