@@ -18,8 +18,8 @@ v  a!regime          <{nouveau regime}...>
 
 v  a!ajouterEnnemi 	<{mention joueur}>...
 v  a!ajouterAllie 	<{mention joueur}>...
-   a!enleverEnnemi 	<{mention joueur}>...
-   a!enleverAllie 	<{mention joueur}>...
+v  a!enleverEnnemi 	<{mention joueur}>...
+v  a!enleverAllie 	<{mention joueur}>...
 
    a!ameliorerStat 	<{stat (armee|marine|science|culture|religion|economie)}> <{quantité (1-)}>
    a!ameliorerTerre	<{nombre de cases (1-)}> [{commentaire mj}...]
@@ -32,14 +32,12 @@ v  a!ajouterAllie 	<{mention joueur}>...
 
    a!provinceCreer 	<{nom de la province}...> \n [{commentaire mj}...]
    a!provinceNom 		<{id province}> <{nouveau nom}...>
-   a!provinceInfo 	<{id province}>
-   a!provinceListe 	[{mention joueur}]
+   a!provinceInfo 	<{id province}>|[{mention joueur}]
    a!provinceAjouter <{id province}> <{id ville}> [{id ville}...]
 
-   a!villeCreer		<{nom de la ville}...> \n [{commentaire mj}...]
-   a!villeNom		   <{id ville}> <{nouveau nom}>
-   a!villeInfo		   <{id ville}>
-   a!villeListe		[{mention joueur}]
+v  a!villeCreer		<{nom de la ville}...> \n [{commentaire mj}...]
+v  a!villeNom		   <{id ville}> <{nouveau nom}...>
+v  a!villeInfo		   [{mention joueur}|{id ville}]
 
    a!route		      <{id ville 1}> <{id ville 2}> [{commentaire mj}]
 

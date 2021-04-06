@@ -13,36 +13,7 @@ module.exports = {
         const prixAchat = 5;
         const prixImprovement = 2;
 
-        if (args[0].match(/[Bb][Uu][Yy]/)) {
-            if (args[1] != undefined) {
-                const userid = message.author.id;
-                var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
-                if (joueurs[userid] != undefined) {
-                    if (joueurs[userid].PM >= prixAchat) {
-                        joueurs[userid].PM = parseInt(joueurs[userid].PM) - prixAchat
-                        var global = JSON.parse(fs.readFileSync("data/global.json"));
-                        const idVille = Object.keys(global.villes).length + 1;
-                        var jsonObj = {};
-                        jsonObj[userid] = 1;
-                        global.villes[idVille] = { "nom": args.slice(1).join(" "), "proprietaire": userid, "province": 0, "infReligion": jsonObj, "infEconomie": jsonObj, "features": [] };
-                        joueurs[userid].villes = joueurs[userid].villes.concat([idVille]);
-                        var retour1 = JSON.stringify(joueurs, null, 2);
-                        fs.writeFileSync('data/joueurs.json', retour1);
-                        var retour2 = JSON.stringify(global, null, 2);
-                        fs.writeFileSync('data/global.json', retour2);
-                        message.react("✅");
-                    } else {
-                        message.reply("vous n'avez pas assez de PM pour cela, il vous manque :zap: **" + (prixAchat - parseInt(joueurs[userid].PM, 10)) + "** !")
-                    }
-                } else {
-                    message.reply("erreur : vous ne faites pas partie du rp")
-                }
-            } else {
-                message.reply("deuxième argument incorrect : donnez un nom pour la ville");
-            }
-
-
-        } else if (args[0].match(/[Ee][Dd][Ii][Tt]/)) {
+        if (args[0].match(/[Ee][Dd][Ii][Tt]/)) {
             var global = JSON.parse(fs.readFileSync("data/global.json"));
             if (global.villes[args[1]] != undefined) {
                 if (global.villes[args[1]].proprietaire == message.author.id) {

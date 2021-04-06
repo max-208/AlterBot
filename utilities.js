@@ -41,6 +41,13 @@ module.exports = {
         return ret;
     },
 
+    async messageMJ(texteMJ) {
+        
+        //todo
+        //7j = 604800000ms
+        return true;
+    },
+
     faitPartieDuRp(idJoueur){
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         return joueurs[idJoueur] != undefined ;

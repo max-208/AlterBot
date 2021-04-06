@@ -1,7 +1,7 @@
 var fs = require("fs");
 const Discord = require('discord.js');
 module.exports = {
-    name: 'infoVille',
+    name: 'villeinfo',
     description: 'info sur les villes d\'un joueur ou sur une ville en particulier',
     args: false, 				//mettre a true quand la commande nécésite des arguments
     usage: '[{mention joueur}|{id ville}]',	//décrit les arguments nécéssaires a la commande
