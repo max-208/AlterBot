@@ -1,6 +1,5 @@
 var fs = require("fs");
 const Discord = require('discord.js');
-const { emitKeypressEvents } = require("readline");
 module.exports = {
     name: 'info',
     description: 'affiche les infos sur vous meme ou bien un joueur',

@@ -12,12 +12,11 @@ module.exports = {
     async execute(message, args) {
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         if (joueurs[message.author.id] == undefined) {
-            if(await utilites.messageConfirmation(message,"- rejoindre le rp avec le pays " + , [message.author.id], 60000)){
+            if(await utilites.messageConfirmation(message,"- rejoindre le rp avec le pays " + args.join(" ") ,[message.author.id])){
                 joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
-                joueurs[message.author.id] = { "pays": args.join(" "), "drapeau": "", "regime": "", "devise": "", "PM": 0, "armee": 0, "marine": 0, "science": 0, "culture": 0, "religion": 0, "economie": 0, "nbCases": 0, "provinces": [], "villes": [], "cultures": [0], "technologies": [0], "allies": [], "ennemis": [], "suzerain": "", "vassaux": [], "organisations": [] };
+                joueurs[message.author.id] = { "pays": args.join(" "), "drapeau": "", "regime": "", "devise": "", "PM": 0, "armee": 0, "marine": 0, "science": 0, "culture": 0, "religion": 0, "economie": 0, "nbCases": 0, "provinces": [], "villes": [], "recherches": [0], "allies": [], "ennemis": [], "suzerain": "", "vassaux": [], "organisations": [] };
                 let retour = JSON.stringify(joueurs, null, 2);
                 fs.writeFileSync('data/joueurs.json', retour);
-               console.log("ok");
             }
         } else {
             message.reply("vous faites deja partie du rp :0");

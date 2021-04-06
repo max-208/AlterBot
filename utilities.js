@@ -6,9 +6,9 @@ module.exports = {
     colRed : "#FF0000",
     colBlue : "#4169E1",
 
-    async messageConfirmation(message, texteAConfirmer, userid, time) {
-        if(userid == "" || texteAConfirmer == "" || time <=0){
-            message.reply("erreur lors de l'execution du message de confirmation" + userid == "" + " " + texteAConfirmer == "" + " " + time <=0)
+    async messageConfirmation(message, texteAConfirmer, userid) {
+        if(userid == "" || texteAConfirmer == ""){
+            message.reply("erreur lors de l'execution du message de confirmation" + userid == "" + " " + texteAConfirmer == "")
             return false;
         }
         
@@ -25,12 +25,11 @@ module.exports = {
             return ['✅','❌'].includes(reaction.emoji.name) && user.id == userid;
         };
 
-        await msgConfirmation.awaitReactions(filter, { max: 1, time: time, errors: ['time'] })
+        await msgConfirmation.awaitReactions(filter, { max: 1, time: 600000, errors: ['time'] })
             .then(collected => {
-                //console.log(collected);
-                //console.log(collected.first());
 
-                console.log(collected.first()._emoji.name);
+                //console.log(collected.first()._emoji.name);
+                
                 if(collected.first()._emoji.name === '✅'){
                     ret = true;
                     embed.setColor(this.colGreen)
@@ -44,7 +43,6 @@ module.exports = {
             }
         )
         msgConfirmation.edit(embed);
-        console.log(ret);
         return ret;
     },
 
