@@ -12,7 +12,7 @@ module.exports = {
     async execute(message, args) {
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (args[0].match(/^https?:\/\/.*\.(?:png|PNG|jpg|jpeg|JPG|JPEG|gif|webp)/) != undefined) {
-                if (await utilites.messageConfirmation(message, "- nouveau drapeau : " + args[0], [message.author.id])) {
+                if (await utilites.messageConfirmation(message, "- nouveau drapeau : " + args[0])) {
                     joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                     joueurs[message.author.id].drapeau = args[0];
                     let retour = JSON.stringify(joueurs, null, 2);

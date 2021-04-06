@@ -11,7 +11,7 @@ module.exports = {
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
         if (utilites.faitPartieDuRp(message.author.id)) {
-            if (await utilites.messageConfirmation(message, "- nouvelle devise : " + args.join(" "), [message.author.id])) {
+            if (await utilites.messageConfirmation(message, "- nouvelle devise : " + args.join(" "))) {
                 joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                 joueurs[message.author.id].devise = args.join(" ");
                 let retour = JSON.stringify(joueurs, null, 2);

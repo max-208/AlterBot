@@ -6,23 +6,18 @@ module.exports = {
     colRed : "#FF0000",
     colBlue : "#4169E1",
 
-    async messageConfirmation(message, texteAConfirmer, userid) {
-        if(userid == "" || texteAConfirmer == ""){
-            message.reply("erreur lors de l'execution du message de confirmation" + userid == "" + " " + texteAConfirmer == "")
-            return false;
-        }
+    async messageConfirmation(message, texteAConfirmer) {
         
         let ret = false;
         let embed = new Discord.MessageEmbed()
         .addField("actions a confirmer : ", texteAConfirmer + "\u200B")
-        .setDescription("<@" + userid + "> reagissez ✅ pour confirmer l'action, ou ❌ pour annuler l'action")
         .setColor(this.colBlue);
-        let msgConfirmation = await message.reply(embed);
+        let msgConfirmation = await message.reply("reagissez ✅ pour confirmer l'action, ou ❌ pour annuler l'action",embed);
         await msgConfirmation.react("✅");
         await msgConfirmation.react("❌");
 
         const filter = (reaction, user) => {
-            return ['✅','❌'].includes(reaction.emoji.name) && user.id == userid;
+            return ['✅','❌'].includes(reaction.emoji.name) && user.id == message.author.id;
         };
 
         await msgConfirmation.awaitReactions(filter, { max: 1, time: 600000, errors: ['time'] })

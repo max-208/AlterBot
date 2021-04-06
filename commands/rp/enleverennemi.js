@@ -2,8 +2,8 @@ var fs = require("fs");
 const Discord = require('discord.js');
 let utilites = require("../../utilities.js");
 module.exports = {
-    name: 'ajouterallie',
-    description: 'ajoute un allié a la liste d\'alliés',
+    name: 'enleverennemi',
+    description: 'enleve un ennemi de la liste d\'ennemis',
     args: true, 				//mettre a true quand la commande nécésite des arguments
     usage: '<{mention joueur}>...',	//décrit les arguments nécéssaires a la commande
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
@@ -13,11 +13,13 @@ module.exports = {
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (message.content.match(/<@!?(\d+)>/)) {
                 users = message.mentions.users.array();
-                if (await utilites.messageConfirmation(message, "- ajouter aux alliés : " + args.join(", "))) {
+                if (await utilites.messageConfirmation(message, "- enlever des ennemis : " + args.join(", "), [message.author.id])) {
                     joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                     for(user in users){
-                        if(!joueurs[message.author.id].allies.includes(users[user].id)){
-                            joueurs[message.author.id].allies = joueurs[message.author.id].allies.concat([users[user].id]);
+                        if(joueurs[message.author.id].ennemis.includes(users[user].id)){
+                            joueurs[message.author.id].ennemis = joueurs[message.author.id].ennemis.filter(function(value, index, arr){ 
+                                return value != users[user].id;
+                            });
                         }
                     }
                     let retour = JSON.stringify(joueurs, null, 2);
