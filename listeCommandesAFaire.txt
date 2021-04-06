@@ -1,4 +1,4 @@
-<>  obligatoireS
+<>  obligatoire
 {}  champ a remplir
 []  facultatif
 ()  valeurs attendues
@@ -10,15 +10,16 @@ x-y valeur entre x et y compris
 
 v  a!bataille		   <{j1}> <{j2}> <{force j1}> <{force j2}>  [{equilibre% (10-90)}] [{nb tour max (1-)}] [{difficulte (1-15)}]
 
-   a!rejoindre 		<{nom du pays}...>
+v  a!rejoindre 		<{nom du pays}...>
 v  a!info			   [{mention joueur}]
-   a!drapeau 		   <{nouvelle url du drapeau}...>
-   a!devise 		   <{nouvelle devise}...>
+v  a!drapeau 		   <{nouvelle url du drapeau}...>
+v  a!devise 		   <{nouvelle devise}...>
+v  a!regime          <{nouveau regime}...>
 
-   a!ajouterEnnemi 	<{id joueur}>
-   a!ajouterAllie 	<{id joueur}>
-   a!enleverEnnemi 	<{id joueur}>
-   a!enleverAllie 	<{id joueur}>
+v  a!ajouterEnnemi 	<{id joueur}>...
+v  a!ajouterAllie 	<{id joueur}>...
+   a!enleverEnnemi 	<{id joueur}>...
+   a!enleverAllie 	<{id joueur}>...
 
    a!ameliorerStat 	<{stat (armee|marine|science|culture|religion|economie)}> <{quantité (1-)}>
    a!ameliorerTerre	<{nombre de cases (1-)}> [{commentaire mj}...]
