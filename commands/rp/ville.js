@@ -13,28 +13,7 @@ module.exports = {
         const prixAchat = 5;
         const prixImprovement = 2;
 
-        if (args[0].match(/[Ee][Dd][Ii][Tt]/)) {
-            var global = JSON.parse(fs.readFileSync("data/global.json"));
-            if (global.villes[args[1]] != undefined) {
-                if (global.villes[args[1]].proprietaire == message.author.id) {
-                    if (args[2] != undefined) {
-                        global.villes[args[1]].nom = args.slice(2).join(" ");
-                        var retour2 = JSON.stringify(global, null, 2);
-                        fs.writeFileSync('data/global.json', retour2);
-                        message.react("✅");
-                    } else {
-                        message.reply("troixième argument incorrect : donnez un nom pour la ville");
-                    }
-                } else {
-                    message.reply("deuxième argument incorrect : cette ville ne t'appartiens pas")
-                }
-            } else {
-                message.reply("deuxième argument incorrect : cette ville n'existe pas")
-            }
-
-
-
-        } else if (args[0].match(/[Ii][Mm][Pp][Rr][Oo][Vv][Ee]/)) {
+        if (args[0].match(/[Ii][Mm][Pp][Rr][Oo][Vv][Ee]/)) {
             var global = JSON.parse(fs.readFileSync("data/global.json"));
             if (global.villes[args[1]] != undefined) {
                 if (global.villes[args[1]].proprietaire == message.author.id) {

@@ -97,12 +97,13 @@ module.exports = {
             }
             embed.addField("Vassaux", vassaux, true);
 
+            /*
             var organisations = "\u200b";
             if(dataUser.organisations == null || dataUser.organisations == undefined || dataUser.organisations.length == 0){
                 organisations = "aucune organisations";
             } else {
                 for(i = 0; i < dataUser.organisations.length; i++) {
-                    if(global.organisations[dataUser.organisations[i]] != null||undefined){
+                    if(global.organisations[dataUser.organisations[i]] != null||global.organisations[dataUser.organisations[i]] != undefined){
                         organisations = organisations + dataUser.organisations[i] + " - " + global.organisations[dataUser.organisations[i]].nom + "\n";
                     } else {
                         organisations = organisations + dataUser.organisations[i] + " - \n";
@@ -110,6 +111,7 @@ module.exports = {
                 }
             }
             embed.addField("Organisations", organisations, true);
+            */
 
             message.channel.send(embed);
 

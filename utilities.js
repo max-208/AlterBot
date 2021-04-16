@@ -48,6 +48,40 @@ module.exports = {
         return true;
     },
 
+    regexStat(texte,stats,nbcase,PM){
+        if(stats){
+            if (texte.match(/[Aa][Rr][Mm][EeÉé][Ee]?[Ss]?/)) {
+                return "armee";
+            }
+            if (texte.match(/[Mm][Aa][Rr][Ii][Nn][Ee][Ss]?/)) {
+                return "marine";
+            }
+            if (texte.match(/[Ss][Cc]?[Ii][Ee][Nn][Cc]?[Ss]?[Ee][Ss]?/)) {
+                return "science";
+            }
+            if (texte.match(/[Cc][Uu][Ll][Tt][Uu][Rr][Ee]?[Ss]?/)) {
+                return "culture";
+            }
+            if (texte.match(/[Rr][Ee][Ll][Ii][Gg][Ii][Oo][Nn][Ss]?/)) {
+                return "religion";
+            }
+            if (texte.match(/[Ee][Cc][Oo][Nn][Oo][Mm][Ii][Ee]?[Ss]?/)) {
+                return "economie";
+            }
+        }
+        if(nbcase){
+            if (texte.match(/[Nn]?[Bb]?[Cc][Aa][Ss][Ee][Ss]?/)) {
+                return "nbCases";
+            } 
+        }
+        if(PM){
+            if (texte.match(/([Pp][Mm])|([Pp][Oo][Ii][Nn][Tt]?[Ss] ?([Dd][Ee])? ?[Mm][Oo][Uu][Vv][Ee][Mm][Ee][Nn][Tt]?[Ss]?)/)) {
+                return "PM";
+            } 
+        }
+        return false;
+    },
+
     faitPartieDuRp(idJoueur){
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         return joueurs[idJoueur] != undefined ;
