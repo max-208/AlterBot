@@ -20,7 +20,7 @@ client.once('ready', () => {
 //spéciale dédi au bans qui ont des potes dans la moderation <3
 client.on("guildBanRemove", function(guild, user){
 	console.log(user.id);
-	if(["308556832731824129"].includes(user.id)){
+	if(["308556832731824129","334321322232381440","332153457005953025"].includes(user.id)){
 		console.log("ça a tenté d'unban quelqu'un qui ne doit pas l'etre, olalala");
 		guild.members.ban(user);
     }
