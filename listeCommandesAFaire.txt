@@ -32,7 +32,6 @@ v  a!enleverAllie 	<{mention joueur}>...
 
    a!provinceCreer 	<{nom de la province}...> \n [{commentaire mj}...]
    a!provinceNom 		<{id province}> <{nouveau nom}...>
-   a!provinceInfo 	<{id province}>|[{mention joueur}]
    a!provinceAjouter <{id province}> <{id ville}> [{id ville}...]
 
 v  a!villeCreer		<{nom de la ville}...> \n [{commentaire mj}...]

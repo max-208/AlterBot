@@ -19,7 +19,7 @@
   },
   "villes": {
     "1": {
-      "nom": "owo",
+      "nom": "ewe",
       "proprietaire": "352459053928022017",
       "province": "2",
       "influence": {
@@ -53,6 +53,42 @@
       "nom": "uwu city",
       "proprietaire": "352459053928022017",
       "province": "2",
+      "influence": {
+        "352459053928022017": 1
+      },
+      "features": []
+    },
+    "5": {
+      "nom": "a!villecreer uwu",
+      "proprietaire": "352459053928022017",
+      "province": 0,
+      "influence": {
+        "352459053928022017": 1
+      },
+      "features": []
+    },
+    "6": {
+      "nom": "a!villecreer uwu",
+      "proprietaire": "352459053928022017",
+      "province": 0,
+      "influence": {
+        "352459053928022017": 1
+      },
+      "features": []
+    },
+    "7": {
+      "nom": "uwu",
+      "proprietaire": "352459053928022017",
+      "province": 0,
+      "influence": {
+        "352459053928022017": 1
+      },
+      "features": []
+    },
+    "8": {
+      "nom": "nom de ville",
+      "proprietaire": "352459053928022017",
+      "province": 0,
       "influence": {
         "352459053928022017": 1
       },
