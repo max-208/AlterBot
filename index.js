@@ -17,6 +17,15 @@ client.once('ready', () => {
 	console.log('Ready!');
 });
 
+//spéciale dédi au bans qui ont des potes dans la moderation <3
+client.on("guildBanRemove", function(guild, user){
+	console.log(user.id);
+	if(["308556832731824129"].includes(user.id)){
+		console.log("ça a tenté d'unban quelqu'un qui ne doit pas l'etre, olalala");
+		guild.members.ban(user);
+    }
+});
+
 // this code is executed every time they add a reaction
 client.on('messageReactionAdd', (reaction, user) => {
 	let limit = 5;
