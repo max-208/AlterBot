@@ -30,8 +30,8 @@ v  a!ameliorerTerre	<{nombre de cases (1-)}> [{commentaire mj}...]
    a!donnerTerre 		<{id joueur}> <{nombre de cases (1-)}> [{commentaire mj}...]
    a!donnerProvince 	<{id joueur}> <{id province}> 
 
-   a!provinceCreer 	<{nom de la province}...> \n [{commentaire mj}...]
-   a!provinceNom 		<{id province}> <{nouveau nom}...>
+v  a!provinceCreer 	<{nom de la province}...>
+v  a!provinceNom 		<{id province}> <{nouveau nom}...>
    a!provinceAjouter <{id province}> <{id ville}> [{id ville}...]
 
 v  a!villeCreer		<{nom de la ville}...> \n [{commentaire mj}...]
