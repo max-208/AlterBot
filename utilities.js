@@ -5,6 +5,8 @@ module.exports = {
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
+    roleMj : "581172250430930944",
+    salonMj :"833353447964803122",
 
     async messageConfirmation(message, texteAConfirmer) {
         
@@ -28,24 +30,58 @@ module.exports = {
                 if(collected.first()._emoji.name === '✅'){
                     ret = true;
                     embed.setColor(this.colGreen)
+                    embed.addField("\u200B","action confirmée")
                 } else {
                     ret = false;
                     embed.setColor(this.colRed)
+                    embed.addField("\u200B","action annulée par l'utilisateur")
                 }
             }).catch(errors => {
                 ret = false;
                 embed.setColor(this.colRed)
+                embed.addField("\u200B","action annulée (timeout)")
             }
         )
         msgConfirmation.edit(embed);
         return ret;
     },
 
-    async messageMJ(texteMJ) {
-        
-        //todo
-        //7j = 604800000ms
-        return true;
+    async messageMJ(message,texteMJ) {
+        let ret = false;
+        let embed = new Discord.MessageEmbed()
+        .addField("actions a confirmer : ", texteMJ + "\u200B")
+        .setColor(this.colBlue);
+        const channel = message.client.channels.cache.get(this.salonMj);
+        let msgConfirmation = await channel.send(embed);
+        await msgConfirmation.react("✅");
+        await msgConfirmation.react("❌");
+
+        const filter = (reaction, user) => {
+            const guild = message.client.guilds.cache.get(message.guild.id);
+            const member = guild.member(user);
+            return ['✅','❌'].includes(reaction.emoji.name) && member.roles.cache.some(role => role.id == this.roleMj);
+        };
+
+        await msgConfirmation.awaitReactions(filter, { max: 1, time: 604800000, errors: ['time'] })
+            .then(collected => {
+                
+                if(collected.first()._emoji.name === '✅'){
+                    ret = true;
+                    embed.setColor(this.colGreen)
+                    embed.addField("\u200B","action confirmée par <@" + collected.first().users.cache.last() +">")
+                } else {
+                    ret = false;
+                    embed.setColor(this.colRed)
+                    embed.addField("\u200B","action annulée par <@" + collected.first().users.cache.last() +">")
+                }
+            }).catch(errors => {
+                ret = false;
+                embed.setColor(this.colRed)
+                embed.addField("\u200B","action annulée(timeout)")
+            }
+        )
+        msgConfirmation.edit(embed);
+        return ret;
     },
 
     regexStat(texte,stats,nbcase,PM){

@@ -21,8 +21,8 @@ v  a!ajouterAllie 	<{mention joueur}>...
 v  a!enleverEnnemi 	<{mention joueur}>...
 v  a!enleverAllie 	<{mention joueur}>...
 
-   a!ameliorerStat 	<{stat (armee|marine|science|culture|religion|economie)}> <{quantité (1-)}>
-   a!ameliorerTerre	<{nombre de cases (1-)}> [{commentaire mj}...]
+v  a!ameliorerStat 	<{stat (armee|marine|science|culture|religion|economie)}> <{quantité (1-)}>
+v  a!ameliorerTerre	<{nombre de cases (1-)}> [{commentaire mj}...]
 
    a!vassaliser		<{id joueur}>
    a!donnerStat 		<{id joueur}> <{stat (PM|armee|marine|science|culture|religion|economie)}> <{quantité (1-)}>

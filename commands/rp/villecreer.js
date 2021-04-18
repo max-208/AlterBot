@@ -18,9 +18,13 @@ module.exports = {
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         if (joueurs[userid] != undefined) {
             if (joueurs[userid].PM >= prixAchat) {
+                //confirmation joueur
                 if (await utilites.messageConfirmation(message, "- creation de la ville " + nomVille + "\n- dépense de :zap: " + prixAchat)){
-                    if(await utilites.messageMJ("- creation de ville : " + nomVille + "\n- commentaire additionnel : " + commentaire)){
-                        joueurs[userid].PM = parseInt(joueurs[userid].PM) - prixAchat
+                    joueurs[userid].PM = parseInt(joueurs[userid].PM) - prixAchat;
+                    var retour1 = JSON.stringify(joueurs, null, 2);
+                    fs.writeFileSync('data/joueurs.json', retour1);
+                    //confirmation mj
+                    if(await utilites.messageMJ(message,"- creation de ville : " + nomVille + "\n- commentaire : *" + commentaire + "*")){
                         var global = JSON.parse(fs.readFileSync("data/global.json"));
                         const idVille = Object.keys(global.villes).length + 1;
         
@@ -29,12 +33,15 @@ module.exports = {
                         global.villes[idVille] = { "nom": nomVille, "proprietaire": userid, "province": 0, "influence": jsonObj, "features": [] };
                         joueurs[userid].villes = joueurs[userid].villes.concat([idVille]);
                         
-                        var retour1 = JSON.stringify(joueurs, null, 2);
-                        fs.writeFileSync('data/joueurs.json', retour1);
                         var retour2 = JSON.stringify(global, null, 2);
                         fs.writeFileSync('data/global.json', retour2);
                         
+                    } else {
+                        joueurs[userid].PM = parseInt(joueurs[userid].PM) + prixAchat;
                     }
+
+                    var retour1 = JSON.stringify(joueurs, null, 2);
+                        fs.writeFileSync('data/joueurs.json', retour1);
                 }
             } else {
                 message.reply("vous n'avez pas assez de PM pour cela, il vous manque :zap: **" + (prixAchat - parseInt(joueurs[userid].PM, 10)) + "** !")
