@@ -4,7 +4,7 @@
     "drapeau": "https://upload.wikimedia.org/wikipedia/commons/a/a1/Johnrogershousemay2020.webp?uselang=fr",
     "regime": "",
     "devise": "la dictature du cul",
-    "PM": 84,
+    "PM": 74,
     "armee": 0,
     "marine": 0,
     "science": 0,
@@ -12,13 +12,13 @@
     "religion": 0,
     "economie": 0,
     "nbCases": 0,
-    "provinces": [1,2],
+    "provinces": [
+      1
+    ],
     "villes": [
-      1,2,3,4,
-      5,
-      6,
-      7,
-      8
+      1,
+      2,
+      3
     ],
     "recherches": [
       0

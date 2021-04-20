@@ -1,98 +1,40 @@
 {
-  "provinces": {
-    "1": {
-      "nom": "des pates",
-      "proprietaire": "352459053928022017",
-      "villes": [
-        1,
-        2
-      ]
-    },
-    "2": {
-      "nom": "la province du cuk",
-      "proprietaire": "352459053928022017",
-      "villes": [
-        "1",
-        "4"
-      ]
-    }
-  },
-  "villes": {
-    "1": {
-      "nom": "ewe",
-      "proprietaire": "352459053928022017",
-      "province": "2",
-      "influence": {
-        "352459053928022017": 1,
-        "809808995081912370": 2,
-        "280726849842053120": 6
-      },
-      "features": [
-        1
-      ]
-    },
-    "2": {
-      "nom": "pandaville",
-      "proprietaire": "352459053928022017",
-      "province": "0",
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    },
-    "3": {
-      "nom": "panda",
-      "proprietaire": "352459053928022017",
-      "province": 1,
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    },
-    "4": {
-      "nom": "uwu city",
-      "proprietaire": "352459053928022017",
-      "province": "2",
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    },
-    "5": {
-      "nom": "a!villecreer uwu",
-      "proprietaire": "352459053928022017",
-      "province": 0,
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    },
-    "6": {
-      "nom": "a!villecreer uwu",
-      "proprietaire": "352459053928022017",
-      "province": 0,
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    },
-    "7": {
-      "nom": "uwu",
-      "proprietaire": "352459053928022017",
-      "province": 0,
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    },
-    "8": {
-      "nom": "nom de ville",
-      "proprietaire": "352459053928022017",
-      "province": 0,
-      "influence": {
-        "352459053928022017": 1
-      },
-      "features": []
-    }
+ "provinces": {
+  "1": {
+   "nom": "laprovince1",
+   "proprietaire": "352459053928022017",
+   "villes": [
+    2
+   ]
   }
+ },
+ "villes": {
+  "1": {
+   "nom": "test1",
+   "proprietaire": "352459053928022017",
+   "province": "0",
+   "influence": {
+    "352459053928022017": 1
+   },
+   "features": []
+  },
+  "2": {
+   "nom": "test2",
+   "proprietaire": "352459053928022017",
+   "province": "1",
+   "influence": {
+    "352459053928022017": 1
+   },
+   "features": []
+  },
+  "3": {
+   "nom": "test3",
+   "proprietaire": "352459053928022017",
+   "province": 0,
+   "influence": {
+    "352459053928022017": 1
+   },
+   "features": []
+  }
+ }
 }
