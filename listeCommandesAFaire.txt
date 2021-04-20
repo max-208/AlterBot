@@ -8,6 +8,8 @@
 x-y valeur entre x et y compris
 |   alternative
 
+v  a!tour            [{quantité de PM}]
+
 v  a!bataille		   <{j1}> <{j2}> <{force j1}> <{force j2}>  [{equilibre% (10-90)}] [{nb tour max (1-)}] [{difficulte (1-15)}]
 
 v  a!rejoindre 		<{nom du pays}...>

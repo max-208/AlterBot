@@ -12,7 +12,7 @@ module.exports = {
     execute(message, args) {
         const prixAchat = 5;
         const prixImprovement = 2;
-
+/*
         if (args[0].match(/[Ii][Mm][Pp][Rr][Oo][Vv][Ee]/)) {
             var global = JSON.parse(fs.readFileSync("data/global.json"));
             if (global.villes[args[1]] != undefined) {
@@ -61,5 +61,6 @@ module.exports = {
         } else {
             message.reply("premier argument incorrect : valeurs attendues \n `buy, edit, improve, influence`");
         }
+        */
     },
 };
