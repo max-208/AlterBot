@@ -19,6 +19,7 @@ const prefix = 'a!';
 
 client.once('ready', () => {
 	console.log('Ready!');
+	client.user.setActivity('a!help les bgs');
 });
 
 //spéciale dédi au bans qui ont des potes dans la moderation <3

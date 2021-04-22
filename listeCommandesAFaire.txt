@@ -34,7 +34,7 @@ v  a!ameliorerTerre	<{nombre de cases (1-)}> [{commentaire mj}...]
 
 v  a!provinceCreer 	<{nom de la province}...>
 v  a!provinceNom 		<{id province}> <{nouveau nom}...>
-   a!provinceAjouter <{id province}> <{id ville}> [{id ville}...]
+v  a!provinceAjouter <{id province}> <{id ville}> [{id ville}...]
 
 v  a!villeCreer		<{nom de la ville}...> \n [{commentaire mj}...]
 v  a!villeNom		   <{id ville}> <{nouveau nom}...>
