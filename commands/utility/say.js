@@ -2,7 +2,7 @@ module.exports = {
 	name: 'say',
 	description: 'dit ce que vous dites',
 	args: true, 				//mettre a true quand la commande nécésite des arguments
-	usage: '[salon] [message]',	//décrit les arguments nécéssaires a la commande
+	usage: '[{salon}] [{message}]',	//décrit les arguments nécéssaires a la commande
 	guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
 	cooldown: 5,				//cooldown en nombres de secondes
 	aliases: [],	            //autres manières d'appeler la commande

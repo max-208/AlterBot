@@ -1,0 +1,19 @@
+{
+    "feature" : {
+        "1" : {
+            "nom" : "centre ville",
+            "description" : "est au centre de la ville quoi",
+            "reqTech" : 0,
+            "reqCult" : 1
+        }
+    },
+    "recherche" : {
+        "1" : {
+            "nom": "une culture",
+            "description" : "description",
+            "culture" : 2,
+            "science" : 3,
+            "parent" : [0]
+        }
+    }
+}
