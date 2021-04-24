@@ -10,8 +10,10 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - regime");
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (await utilites.messageConfirmation(message, "- nouveau régime : " + args.join(" "))) {
+                console.log(new Date().toLocaleString() + " - regime confirmation");
                 joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                 joueurs[message.author.id].regime = args.join(" ");
                 let retour = JSON.stringify(joueurs, null, 2);

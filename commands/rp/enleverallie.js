@@ -10,10 +10,12 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - enlever allie");
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (message.content.match(/<@!?(\d+)>/)) {
                 users = message.mentions.users.array();
                 if (await utilites.messageConfirmation(message, "- enlever des alliés : " + args.join(", "), [message.author.id])) {
+                    console.log(new Date().toLocaleString() + " - enlever allie confirmation");
                     joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                     for(user in users){
                         if(joueurs[message.author.id].allies.includes(users[user].id)){

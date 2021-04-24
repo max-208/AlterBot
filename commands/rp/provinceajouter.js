@@ -10,6 +10,7 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - province ajouter");
         var global = JSON.parse(fs.readFileSync("data/global.json"));
         if (args[0] == 0 || global.provinces[args[0]] != undefined) {
             if (args[0] == 0 || global.provinces[args[0]].proprietaire == message.author.id) {
@@ -41,6 +42,7 @@ module.exports = {
                             texteProvince = "comme : (" + args[0] + ") " + global.provinces[args[0]].nom;
                         }
                         if(await utilites.messageConfirmation(message,"- définir la province des villes\n" + validationListeVille + texteProvince)){
+                            console.log(new Date().toLocaleString() + " - province ajouter confirmation");
                             //pour chaque ville
                             for (var i in args.slice(1)) {
                                 var idville = parseInt(args.slice(1)[i]);

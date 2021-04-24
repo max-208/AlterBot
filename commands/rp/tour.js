@@ -11,6 +11,7 @@ module.exports = {
     aliases: [],	    //autres manières d'appeler la commande
     permissions: "MANAGE_MESSAGES",
     execute(message, args) {
+        console.log(new Date().toLocaleString() + " - tour initié par " + message.author.username);
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         var quantite = 5;
         if(args[0] != undefined){
@@ -18,6 +19,7 @@ module.exports = {
         }
 
         if(utilites.messageConfirmation(message,"- nouveau tour, " + quantite + " PM pour tout le monde")){
+            console.log(new Date().toLocaleString() + " - tour confirmation");
             for(i in joueurs){
                 joueurs[i].PM = parseInt(joueurs[i].PM + quantite);
             }

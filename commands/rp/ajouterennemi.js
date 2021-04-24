@@ -10,10 +10,12 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - ajout ennemi");
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (message.content.match(/<@!?(\d+)>/)) {
                 users = message.mentions.users.array();
                 if (await utilites.messageConfirmation(message, "- ajouter aux ennemis : " + args.join(", "))) {
+                    console.log(new Date().toLocaleString() + " - ajout ennemi confirmation");
                     joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                     for(user in users){
                         if(!joueurs[message.author.id].ennemis.includes(users[user].id)){

@@ -11,7 +11,7 @@ module.exports = {
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
         let prix = 1;
-
+        console.log(new Date().toLocaleString() + " - ajout terre");
         let quantite = parseInt(args[0], 10);
         let commentaire = args.splice(1).join(" ");
         if (quantite > 0) {
@@ -21,11 +21,13 @@ module.exports = {
                 if (dataUser["PM"] >= (quantite * prix)) {
                     //verif joueur
                     if (await utilites.messageConfirmation(message, "- achat de " + quantite + " cases " + "\n- depense de :zap: " + (quantite * prix) + "\n- commentaire mj: *" + commentaire + "*")) {
+                        console.log(new Date().toLocaleString() + " - ajout terre confirmation");
                         dataUser["PM"] = parseInt(dataUser["PM"], 10) - quantite * prix;
                         let retour = JSON.stringify(joueurs, null, 2);
                         fs.writeFileSync('data/joueurs.json', retour);
                         //verif mj
                         if(await utilites.messageMJ(message, "- achat de " + quantite + " cases pour <@" + message.author.id + "> (" + dataUser["pays"] + ")\n- commentaire : *" + commentaire + "*")){
+                            console.log(new Date().toLocaleString() + " - ajout terre confirmation mj");
                             dataUser["nbCases"] = parseInt(dataUser["nbCases"], 10) + quantite;
                         } else {
                             dataUser["PM"] = parseInt(dataUser["PM"], 10) + quantite * prix;

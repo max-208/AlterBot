@@ -10,6 +10,7 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - ville creer");
         const prixAchat = 5;
         var nomVille = message.content.split("\n")[0].split(" ").slice(1).join(" ");
         var commentaire = message.content.split("\n")[1]||" ";
@@ -20,11 +21,13 @@ module.exports = {
             if (joueurs[userid].PM >= prixAchat) {
                 //confirmation joueur
                 if (await utilites.messageConfirmation(message, "- creation de la ville " + nomVille + "\n- dépense de :zap: " + prixAchat)){
+                    console.log(new Date().toLocaleString() + " - ville creer confirmation");
                     joueurs[userid].PM = parseInt(joueurs[userid].PM) - prixAchat;
                     var retour1 = JSON.stringify(joueurs, null, 2);
                     fs.writeFileSync('data/joueurs.json', retour1);
                     //confirmation mj
-                    if(await utilites.messageMJ(message,"- creation de ville : " + nomVille + "\n- commentaire : *" + commentaire + "*")){
+                    if(await utilites.messageMJ(message,"- creation de ville : \"" + nomVille + " \" pour <@" + message.author.id + ">\n- commentaire : *" + commentaire + "*")){
+                        console.log(new Date().toLocaleString() + " - ville creer confirmation mj");
                         var global = JSON.parse(fs.readFileSync("data/global.json"));
                         const idVille = Object.keys(global.villes).length + 1;
         

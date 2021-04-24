@@ -10,7 +10,7 @@ module.exports = {
     salonMj :process.env.RP_SALON_MJ,
 
     async messageConfirmation(message, texteAConfirmer) {
-        
+        console.log(new Date().toLocaleString() + " - message de confirmation envoyé");
         let ret = false;
         let embed = new Discord.MessageEmbed()
         .addField("actions a confirmer : ", texteAConfirmer + "\u200B")
@@ -25,7 +25,7 @@ module.exports = {
 
         await msgConfirmation.awaitReactions(filter, { max: 1, time: 600000, errors: ['time'] })
             .then(collected => {
-
+                console.log(new Date().toLocaleString() + " - message de confirmation réagi");
                 //console.log(collected.first()._emoji.name);
                 
                 if(collected.first()._emoji.name === '✅'){
@@ -48,6 +48,7 @@ module.exports = {
     },
 
     async messageMJ(message,texteMJ) {
+        console.log(new Date().toLocaleString() + " - message mj envoyé");
         let ret = false;
         let embed = new Discord.MessageEmbed()
         .addField("actions a confirmer : ", texteMJ + "\u200B")
@@ -65,7 +66,7 @@ module.exports = {
 
         await msgConfirmation.awaitReactions(filter, { max: 1, time: 604800000, errors: ['time'] })
             .then(collected => {
-                
+                console.log(new Date().toLocaleString() + " - message mj réagi");
                 if(collected.first()._emoji.name === '✅'){
                     ret = true;
                     embed.setColor(this.colGreen)

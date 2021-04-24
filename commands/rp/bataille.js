@@ -8,6 +8,7 @@ module.exports = {
     aliases: [],	//autres manières d'appeler la commande
     permissions: "MANAGE_MESSAGES",
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - bataille lancée");
         var J1;
         var J2;
         var forceJ1;

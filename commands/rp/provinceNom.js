@@ -10,6 +10,7 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - province nom");
         var idProvince = args[0];
         var nom = args.splice(1).join(" ");
         var global = JSON.parse(fs.readFileSync("data/global.json"));
@@ -17,6 +18,7 @@ module.exports = {
             if (global.provinces[idProvince].proprietaire == message.author.id) {
                 if (nom != undefined) {
                     if(utilites.messageConfirmation(message,"- renommage de province (" + idProvince + ") " + global.provinces[args[0]].nom + " -> " + nom)){
+                        console.log(new Date().toLocaleString() + " - province nom confirmation");
                         global.provinces[args[0]].nom = args.slice(2).join(" ");
                         var retour2 = JSON.stringify(global, null, 2);
                         fs.writeFileSync('data/global.json', retour2);

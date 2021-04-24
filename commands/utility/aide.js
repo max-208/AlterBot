@@ -12,6 +12,7 @@ module.exports = {
 		let embed = new Discord.MessageEmbed()
         .setDescription(
         "**liste de commandes**"+
+        "\nPS: les <> {} [] etc ne sont pas a inserer dans la commande" +
         "\n **(mj) a!tour**         [{quantité de PM}]" +
         "\n **(mj) a!bataille**		<{j1}> <{j2}> <{force j1}> <{force j2}>  [{equilibre% (10-90)}] \n[{nb tour max (1-)}] [{difficulte (1-15)}]"+
         "\n"+

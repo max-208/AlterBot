@@ -9,6 +9,7 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: ["infoville","infovilles","infoVilles"],	//autres manières d'appeler la commande
     execute(message, args) {
+        console.log(new Date().toLocaleString() + " - ville info");
         var userid = message.author.id;
         var idVille = 0;
         if (args[0] != undefined) {

@@ -10,9 +10,11 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - drapeau");
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (args[0].match(/^https?:\/\/.*\.(?:png|PNG|jpg|jpeg|JPG|JPEG|gif|webp)/) != undefined) {
                 if (await utilites.messageConfirmation(message, "- nouveau drapeau : " + args[0])) {
+                    console.log(new Date().toLocaleString() + " - drapeau confirmation");
                     joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                     joueurs[message.author.id].drapeau = args[0];
                     let retour = JSON.stringify(joueurs, null, 2);

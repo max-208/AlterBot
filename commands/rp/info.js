@@ -10,6 +10,7 @@ module.exports = {
     aliases: [],	    //autres manières d'appeler la commande
     //permissions: "",
     execute(message, args) {
+        console.log(new Date().toLocaleString() + " - info");
         var user;
         if (message.content.match(/<@!?(\d+)>/)){
             user = message.mentions.users.first()

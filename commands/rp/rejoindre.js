@@ -10,9 +10,14 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - rejoindre");
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         if (joueurs[message.author.id] == undefined) {
             if(await utilites.messageConfirmation(message,"- rejoindre le rp avec le pays " + args.join(" "))){
+                console.log(new Date().toLocaleString() + " - rejoindre confirmation");
+                if(await utilites.messageMJ(message,"- nouveau joueur : <@" + message.author.id + ">")){}
+                    
+                console.log(new Date().toLocaleString() + " - rejoindre confirmation mj");
                 joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                 joueurs[message.author.id] = { "pays": args.join(" "), "drapeau": "", "regime": "", "devise": "", "PM": 10, "armee": 0, "marine": 0, "science": 0, "culture": 0, "religion": 0, "economie": 0, "nbCases": 0, "provinces": [], "villes": [], "recherches": [0], "allies": [], "ennemis": [], "suzerain": "", "vassaux": [], "organisations": [] };
                 let retour = JSON.stringify(joueurs, null, 2);

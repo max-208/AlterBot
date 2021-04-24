@@ -10,12 +10,14 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - province creer");
         var nomProvince = args.join(" ");
 
         const userid = message.author.id;
         var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
         if (utilites.faitPartieDuRp(userid)){
             if (await utilites.messageConfirmation(message, "- creation de la province " + nomProvince)){
+                console.log(new Date().toLocaleString() + " - province creer confirmation");
                 var global = JSON.parse(fs.readFileSync("data/global.json"));
                 const idProvince = Object.keys(global.provinces).length + 1;
                 global.provinces[idProvince] = { "nom": nomProvince, "proprietaire": userid, "villes": [] };

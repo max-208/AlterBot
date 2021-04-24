@@ -10,6 +10,7 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - changement de devise");
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (await utilites.messageConfirmation(message, "- nouvelle devise : " + args.join(" "))) {
                 joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));

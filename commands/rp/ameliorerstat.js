@@ -10,6 +10,7 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande
     async execute(message, args) {
+        console.log(new Date().toLocaleString() + " - ajout stat");
         let prix = 1;
 
         let stat = utilites.regexStat(args[0],true,false,false);
@@ -21,6 +22,7 @@ module.exports = {
                     let dataUser = joueurs[message.author.id];
                     if (dataUser["PM"] >= (quantite * prix)) {
                         if(await utilites.messageConfirmation(message,"- achat de " + quantite + " stat de " + stat + "\n- depense de :zap: " + (quantite * prix))){
+                            console.log(new Date().toLocaleString() + " - ajout stat confirmation");
                             dataUser[stat] = parseInt(dataUser[stat], 10) + quantite;
                             dataUser["PM"] = parseInt(dataUser["PM"], 10) - quantite * prix;
     
