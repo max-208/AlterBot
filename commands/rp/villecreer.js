@@ -5,7 +5,7 @@ module.exports = {
     name: 'villecreer',
     description: 'crees une ville',
     args: true, 				//mettre a true quand la commande nécésite des arguments
-    usage: '<{nom de la ville}...> \n [{commentaire mj}...]',	//décrit les arguments nécéssaires a la commande
+    usage: '<{nom de la ville}...> \\n [{commentaire mj}...]',	//décrit les arguments nécéssaires a la commande
     guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	//autres manières d'appeler la commande

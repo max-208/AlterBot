@@ -50,4 +50,4 @@ v  a!villeInfo		   [{mention joueur}|{id ville}]
    a!rechercher		<{id recherche}>
    a!rechercheInfo	<{id recherche}>
 
-   a!traite 		   <{joueurs 1}...> \n <{joueurs 2}...> \n <{duree traité en nb tours}> \n <{texte du traité}...>
+   a!traite 		   <{nom du traité}> \n <{joueurs 1}...> \n <{joueurs 2}...> \n <{duree traité en nb tours}> \n <{texte du traité}...>

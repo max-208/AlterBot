@@ -1,12 +1,13 @@
 var fs = require("fs");
 const Discord = require('discord.js');
+require("dotenv").config();
 module.exports = {
 
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
-    roleMj : "581172250430930944",
-    salonMj :"833353447964803122",
+    roleMj : process.env.RP_ROLE_MJ,
+    salonMj :process.env.RP_SALON_MJ,
 
     async messageConfirmation(message, texteAConfirmer) {
         

@@ -32,7 +32,7 @@ module.exports = {
         "\n **a!provinceNom** 		<{id province}> <{nouveau nom}...>"+
         "\n **a!provinceAjouter**   <{id province}> <{id ville}> [{id ville}...]"+
         "\n"+
-        "\n **a!villeCreer**		<{nom de la ville}...> \n [{commentaire mj}...]"+
+        "\n **a!villeCreer**		<{nom de la ville}...> \\n [{commentaire mj}...]"+
         "\n **a!villeNom**		    <{id ville}> <{nouveau nom}...>"+
         "\n **a!villeInfo**		    [{mention joueur}|{id ville}]")
         .setColor(utilites.colBlue)
