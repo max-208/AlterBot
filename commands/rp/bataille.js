@@ -179,11 +179,11 @@ module.exports = {
             }
 
             await messagePublic.edit(messagePublic.content + "\n\n__**score finale : **__"  + equilibre + " / " + max);
-            if(equilibre < forceJ1 || choixJ1 == 5){
+            if(equilibre <= forceJ1 || choixJ1 == 5){
                 await messagePublic.edit(messagePublic.content + "\n victoire de <@" + J2.id + ">");
                 await J1.send("echec :(");
                 await J2.send("victoire !");
-            } else if (equilibre > (max - (max/100*10)) || choixJ2 == 5){
+            } else if (equilibre >= (max - (max/100*10)) || choixJ2 == 5){
                 await messagePublic.edit(messagePublic.content + "\n victoire de <@" + J1.id + ">");
                 await J2.send("echec :(");
                 await J1.send("victoire !");
@@ -191,10 +191,14 @@ module.exports = {
                 await messagePublic.edit(messagePublic.content + "\n limite de tours dépassée : égalité");
                 await J1.send("limite de tours dépassée : égalité");
                 await J2.send("limite de tours dépassée : égalité");
-            } else {
+            } else if(choixJ1 == 4 && choixJ2 == 4){
                 await messagePublic.edit(messagePublic.content + "\n deux abandons : égalité");
                 await J1.send("deux abandons : égalité");
                 await J2.send("deux abandons : égalité");
+            } else {
+                await messagePublic.edit(messagePublic.content + "\n fin de partie : erreur");
+                await J1.send("fin de partie : erreur");
+                await J2.send("fin de partie : erreur");
             }
         }
 

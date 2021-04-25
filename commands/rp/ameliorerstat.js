@@ -22,6 +22,8 @@ module.exports = {
                     let dataUser = joueurs[message.author.id];
                     if (dataUser["PM"] >= (quantite * prix)) {
                         if(await utilites.messageConfirmation(message,"- achat de " + quantite + " stat de " + stat + "\n- depense de :zap: " + (quantite * prix))){
+                            joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
+                            dataUser = joueurs[message.author.id];
                             console.log(new Date().toLocaleString() + " - ajout stat confirmation");
                             dataUser[stat] = parseInt(dataUser[stat], 10) + quantite;
                             dataUser["PM"] = parseInt(dataUser["PM"], 10) - quantite * prix;

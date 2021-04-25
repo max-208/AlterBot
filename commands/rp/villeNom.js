@@ -17,8 +17,10 @@ module.exports = {
                 if (args[1] != undefined) {
                     if (await utilites.messageConfirmation(message, "- changement de nom : " + global.villes[args[0]].nom + " -> "  + args.slice(1).join(" ") + " \" pour <@" + message.author.id + ">" )) {
                         console.log(new Date().toLocaleString() + " - ville nom confirmation");
+                        global = JSON.parse(fs.readFileSync("data/global.json"));
                         if (await utilites.messageMJ("- changement de nom : " + global.villes[args[0]].nom + " -> "  + args.slice(1).join(" ") )) {
                             console.log(new Date().toLocaleString() + " - ville nom confirmation mj");
+                            global = JSON.parse(fs.readFileSync("data/global.json"));
                             global.villes[args[0]].nom = args.slice(1).join(" ");
                             var retour2 = JSON.stringify(global, null, 2);
                             fs.writeFileSync('data/global.json', retour2);

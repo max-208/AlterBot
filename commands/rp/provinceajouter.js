@@ -43,6 +43,7 @@ module.exports = {
                         }
                         if(await utilites.messageConfirmation(message,"- définir la province des villes\n" + validationListeVille + texteProvince)){
                             console.log(new Date().toLocaleString() + " - province ajouter confirmation");
+                            global = JSON.parse(fs.readFileSync("data/global.json"));
                             //pour chaque ville
                             for (var i in args.slice(1)) {
                                 var idville = parseInt(args.slice(1)[i]);

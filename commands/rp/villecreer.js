@@ -22,6 +22,7 @@ module.exports = {
                 //confirmation joueur
                 if (await utilites.messageConfirmation(message, "- creation de la ville " + nomVille + "\n- dépense de :zap: " + prixAchat)){
                     console.log(new Date().toLocaleString() + " - ville creer confirmation");
+                    joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                     joueurs[userid].PM = parseInt(joueurs[userid].PM) - prixAchat;
                     var retour1 = JSON.stringify(joueurs, null, 2);
                     fs.writeFileSync('data/joueurs.json', retour1);
@@ -29,6 +30,7 @@ module.exports = {
                     if(await utilites.messageMJ(message,"- creation de ville : \"" + nomVille + " \" pour <@" + message.author.id + ">\n- commentaire : *" + commentaire + "*")){
                         console.log(new Date().toLocaleString() + " - ville creer confirmation mj");
                         var global = JSON.parse(fs.readFileSync("data/global.json"));
+                        joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
                         const idVille = Object.keys(global.villes).length + 1;
         
                         var jsonObj = {};

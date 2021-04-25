@@ -19,6 +19,7 @@ module.exports = {
                 if (nom != undefined) {
                     if(utilites.messageConfirmation(message,"- renommage de province (" + idProvince + ") " + global.provinces[args[0]].nom + " -> " + nom)){
                         console.log(new Date().toLocaleString() + " - province nom confirmation");
+                        global = JSON.parse(fs.readFileSync("data/global.json"));
                         global.provinces[args[0]].nom = args.slice(2).join(" ");
                         var retour2 = JSON.stringify(global, null, 2);
                         fs.writeFileSync('data/global.json', retour2);

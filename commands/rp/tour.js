@@ -20,6 +20,7 @@ module.exports = {
 
         if(utilites.messageConfirmation(message,"- nouveau tour, " + quantite + " PM pour tout le monde")){
             console.log(new Date().toLocaleString() + " - tour confirmation");
+            joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
             for(i in joueurs){
                 joueurs[i].PM = parseInt(joueurs[i].PM + quantite);
             }
