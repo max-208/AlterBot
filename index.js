@@ -33,8 +33,10 @@ client.on("guildBanRemove", function(guild, user){
 
 // this code is executed every time they add a reaction
 client.on('messageReactionAdd', (reaction, user) => {
-	let limit = 5;
-	if (reaction.emoji.name == '♻️' && reaction.count >= limit && reaction.message.channel.id === '476826071489052695') reaction.message.delete();
+	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
+	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
+		utilities.warn(reaction.message,member);
+	}
 });
 
 client.on('message', message => {
