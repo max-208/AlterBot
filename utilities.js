@@ -23,7 +23,7 @@ module.exports = {
         console.log(message.attachments.first());
         if(message.attachments.first() != undefined){
             embed.setImage(message.attachments.first().url)
-            .addField("attachement",message.attachments.first().url + "\u200B");
+            .addField("attachement",message.attachments.first().url);
         }
         
         const channel = message.client.channels.cache.get(this.logWarnMod);
