@@ -10,6 +10,7 @@ module.exports = {
     salonMj :process.env.RP_SALON_MJ,
     roleMod :process.env.MOD_ROLE,
     logWarnMod : process.env.MOD_WARN_LOG,
+    salonMeme : process.env.SALON_MEME,
 
     async warn(message,member){
         console.log(new Date().toLocaleString() + " - warn message");

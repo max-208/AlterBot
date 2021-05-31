@@ -38,6 +38,10 @@ client.on('messageReactionAdd', (reaction, user) => {
 	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
+	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme ) {
+		reaction.message.channel.send("le repost hammer est tombé sur " + user.username + " :banhammer: ")
+		reaction.message.delete();
+	}
 });
 
 client.on('message', message => {
