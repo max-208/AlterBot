@@ -39,7 +39,7 @@ client.on('messageReactionAdd', (reaction, user) => {
 		utilities.warn(reaction.message,member);
 	}
 	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme ) {
-		reaction.message.channel.send("le repost hammer est tombé sur " + user.username + " :banhammer: ")
+		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " <:banhammer:849044195091677244> ")
 		reaction.message.delete();
 	}
 });
