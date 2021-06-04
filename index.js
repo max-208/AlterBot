@@ -38,8 +38,8 @@ client.on('messageReactionAdd', (reaction, user) => {
 	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
-	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme ) {
-		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " <:banhammer:849044195091677244> ")
+	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !user.bot ) {
+		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
 		reaction.message.delete();
 	}
 });
@@ -50,6 +50,10 @@ client.on('message', message => {
 		return;
 	}
 	
+	if(message.content.match(/^[0-9]{6}$| [0-9]{6}$|^[0-9]{6} | [0-9]{6} /)){
+		message.channel.send("alors ça partage du H ? go to horny jail *bonk*")
+	}
+
 	let command;
 	
 	if (!message.content.toLowerCase().startsWith(prefix) ) {
