@@ -6,11 +6,52 @@ module.exports = {
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
+    premierAvril : process.env.BOOL_PREMIER_AVRIL,
     roleMj : process.env.RP_ROLE_MJ,
     salonMj :process.env.RP_SALON_MJ,
     roleMod :process.env.MOD_ROLE,
     logWarnMod : process.env.MOD_WARN_LOG,
     salonMeme : process.env.SALON_MEME,
+
+    async premierAvrilReaction(message){
+        await message.react("👍");
+        await message.react("👎");
+    },
+
+    premierAvrilGetScore(id){
+        var users = JSON.parse(fs.readFileSync("data/premierAvril.json"));
+        var ret = 0;
+        if(users[id] != undefined){
+            ret = users[id].score;
+        }
+        return ret;
+    },
+    
+    premierAvrilGetUpvotes(id){
+        var users = JSON.parse(fs.readFileSync("data/premierAvril.json"));
+        var ret = 0;
+        if(users[id] != undefined){
+            ret = users[id].upvotes;
+        }
+        return ret;
+    },
+
+    premierAvrilGetDownvotes(id){
+        var users = JSON.parse(fs.readFileSync("data/premierAvril.json"));
+        var ret = 0;
+        if(users[id] != undefined){
+            ret = users[id].downvotes;
+        }
+        return ret;
+    },
+
+    premierAvrilAjoutReaction(reaction, user){
+        if(!user.is)
+    },
+
+    premierAvrilRetirerReaction(reaction,user){
+        
+    },
 
     async warn(message,member){
         console.log(new Date().toLocaleString() + " - warn message");

@@ -42,12 +42,26 @@ client.on('messageReactionAdd', (reaction, user) => {
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " <:banhammer:849044195091677244> ")
 		reaction.message.delete();
 	}
+	if(utilities.premierAvril == true){
+		utilities.premierAvrilAjoutReaction(reaction,user);
+	}
 });
+
+client.on('messageReactionRemove', (reaction, user) => {
+	if(utilities.premierAvril == true){
+		utilities.premierAvrilRetirerReaction(reaction,user);
+	}
+});
+
 
 client.on('message', message => {
 
 	if(message.author.bot || message.channel.type === "dm"){
 		return;
+	}
+	
+	if(utilities.premierAvril){
+		utilities.premierAvrilReaction(message);
 	}
 	
 	let command;

@@ -106,3 +106,4 @@ dist
 # do not copy data
 data/global.json
 data/joueurs.json
+data/premierAvril.json
