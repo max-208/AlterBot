@@ -3,7 +3,10 @@ const Discord = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
 
-const client = new Discord.Client();
+const { Client, Intents } = require('discord.js');
+const myIntents = new Intents(Intents.ALL);
+const client = new Client({ ws: { intents: myIntents } });
+
 client.commands = new Discord.Collection();
 const commandFolders = fs.readdirSync('./commands');
 
@@ -32,13 +35,22 @@ client.on("guildBanRemove", function(guild, user){
     }
 });
 
+//mise a jour utilisateur
+client.on("guildMemberUpdate", function(oldMember, newMember){
+	utilities.latiniser(newMember);
+});
+//arrivée utilisateur
+client.on("guildMemberAdd", function(member){
+	utilities.latiniser(member);
+});
+
 // this code is executed every time they add a reaction
 client.on('messageReactionAdd', (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
 	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
-	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !user.bot ) {
+	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot ) {
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
 		reaction.message.delete();
 	}
