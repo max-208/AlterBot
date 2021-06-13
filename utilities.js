@@ -82,20 +82,35 @@ module.exports = {
         console.log(new Date().toLocaleString() + " - warn message");
         var texte = message.content;
         var embed = new Discord.MessageEmbed()
-        .setTitle("Rapport de message")
-        .setDescription("Auteur : " + message.author.toString() + " `" + message.author.tag + "`\nModerateur : " + member.toString() + " `" + member.user.tag + "`\nSalon : " + message.channel.toString() + " `" + message.channel.name +"`\nLien : [message](" + message.url + ")")
         .addField("contenu du message",texte + "\u200B")
-        .setFooter("id utilisateur :"  + message.author.id)
-        .setColor(this.colBlue);
-        console.log(message.attachments.first());
+        .setFooter("id utilisateur :"  + message.author.id);
+        if(member != null){
+            embed
+            .setDescription("Auteur : " + message.author.toString() + " `" + message.author.tag + "`\nModerateur : " + member.toString() + " `" + member.user.tag + "`\nSalon : " + message.channel.toString() + " `" + message.channel.name +"`\nLien : [message](" + message.url + ")")
+            .setTitle("Rapport de message")
+            .setColor(this.colRed)
+        } else {
+            embed
+            .setDescription("Auteur : " + message.author.toString() + " `" + message.author.tag + "`\nAutomoderation\nLien : [message](" + message.url + ")")
+            .setTitle("Repost")
+            .setColor(this.colGreen)
+        }
+        //console.log(message.attachments.first());
+        var extMessage = embed
+        var attachement = new Discord.MessageAttachment("https://images.emojiterra.com/twitter/v13.0/512px/267b.png");
         if(message.attachments.first() != undefined){
-            embed.setImage(message.attachments.first().url)
-            .addField("attachement",message.attachments.first().url);
+            embed.addField("attachement",message.attachments.first().url);
+            attachement = new Discord.MessageAttachment(message.attachments.first().url);
+            extMessage = {embed,files:[attachement]}
         }
         
-        const channel = message.client.channels.cache.get(this.logWarnMod);
-        await channel.send(message.author.id, embed);
-        message.author.send("Votre message a été jugé inaproprié ou non respectueux des regles du salon " + message.channel.toString() + " ou du serveur **AlterHis et Uchronies** par un modérateur.\nCeci n'est qu'un avertissement, cependant en cas de repetition cette infraction sera stockée et poura servir a justifier une sanction.", embed);
+        if(member!=null){
+            const channel = message.client.channels.cache.get(this.logWarnMod);
+            await channel.send(message.author.id, extMessage);
+            message.author.send("Votre message a été jugé inaproprié ou non respectueux des regles du salon " + message.channel.toString() + " ou du serveur **AlterHis et Uchronies** par un modérateur.\nCeci n'est qu'un avertissement, cependant en cas de repetition cette infraction sera stockée et poura servir a justifier une sanction.", extMessage);
+        } else {
+            message.author.send("Le repost hammer est tombé *bonk*", extMessage);
+        }
     },
 
     async messageConfirmation(message, texteAConfirmer) {

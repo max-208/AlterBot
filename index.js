@@ -45,14 +45,15 @@ client.on("guildMemberAdd", function(member){
 });
 
 // this code is executed every time they add a reaction
-client.on('messageReactionAdd', (reaction, user) => {
+client.on('messageReactionAdd', async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
 	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
 	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot ) {
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
-		reaction.message.delete();
+		await utilities.warn(reaction.message,null);
+		await reaction.message.delete();
 	}
 	if(utilities.premierAvril == true){
 		utilities.premierAvrilAjoutReaction(reaction,user);
