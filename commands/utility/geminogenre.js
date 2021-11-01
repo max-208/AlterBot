@@ -8,13 +8,17 @@ module.exports = {
 	guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
 	cooldown: 5,				//cooldown en nombres de secondes
 	aliases: ["gemino"],	//autres manières d'appeler la commande
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} args 
+     */
 	async execute(message, args) {
 		let lien =  message.author.avatarURL({format : "png",size : 512});
 		if(args.length > 0){
 			lien = args[0];
 		}
-		if(message.attachments.array().length > 0){
-			lien = message.attachments.array()[0].url;
+		if(message.attachments.array().length > 0){//TODO : ne fonctionne plus
+			lien = message.attachments.array()[0].url;//TODO : ne fonctionne plus
 		}
         const canvas = Canvas.createCanvas(512, 512);
         const context = canvas.getContext('2d');

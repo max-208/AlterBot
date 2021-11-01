@@ -7,18 +7,22 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: ["rd"],	    //autres manières d'appeler la commande
     permissions: "MANAGE_MESSAGES",
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} args 
+     */
     execute(message, args) {
         if (message.content.match(/<@!?(\d+)>/) && message.content.match(/#\w+/)) {
-            const users = message.mentions.users.array();
+            const users = message.mentions.users.array();//TODO : ne fonctionne plus
             const channel = message.mentions.channels.first();
             message.channel.send(users.join(", ") + " merci de bien vouloir vous diriger dans <#" + channel + "> comme l\'a demandé <@" + message.author + ">. votre acces a <#" + message.channel + "> sera donc restreint pour les 3 prochaines minutes");
             for (var usr in users) {
-                message.channel.updateOverwrite(users[usr], { SEND_MESSAGES: false });
+                message.channel.permissionOverwrites.edit(users[usr], { SEND_MESSAGES: false });
             }
             setTimeout(() => {
                 console.log("b");
                 for (usr in users) {
-                    message.channel.updateOverwrite(users[usr], { SEND_MESSAGES: null });
+                    message.channel.permissionOverwrites.edit(users[usr], { SEND_MESSAGES: null });
                     message.channel.permissionOverwrites.get(users[usr].id).delete();
                 }
             }, 180000);

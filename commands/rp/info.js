@@ -114,7 +114,7 @@ module.exports = {
             embed.addField("Organisations", organisations, true);
             */
 
-            message.channel.send(embed);
+            message.channel.send({embeds : [embed]});
 
         } else {
             message.channel.send("je n'ai aucune information sur " + user.username + " :0");

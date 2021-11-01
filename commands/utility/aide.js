@@ -8,6 +8,10 @@ module.exports = {
 	guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
 	cooldown: 5,				//cooldown en nombres de secondes
 	aliases: ["help"],	//autres manières d'appeler la commande
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} args 
+     */
 	execute(message, args) {
 		let embed = new Discord.MessageEmbed()
         .setDescription(

@@ -13,7 +13,7 @@ module.exports = {
         console.log(new Date().toLocaleString() + " - enlever ennemi");
         if (utilites.faitPartieDuRp(message.author.id)) {
             if (message.content.match(/<@!?(\d+)>/)) {
-                users = message.mentions.users.array();
+                users = message.mentions.users.array();//TODO : ne fonctionne plus
                 if (await utilites.messageConfirmation(message, "- enlever des ennemis : " + args.join(", "), [message.author.id])) {
                     console.log(new Date().toLocaleString() + " - enlever ennemi confirmation");
                     joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));

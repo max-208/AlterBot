@@ -23,7 +23,7 @@ module.exports = {
         var complete = true;
         if (args[0] != undefined) {
             if (args[0].match(/<@!?(\d+)>/)) {
-                J1 = message.mentions.users.array()[0];
+                J1 = message.mentions.users.array()[0];//TODO : ne fonctionne plus
             } else {
                 complete = false;
                 message.reply("premier argument incorrect");
@@ -35,7 +35,7 @@ module.exports = {
 
         if (args[1] != undefined) {
             if (args[1].match(/<@!?(\d+)>/)) {
-                J2 = message.mentions.users.array()[1];
+                J2 = message.mentions.users.array()[1];//TODO : ne fonctionne plus
             } else {
                 complete = false;
                 message.reply("deuxième argument incorrect");
@@ -213,7 +213,7 @@ module.exports = {
                 return (["⛰️", "📜", "⚔️", "✍️", "❌"].includes(reaction.emoji.name) && !user.bot );
             };
             var ret = 0
-            await message.awaitReactions(filter, { max: 1, time: 300000, errors: ['time'] })
+            await message.awaitReactions({filter, max: 1, time: 300000, errors: ['time'] })
                 .then(collected => {
                     //console.log("react");
                     const reaction = collected.first();

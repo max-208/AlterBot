@@ -13,6 +13,9 @@ module.exports = {
     logWarnMod : process.env.MOD_WARN_LOG,
     salonMeme : process.env.SALON_MEME,
 
+    /**
+     * @param {Discord.Message} message 
+     */
     async premierAvrilReaction(message){
         await message.react("👍");
         await message.react("👎");
@@ -53,6 +56,9 @@ module.exports = {
         
     },
 
+    /**
+     * @param {Discord.GuildMember} member 
+     */
     latiniser(member){
 	    if(!member.roles.cache.some(role => role.id == this.roleMod )){
             var text = member.displayName
@@ -78,6 +84,10 @@ module.exports = {
         }
     },
 
+    /**
+     * @param {Discord.Message} message 
+     * @param {Discord.GuildMember} member 
+     */
     async warn(message,member){
         console.log(new Date().toLocaleString() + " - warn message");
         var texte = message.content;
@@ -113,6 +123,11 @@ module.exports = {
         }
     },
 
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} texteAConfirmer 
+     * @returns 
+     */
     async messageConfirmation(message, texteAConfirmer) {
         console.log(new Date().toLocaleString() + " - message de confirmation envoyé");
         let ret = false;
@@ -127,7 +142,7 @@ module.exports = {
             return ['✅','❌'].includes(reaction.emoji.name) && user.id == message.author.id;
         };
 
-        await msgConfirmation.awaitReactions(filter, { max: 1, time: 600000, errors: ['time'] })
+        await msgConfirmation.awaitReactions({filter, max: 1, time: 600000, errors: ['time'] })
             .then(collected => {
                 console.log(new Date().toLocaleString() + " - message de confirmation réagi");
                 //console.log(collected.first()._emoji.name);
@@ -150,7 +165,12 @@ module.exports = {
         msgConfirmation.edit(embed);
         return ret;
     },
-
+    
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} texteMJ 
+     * @returns 
+     */
     async messageMJ(message,texteMJ) {
         console.log(new Date().toLocaleString() + " - message mj envoyé");
         let ret = false;
@@ -158,7 +178,7 @@ module.exports = {
         .addField("actions a confirmer : ", texteMJ + "\u200B")
         .setColor(this.colBlue);
         const channel = message.client.channels.cache.get(this.salonMj);
-        let msgConfirmation = await channel.send(embed);
+        let msgConfirmation = await channel.send({embeds : [embed]});
         await msgConfirmation.react("✅");
         await msgConfirmation.react("❌");
 
@@ -168,7 +188,7 @@ module.exports = {
             return ['✅','❌'].includes(reaction.emoji.name) && member.roles.cache.some(role => role.id == this.roleMj);
         };
 
-        await msgConfirmation.awaitReactions(filter, { max: 1, time: 604800000, errors: ['time'] })
+        await msgConfirmation.awaitReactions({filter, max: 1, time: 604800000, errors: ['time'] })
             .then(collected => {
                 console.log(new Date().toLocaleString() + " - message mj réagi");
                 if(collected.first()._emoji.name === '✅'){

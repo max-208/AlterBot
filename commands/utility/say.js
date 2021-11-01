@@ -8,6 +8,10 @@ module.exports = {
 	cooldown: 5,				//cooldown en nombres de secondes
 	aliases: [],	            //autres manières d'appeler la commande
     permissions : "MANAGE_MESSAGES",
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} args 
+     */
 	async execute(message, args) {
 		var start = Date.now();
 		const client = message.client;

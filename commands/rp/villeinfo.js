@@ -78,7 +78,7 @@ module.exports = {
 
                 embed.addField("Ameliorations de la ville", texteFeatures, false);
 
-                message.channel.send(embed);
+                message.channel.send({embeds : [embed]});
 
             } else {
                 message.reply("deuxième argument incorrect : cette ville n'existe pas")
@@ -114,7 +114,7 @@ module.exports = {
                     embed.addField(titre, dicTexte[i], true);
                 }
 
-                message.channel.send(embed);
+                message.channel.send({embeds : [embed]});
 
             } else {
                 message.reply("deuxième argument incorrect : ce joueur ne participe pas au rp")

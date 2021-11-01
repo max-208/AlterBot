@@ -12,6 +12,10 @@ module.exports = {
     cooldown: 5,				//cooldown en nombres de secondes
     aliases: [],	    //autres manières d'appeler la commande
     permissions: "",
+    /**
+     * @param {Discord.Message} message 
+     * @param {String} args 
+     */
     execute(message, args) {
         
     },
