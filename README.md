@@ -8,14 +8,22 @@ assurez vous d'avoir la version 3.6.19 de sqlite3 ou plus installée
 
 remplissez le fichier.env
 ```BOT_TOKEN=
+GUILD_ID=
+CLIENT_ID=
+DEV_ENV=FALSE
 RP_ROLE_MJ=
-RP_SALON_MJ=```
+RP_SALON_MJ=
+MOD_ROLE=
+MOD_WARN_ROLE=
+SALON_MEME=
+```
 
 installez les modules node nécéssaires
 ```npm install
 cd ./data
 npm install
-cd ..```
+cd ..
+```
 
 créez la base de données
 ```cd ./data
@@ -24,4 +32,5 @@ sqlite3 database.db
 PRAGMA foreign_keys = ON;
 .read tables.sql
 .quit
-cd ..```
+cd ..
+```
