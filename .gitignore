@@ -104,6 +104,4 @@ dist
 .tern-port
 
 # do not copy data
-data/global.json
-data/joueurs.json
-data/premierAvril.json
+*.db
