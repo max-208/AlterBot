@@ -7,7 +7,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('score')
 		.setDescription('recupere le score')
-        .addUserOption(option => option.setName('utilisateur').setDescription('l\'utilisateur').setRequired(false)),
+        .addUserOption(option => option.setName('utilisateur').setDescription('l\'utilisateur').setRequired(false))
+		.setDefaultPermission(true),
     /**
      * @param {Discord.CommandInteraction} interaction 
      */

@@ -7,7 +7,8 @@ module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('scoreboard')
 		.setDescription('recupere le classement des meilleurs')
-        .addIntegerOption(option => option.setName('page').setRequired(false).setDescription('La page a visiter')),
+        .addIntegerOption(option => option.setName('page').setRequired(false).setDescription('La page a visiter'))
+		.setDefaultPermission(true),
     /**
      * @param {Discord.CommandInteraction} interaction 
      */
