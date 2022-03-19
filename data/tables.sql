@@ -1,116 +1,31 @@
-DROP TABLE recherche;
-DROP TABLE rechercheJoueur;
-DROP TABLE amelioration;
-DROP TABLE ameliorationVille;
-DROP TABLE influence;
-DROP TABLE ville;
-DROP TABLE province;
-DROP TABLE relation;
-DROP TABLE joueur;
+DROP TABLE a_user;
+DROP TABLE a_message;
+DROP TABLE a_vote;
 
-CREATE TABLE joueur (
-    IdJoueur INTEGER 
-    CONSTRAINT pk_joueur PRIMARY KEY,
-    NomPays TEXT,
-    RegimePays TEXT,
-    DevisePays TEXT,
-    DrapeauPays TEXT,
-    PointMouvement INTEGER,
-    Armee INTEGER,
-    Marine INTEGER,
-    Science INTEGER,
-    Culture INTEGER,
-    Religion INTEGER,
-    Economie INTEGER,
-    Territoire INTEGER
+CREATE TABLE a_user (
+    IdUser TEXT 
+    CONSTRAINT pk_user PRIMARY KEY,
+    Weight NUMBER DEFAULT 1,
+    UserScore NUMBER DEFAULT 0
 );
 
-CREATE TABLE relation(
-    Emmetteur INTEGER,
-    Recepteur INTEGER,
-    Statut TEXT
-    CONSTRAINT ck_Status CHECK(Statut = "ALLIE" OR Statut = "ENNEMI" OR Statut = "NEUTRE" OR Statut = "SUZERAIN" OR Statut = "VASSAL"),
-    Commentaire TEXT,
-    CONSTRAINT fk_relation_emmeteur FOREIGN KEY (Emmetteur) REFERENCES joueur(IdJoueur),
-    CONSTRAINT fk_relation_recepteur FOREIGN KEY (Recepteur) REFERENCES joueur(IdJoueur),
-    CONSTRAINT pk_relation PRIMARY KEY(Emmetteur,Recepteur)
+CREATE TABLE a_message (
+    IdMessage TEXT 
+    CONSTRAINT pk_message PRIMARY KEY,
+    MessageScore NUMBER DEFAULT 0
 );
 
-CREATE TABLE province(
-    IdProvince INTEGER
-    CONSTRAINT pk_province PRIMARY KEY,
-    NomProvince TEXT,
-    ProprietaireProvince INTEGER,
-    CONSTRAINT fk_province_joueur FOREIGN KEY (ProprietaireProvince) REFERENCES joueur(IdJoueur)
+CREATE TABLE a_vote (
+    voteUser TEXT,
+    voteMessage TEXT,
+    voteReciever TEXT,
+    voteChannel TEXT,
+    voteScore NUMBER DEFAULT 0,
+    CONSTRAINT fk_vote_user FOREIGN KEY (voteUser) REFERENCES a_user(IdUser),
+    CONSTRAINT fk_vote_reciever FOREIGN KEY (VoteReciever) REFERENCES a_user(IdUser),
+    CONSTRAINT fk_vote_message FOREIGN KEY (voteMessage) REFERENCES a_message(IdMessage),
+    CONSTRAINT pk_vote PRIMARY KEY (voteUser,voteMessage)
 );
 
-CREATE TABLE ville(
-    IdVille INTEGER
-    CONSTRAINT pk_ville PRIMARY KEY,
-    NomVille INTEGER,
-    ProprietaireVille INTEGER,
-    LaProvince INTEGER,
-    CONSTRAINT fk_ville_joueur FOREIGN KEY (ProprietaireVille) REFERENCES joueur(IdJoueur),
-    CONSTRAINT fk_ville_province FOREIGN KEY (LaProvince) REFERENCES province(IdProvince)
-);
-
-CREATE TABLE influence(
-    VilleInfluencee INTEGER,
-    JoueurInfluencant INTEGER,
-    InfluenceReligieuse INTEGER,
-    InfluenceEconomique INTEGER,
-    CONSTRAINT fk_influence_ville FOREIGN KEY (VilleInfluencee) REFERENCES ville(IdVille),
-    CONSTRAINT fk_influence_joueur FOREIGN KEY (JoueurInfluencant) REFERENCES joueur(IdJoueur),
-    CONSTRAINT pk_influence PRIMARY KEY(VilleInfluencee,JoueurInfluencant)
-);
-
-CREATE TABLE ameliorationVille(
-    LaVille INTEGER,
-    LAmelioration INTEGER,
-    CONSTRAINT fk_ameliorationVille_ville FOREIGN KEY (LaVille) REFERENCES ville(IdVille),
-    CONSTRAINT fk_ameliorationVille_amelioration FOREIGN KEY (LAmelioration) REFERENCES amelioration(IdAmelioration),
-    CONSTRAINT pk_ameliorationVille PRIMARY KEY(LaVille,LAmelioration)
-);
-
-CREATE TABLE amelioration(
-    IdAmelioration INTEGER
-    CONSTRAINT pk_amelioration PRIMARY KEY,
-    NomAmelioration TEXT,
-    DescritpionAmelioration TEXT,
-    CoutAmelioration INTEGER
-);
-
-CREATE TABLE rechercheJoueur(
-    LeJoueur INTEGER,
-    LaRecherche INTEGER,
-    CONSTRAINT fk_rechercheJoueur_joueur FOREIGN KEY (LeJoueur) REFERENCES joueur(IdJoueur),
-    CONSTRAINT fk_rechercheJoueur_recherche FOREIGN KEY (LaRecherche) REFERENCES recherche(IdRecherche),
-    CONSTRAINT pk_rechercheJoueur PRIMARY KEY(LeJoueur,LaRecherche)
-);
-
-CREATE TABLE recherche(
-    IdRecherche INTEGER
-    CONSTRAINT pk_recherche PRIMARY KEY,
-    NomRecherche TEXT,
-    DescritpionRecherche TEXT,
-    CoutScienceRecherche INTEGER,
-    CoutCultureRecherche INTEGER
-);
-
-INSERT INTO joueur (IdJoueur, NomPays) VALUES (0, "aucun joueur");
-INSERT INTO province (IdProvince, NomProvince, ProprietaireProvince) VALUES (0, "aucune province", 0);
-
--- TODO : a enlever dans le futur et replacer par un autre script
-INSERT INTO amelioration (IdAmelioration, NomAmelioration, DescritpionAmelioration, CoutAmelioration)
-VALUES (1,"Amelioration 1", "la premère amélioration", 1);
-INSERT INTO amelioration (IdAmelioration, NomAmelioration, DescritpionAmelioration, CoutAmelioration)
-VALUES (2,"Amelioration 2", "la deuxième amélioration", 5);
-INSERT INTO amelioration (IdAmelioration, NomAmelioration, DescritpionAmelioration, CoutAmelioration)
-VALUES (3,"Amelioration 3", "la troisième amélioration", 10);
-
-INSERT INTO recherche (IdRecherche, NomRecherche, DescritpionRecherche, CoutScienceRecherche, CoutCultureRecherche)
-VALUES (1, "Recherche scientifique", "description 1",5,0);
-INSERT INTO recherche (IdRecherche, NomRecherche, DescritpionRecherche, CoutScienceRecherche, CoutCultureRecherche)
-VALUES (2, "Recherche scientifique", "description 2",0,5);
-INSERT INTO recherche (IdRecherche, NomRecherche, DescritpionRecherche, CoutScienceRecherche, CoutCultureRecherche)
-VALUES (3, "Recherche mixte", "description 3",5,5);
+-- message null pour les /give
+insert into a_message(IdMessage) values (0);

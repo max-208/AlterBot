@@ -111,14 +111,19 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		await utilities.warn(reaction.message,null);
 		await reaction.message.delete();
 	}
-	if(utilities.premierAvril == true){
-		utilities.premierAvrilAjoutReaction(reaction,user);
+	if(utilities.premierAvril == "TRUE"){
+		if ( (reaction.emoji.name == '➕' || reaction.emoji.name == '➖' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
+			utilities.premierAvrilAjoutReaction(reaction,user);
+		}
 	}
 });
 
 client.on('messageReactionRemove', (reaction, user) => {
-	if(utilities.premierAvril == true){
-		utilities.premierAvrilRetirerReaction(reaction,user);
+	
+	if(utilities.premierAvril == "TRUE"){
+		if ( (reaction.emoji.name == '➕' || reaction.emoji.name == '➖' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
+			utilities.premierAvrilRetirerReaction(reaction,user);
+		}
 	}
 });
 
@@ -127,14 +132,6 @@ client.on('messageCreate', message => {
 
 	if(message.author.bot || message.channel.type === "DM"){
 		return;
-	}
-	
-	if(utilities.premierAvril){
-		utilities.premierAvrilReaction(message);
-	}
-
-	if(message.content.match(/^[0-9]{6}$| [0-9]{6}$|^[0-9]{6} | [0-9]{6} /)){
-		message.channel.send("alors ça partage du H ? go to horny jail *bonk*")
 	}
 
 	let command;

@@ -1,5 +1,6 @@
 var fs = require("fs");
 const Discord = require('discord.js');
+const data = require("data");
 require("dotenv").config();
 module.exports = {
 
@@ -13,47 +14,85 @@ module.exports = {
     logWarnMod : process.env.MOD_WARN_LOG,
     salonMeme : process.env.SALON_MEME,
 
-    /**
-     * @param {Discord.Message} message 
-     */
-    async premierAvrilReaction(message){
-        await message.react("👍");
-        await message.react("👎");
-    },
-
     premierAvrilGetScore(id){
-        var users = JSON.parse(fs.readFileSync("data/premierAvril.json"));
-        var ret = 0;
-        if(users[id] != undefined){
-            ret = users[id].score;
-        }
-        return ret;
+        return -1
     },
     
-    premierAvrilGetUpvotes(id){
-        var users = JSON.parse(fs.readFileSync("data/premierAvril.json"));
-        var ret = 0;
-        if(users[id] != undefined){
-            ret = users[id].upvotes;
+    
+/**
+ * 
+ * @param {Discord.MessageReaction} reaction 
+ * @param {*} user 
+ */
+    async premierAvrilAjoutReaction(reaction, user){
+        if(await data.premierAvril_dao.getUser(user.id) == undefined){
+            await this.premierAvrilAddUser(reaction.message.guild,user);
         }
-        return ret;
-    },
-
-    premierAvrilGetDownvotes(id){
-        var users = JSON.parse(fs.readFileSync("data/premierAvril.json"));
-        var ret = 0;
-        if(users[id] != undefined){
-            ret = users[id].downvotes;
+        if(await data.premierAvril_dao.getUser(reaction.message.author.id) == undefined){
+            await this.premierAvrilAddUser(reaction.message.guild,reaction.message.author);
         }
-        return ret;
+        let weight = (await data.premierAvril_dao.getUser(user.id)).Weight;
+        if(await data.premierAvril_dao.getMessage(reaction.message.id) == undefined){
+            await data.premierAvril_dao.createMessage(reaction.message.id);
+        }
+        if(reaction.emoji.name == '➕'){
+            data.premierAvril_dao.vote(user.id,reaction.message.id,reaction.message.author.id,reaction.message.channel.id, weight * 1)
+        } else {
+            data.premierAvril_dao.vote(user.id,reaction.message.id,reaction.message.author.id,reaction.message.channel.id, weight * -1)
+        }
     },
 
-    premierAvrilAjoutReaction(reaction, user){
-
+    async premierAvrilRetirerReaction(reaction,user){
+        if(await data.premierAvril_dao.getUser(user.id) == undefined){
+            await this.premierAvrilAddUser(reaction.message.guild,user);
+        }
+        if(await data.premierAvril_dao.getUser(reaction.message.author.id) == undefined){
+            await this.premierAvrilAddUser(reaction.message.guild,reaction.message.author);
+        }
+        let weight = (await data.premierAvril_dao.getUser(user.id)).Weight;
+        if(await data.premierAvril_dao.getMessage(reaction.message.id) == undefined){
+            await data.premierAvril_dao.createMessage(reaction.message.id);
+        }
+        if(reaction.emoji.name == '➕'){
+            data.premierAvril_dao.removeVote(user.id,reaction.message.id,reaction.message.author.id,weight * 1)
+        } else {
+            data.premierAvril_dao.removeVote(user.id,reaction.message.id,reaction.message.author.id,weight * -1)
+        }
     },
 
-    premierAvrilRetirerReaction(reaction,user){
-        
+    /**
+     * 
+     * @param {Discord.Guild} guild
+     * @param {Discord.User} user 
+     */
+    async premierAvrilAddUser(guild,user){
+        let weight = 1;
+        let member = await guild.members.fetch(user.id);
+        let roles = [
+            ['476424267672584193' , 0 ], //bot
+            ['476423949543145484' , 1 ],
+            ['476423906274836480' , 2 ],
+            ['476423808278855708' , 4 ],
+            ['476423722803396617' , 8 ],
+            ['476423665169203221' , 18 ],
+            ['476423483484798977' , 32 ],
+            ['476423434528751636' , 64 ],
+            ['476423386147454986' , 128 ],
+            ['476423326420434944' , 256 ],
+            ['476423067527151626' , 512 ],
+            ['527232178791251997' , 1024 ],
+            ['527232376217010196' , 2048 ],
+            ['527232496585408516' , 4096 ],
+            ['527232618249322506' , 8192 ],
+            ['527232807177682974' , 16384 ],
+            ['527232954808664065' , 32768 ]
+        ]
+        for(let [key,value] of roles){
+            if(member.roles.cache.has(key)){
+                weight = value
+            }
+        }
+        await data.premierAvril_dao.CreateUser(user.id,weight);
     },
 
     /**
@@ -210,102 +249,6 @@ module.exports = {
         return ret;
     },
 
-    regexStat(texte,stats,nbcase,PM){
-        if(stats){
-            if (texte.match(/[Aa][Rr][Mm][EeÉé][Ee]?[Ss]?/)) {
-                return "armee";
-            }
-            if (texte.match(/[Mm][Aa][Rr][Ii][Nn][Ee][Ss]?/)) {
-                return "marine";
-            }
-            if (texte.match(/[Ss][Cc]?[Ii][Ee][Nn][Cc]?[Ss]?[Ee][Ss]?/)) {
-                return "science";
-            }
-            if (texte.match(/[Cc][Uu][Ll][Tt][Uu][Rr][Ee]?[Ss]?/)) {
-                return "culture";
-            }
-            if (texte.match(/[Rr][Ee][Ll][Ii][Gg][Ii][Oo][Nn][Ss]?/)) {
-                return "religion";
-            }
-            if (texte.match(/[Ee][Cc][Oo][Nn][Oo][Mm][Ii][Ee]?[Ss]?/)) {
-                return "economie";
-            }
-        }
-        if(nbcase){
-            if (texte.match(/[Nn]?[Bb]?[Cc][Aa][Ss][Ee][Ss]?/)) {
-                return "nbCases";
-            } 
-        }
-        if(PM){
-            if (texte.match(/([Pp][Mm])|([Pp][Oo][Ii][Nn][Tt]?[Ss] ?([Dd][Ee])? ?[Mm][Oo][Uu][Vv][Ee][Mm][Ee][Nn][Tt]?[Ss]?)/)) {
-                return "PM";
-            } 
-        }
-        return false;
-    },
-
-    faitPartieDuRp(idJoueur){
-        var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
-        return joueurs[idJoueur] != undefined ;
-    },
-
-    villeAppartiens(idJoueur, idVille){
-        var global = JSON.parse(fs.readFileSync("data/global.json"));
-        return global.villes[idVille].proprietaire == idJoueur;
-    },
-
-    villeExiste(idVille){
-        var global = JSON.parse(fs.readFileSync("data/global.json"));
-        return global.villes[idVille] != undefined
-    },
-
-    provinceAppartiens(idJoueur, idProvince){
-        var global = JSON.parse(fs.readFileSync("data/global.json"));
-        return global.provinces[idProvince].proprietaire == idJoueur;
-    },
-
-    provinceExiste(idProvince){
-        var global = JSON.parse(fs.readFileSync("data/global.json"));
-        return global.provinces[idProvince] != undefined
-    },
-
-    villeDansProvince(idVille, idProvince){
-        var global = JSON.parse(fs.readFileSync("data/global.json"));
-        return global.provinces[idProvince].villes.includes(idVille);
-    },
-
-    rechercheExiste(idRecherche){
-        var param = JSON.parse(fs.readFileSync("data/param.json"));
-        return param.recherche[idRecherche] != undefined;
-    },
-
-    recherchePossible(idJoueur, idRecherche){
-        var param = JSON.parse(fs.readFileSync("data/param.json"));
-        var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
-        return param.recherche[idRecherche].science <= joueurs[idJoueur].science && param.recherche[idRecherche].culture <= joueurs[idJoueur].culture ;
-    },
-
-    infGlobal(idJoueur){
-        var joueurs = JSON.parse(fs.readFileSync("data/joueurs.json"));
-        var ret = []
-        for (var idInfluenceur in joueurs){
-            ret[idInfluenceur] = this.infVillesJoueur(idJoueur, idInfluenceur);
-        }
-        return ret;
-    },
-
-    infVillesJoueur(idJoueur,idInfluenceur){
-        var global = JSON.parse(fs.readFileSync("data/global.json"));
-        var quantite = 0;
-        for (var ville in global.villes){
-            if(global.villes[ville].proprietaire == idJoueur){
-                if(global.villes[ville].influence[idInfluenceur] != undefined){
-                    quantite = quantite + global.villes[ville].influence[idInfluenceur]
-                }
-            }
-        }
-        return quantite
-    }
 
 
 
