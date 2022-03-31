@@ -45,8 +45,8 @@ module.exports = {
 				if(vote.voteScore > 0){
 					text = text + "+"
 				}
-				text = text + vote.voteScore + " donné a  " 
-				+ (await interaction.client.users.cache.get(vote.voteReciever)).username 
+				text = text + vote.voteScore + " donné" 
+				//+ (await interaction.client.users.cache.get(vote.voteReciever)).username 
 				+ "](https://discord.com/channels/" 
 				+ interaction.guild.id + "/"
 				+ vote.voteChannel + "/"
@@ -64,8 +64,8 @@ module.exports = {
 				if(vote.voteScore > 0){
 					text = text + "+"
 				}
-				text = text + vote.voteScore + " donné par "
-				+ (await interaction.client.users.cache.get(vote.voteUser)).username 
+				text = text + vote.voteScore + " reçu"
+				//+ (await interaction.client.users.cache.get(vote.voteUser)).username 
 				+ "](https://discord.com/channels/" 
 				+ interaction.guild.id + "/"
 				+ vote.voteChannel + "/"
