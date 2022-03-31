@@ -12,7 +12,7 @@ var premierAvril_dao = function(){
     };
     this.getLastSentVotes = async function(userID){
         return new Promise(async function(resolve,reject){
-            const query = "select * from a_vote where voteUser = ? limit 15";
+            const query = "select * from a_vote where voteUser = ? limit 5";
             db.all(query,[userID],(err,rows)=>{
                 if(err)reject(err);
                 resolve(rows)
@@ -21,7 +21,7 @@ var premierAvril_dao = function(){
     };
     this.getLastRecievedVotes = async function(userID){
         return new Promise(async function(resolve,reject){
-            const query = "select * from a_vote where voteReciever = ? limit 15";
+            const query = "select * from a_vote where voteReciever = ? limit 5";
             db.all(query,[userID],(err,rows)=>{
                 if(err)reject(err);
                 resolve(rows)
