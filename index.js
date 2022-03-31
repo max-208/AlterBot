@@ -111,8 +111,9 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		await utilities.warn(reaction.message,null);
 		await reaction.message.delete();
 	}
+	//console.log(reaction.emoji.name);
 	if(utilities.premierAvril == "TRUE"){
-		if ( (reaction.emoji.name == '➕' || reaction.emoji.name == '➖' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
+		if ( (reaction.emoji.name == 'chingchong' || reaction.emoji.name == 'lmao' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
 			utilities.premierAvrilAjoutReaction(reaction,user);
 		}
 	}
@@ -121,7 +122,7 @@ client.on('messageReactionAdd', async (reaction, user) => {
 client.on('messageReactionRemove', (reaction, user) => {
 	
 	if(utilities.premierAvril == "TRUE"){
-		if ( (reaction.emoji.name == '➕' || reaction.emoji.name == '➖' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
+		if ( (reaction.emoji.name == 'chingchong' || reaction.emoji.name == 'lmao' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
 			utilities.premierAvrilRetirerReaction(reaction,user);
 		}
 	}

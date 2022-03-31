@@ -35,7 +35,7 @@ module.exports = {
         if(await data.premierAvril_dao.getMessage(reaction.message.id) == undefined){
             await data.premierAvril_dao.createMessage(reaction.message.id);
         }
-        if(reaction.emoji.name == '➕'){
+        if(reaction.emoji.name == 'chingchong'){
             data.premierAvril_dao.vote(user.id,reaction.message.id,reaction.message.author.id,reaction.message.channel.id, weight * 1)
         } else {
             data.premierAvril_dao.vote(user.id,reaction.message.id,reaction.message.author.id,reaction.message.channel.id, weight * -1)
@@ -53,7 +53,7 @@ module.exports = {
         if(await data.premierAvril_dao.getMessage(reaction.message.id) == undefined){
             await data.premierAvril_dao.createMessage(reaction.message.id);
         }
-        if(reaction.emoji.name == '➕'){
+        if(reaction.emoji.name == 'chingchong'){
             data.premierAvril_dao.removeVote(user.id,reaction.message.id,reaction.message.author.id,weight * 1)
         } else {
             data.premierAvril_dao.removeVote(user.id,reaction.message.id,reaction.message.author.id,weight * -1)
