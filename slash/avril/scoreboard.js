@@ -16,13 +16,23 @@ module.exports = {
 	async execute(interaction) {
 		if(utilities.premierAvril == "TRUE"){
 			let page = 0;
+			let inv = false;
 			if(interaction.options.getInteger("page") != undefined && interaction.options.getInteger("page") > 0){
 				page = interaction.options.getInteger("page") - 1;
+			} else if(interaction.options.getInteger("page") != undefined && interaction.options.getInteger("page") < 0){
+				page = 0 - (interaction.options.getInteger("page") + 1);
+
 			}
-			let list = await data.premierAvril_dao.getScoreboard(page);
-	
 			let embed = new Discord.MessageEmbed();
-			embed.setTitle(" -- ScoreBoard - page " + (page+1) + " -- ");
+			let list = [];
+			if(inv){
+				list = await data.premierAvril_dao.getScoreboardInv(page);
+				embed.setTitle(" -- ScoreBoard (inversé) - page " + (page+1) + " -- ");
+			} else {
+				list = await data.premierAvril_dao.getScoreboard(page);
+				embed.setTitle(" -- ScoreBoard - page " + (page+1) + " -- ");
+			}
+	
 			let i = 0
 			for(let element of list){
 				i++;

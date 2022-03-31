@@ -10,6 +10,15 @@ var premierAvril_dao = function(){
             });
         });
     };
+    this.getScoreboardInv = async function(page,numByPage = 10){
+        return new Promise(async function(resolve,reject){
+            const query = "select * from a_user order by UserScore ASC limit ? offset ?";
+            db.all(query,[numByPage,page*numByPage],(err,rows)=>{
+                if(err)reject(err);
+                resolve(rows)
+            });
+        });
+    };
     this.getLastSentVotes = async function(userID){
         return new Promise(async function(resolve,reject){
             const query = "select * from a_vote where voteUser = ? limit 5";
