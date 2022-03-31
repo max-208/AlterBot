@@ -21,7 +21,7 @@ module.exports = {
 				page = interaction.options.getInteger("page") - 1;
 			} else if(interaction.options.getInteger("page") != undefined && interaction.options.getInteger("page") < 0){
 				page = 0 - (interaction.options.getInteger("page") + 1);
-
+				inv = true;
 			}
 			let embed = new Discord.MessageEmbed();
 			let list = [];
