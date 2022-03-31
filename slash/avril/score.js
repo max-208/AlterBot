@@ -45,9 +45,14 @@ module.exports = {
 				if(vote.voteScore > 0){
 					text = text + "+"
 				}
-				text = text + vote.voteScore + " donné" 
-				//+ (await interaction.client.users.cache.get(vote.voteReciever)).username 
-				+ "](https://discord.com/channels/" 
+				text = text + vote.voteScore + " donné a  " 
+				user = (await interaction.client.users.cache.get(vote.voteReciever))
+				if(user != undefined){
+					text = text + user.username
+				} else {
+					text = text + "inconnu"
+				}
+				text = text + "](https://discord.com/channels/" 
 				+ interaction.guild.id + "/"
 				+ vote.voteChannel + "/"
 				+ vote.voteMessage
@@ -64,9 +69,14 @@ module.exports = {
 				if(vote.voteScore > 0){
 					text = text + "+"
 				}
-				text = text + vote.voteScore + " reçu"
-				//+ (await interaction.client.users.cache.get(vote.voteUser)).username 
-				+ "](https://discord.com/channels/" 
+				text = text + vote.voteScore + " donné par "
+				user = (await interaction.client.users.cache.get(vote.voteUser))
+				if(user != undefined){
+					text = text + user.username
+				} else {
+					text = text + "inconnu"
+				}
+				text = text + "](https://discord.com/channels/" 
 				+ interaction.guild.id + "/"
 				+ vote.voteChannel + "/"
 				+ vote.voteMessage
