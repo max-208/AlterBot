@@ -190,7 +190,7 @@ client.on('messageCreate', message => {
 		command.execute(message, args);
 	} catch (error) {
 		console.error(error);
-		message.reply('erreur lors de l\'exectution de la commande');
+		message.reply('<@352459053928022017> erreur lors de l\'exectution de la commande.\n```' + error + '```');
 	}
 
 });

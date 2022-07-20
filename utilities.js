@@ -145,20 +145,20 @@ module.exports = {
             .setColor(this.colGreen)
         }
         //console.log(message.attachments.first());
-        var extMessage = embed
-        var attachement = new Discord.MessageAttachment("https://images.emojiterra.com/twitter/v13.0/512px/267b.png");
-        if(message.attachments.first() != undefined){
-            embed.addField("attachement",message.attachments.first().url);
-            attachement = new Discord.MessageAttachment(message.attachments.first().url);
-            extMessage = {embed,files:[attachement]}
-        }
+		if(message.attachments.first() != undefined){
+			var attachementText = "";
+			message.attachments.forEach(att => {
+				attachementText = att.url + "\n" + attachementText 
+			});
+            embed.addField("attachements", attachementText);
+		}
         
         if(member!=null){
             const channel = message.client.channels.cache.get(this.logWarnMod);
-            await channel.send(message.author.id, extMessage);
-            message.author.send("Votre message a été jugé inaproprié ou non respectueux des regles du salon " + message.channel.toString() + " ou du serveur **AlterHis et Uchronies** par un modérateur.\nCeci n'est qu'un avertissement, cependant en cas de repetition cette infraction sera stockée et poura servir a justifier une sanction.", extMessage);
+            await channel.send({embeds:[embed], content : message.author.id});
+            message.author.send({embeds:[embed], content : "Votre message a été jugé inaproprié ou non respectueux des regles du salon " + message.channel.toString() + " ou du serveur **AlterHis et Uchronies** par un modérateur.\nCeci n'est qu'un avertissement, cependant en cas de repetition cette infraction sera stockée et poura servir a justifier une sanction." });
         } else {
-            message.author.send("Le repost hammer est tombé *bonk*", extMessage);
+            message.author.send({embeds:[embed], content :"Le repost hammer est tombé *bonk*"});
         }
     },
 
