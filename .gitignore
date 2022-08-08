@@ -103,5 +103,5 @@ dist
 # TernJS port file
 .tern-port
 
-# do not copy data
-*.db
+# do not copy data except database_linguistique
+database.db
