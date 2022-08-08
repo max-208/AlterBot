@@ -1,5 +1,3 @@
-//TODO: ameliorer la prise en compte des emojis drapeau transgenre, ecosse, pays de galles, angleterre
-//TODO: trouver une solution au probleme de conflit causé par :regional_indicator_i: :regional_indicator_q: :flag_iq: 
 module.exports = {
     name: 'sondage',
     description: 'Reagis au emojis present dans le message',

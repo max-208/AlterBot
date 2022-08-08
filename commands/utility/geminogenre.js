@@ -17,8 +17,8 @@ module.exports = {
 		if(args.length > 0){
 			lien = args[0];
 		}
-		if(message.attachments.array().length > 0){//TODO : ne fonctionne plus
-			lien = message.attachments.array()[0].url;//TODO : ne fonctionne plus
+		if(message.attachments.first() != undefined){
+			lien = message.attachments.first().url;
 		}
         const canvas = Canvas.createCanvas(512, 512);
         const context = canvas.getContext('2d');
@@ -27,6 +27,6 @@ module.exports = {
         context.drawImage(avatar,0,0,canvas.width, canvas.height);
         context.drawImage(gemino,0,0,canvas.width, canvas.height);
         const attachment = new Discord.MessageAttachment(canvas.toBuffer(), 'Gemino_pp.png');
-        message.channel.send("<@"+message.author.id+">",{ files: [attachment] });
+        message.channel.send({content : "<@"+message.author.id+">", files: [attachment] });
 	},
 };
