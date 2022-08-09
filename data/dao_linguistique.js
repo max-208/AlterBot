@@ -57,10 +57,13 @@ var dao_linguistique = function(){
 
     this.validateAddition = async function(id) {
         return new Promise(async function(resolve, reject){
-            const query = "INSERT INTO dictionnaire (francais, pierrick, phonétique, commentaire, définition, étymologie, classe, cyrilic, hangeul ) SELECT francais, pierrick, phonetique, commentaire, definition, etymologie, class, cyrilic, hangeul FROM suggestion WHERE id = ?;"
+            const query = "INSERT INTO dictionnaire (francais, pierrick, phonétique, commentaire, définition, étymologie, classe, cyrilic, hangeul ) SELECT francais, pierrick, phonetique, commentaire, definition, etymologie, class, cyrilic, hangeul FROM suggestion WHERE suggestion.id = ?;"
             db.run(query, [id], (err, rows) => {
                 if (err) reject(err);
-                else resolve(rows);
+                else{
+                    //resoundex le mot ajouté
+                    resolve(rows);
+                }
             });
         });
     }
