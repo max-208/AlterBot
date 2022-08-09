@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const data = require('../../data/dao_linguistique');
+const data = require('data');
 const { MessageEmbed } = require('discord.js');
 
 
@@ -52,13 +52,14 @@ module.exports = {
 							{name: '\u200b', value: '\u200B'},
 							{name: 'cyrilique', value: `${element.cyrilic}`},
 							{name: 'hangeul', value: `${element.hangeul}`},
-							{name: 'étymologie', value: `${element.etymologie}`},
-							{name: 'phonetique', value: `${element.phonetique}`},
-							{name: 'type', value: `${element.type}`},
+							{name: 'étymologie', value: `${element.étymologie}`},
+							{name: 'phonétique', value: `${element.phonétique}`},
+							
 							{name: '\u200b', value: '\u200B'},
-							{name: 'classe grammaticale', value: `${element.class}`},
-							{name: 'définition', value: `${element.definition}`},
-							{name: 'commentaire', value: `${element.commentaire}`}
+							{name: 'classe grammaticale', value: `${element.classe}`},
+							{name: 'définition', value: `${element.définition}`},
+							{name: 'commentaire', value: `${element.commentaire}`},
+							{name: 'id', value: `${element.id}`}
 						)
 					if (i == 0){
 						await interaction.editReply({embeds: [embedSearch]});
@@ -86,13 +87,14 @@ module.exports = {
 							{name: '\u200b', value: '\u200B'},
 							{name: 'cyrilique', value: `${element.cyrilic}`},
 							{name: 'hangeul', value: `${element.hangeul}`},
-							{name: 'étymologie', value: `${element.etymologie}`},
-							{name: 'phonetique', value: `${element.phonetique}`},
-							{name: 'type', value: `${element.type}`},
+							{name: 'étymologie', value: `${element.étymologie}`},
+							{name: 'phonétique', value: `${element.phonétique}`},
+							
 							{name: '\u200b', value: '\u200B'},
-							{name: 'classe grammaticale', value: `${element.class}`},
-							{name: 'définition', value: `${element.definition}`},
-							{name: 'commentaire', value: `${element.commentaire}`}
+							{name: 'classe grammaticale', value: `${element.classe}`},
+							{name: 'définition', value: `${element.définition}`},
+							{name: 'commentaire', value: `${element.commentaire}`},
+							{name: 'id', value: `${element.id}`}
 						)
 					if (i == 0){
 						await interaction.editReply({embeds: [embedSearch]});

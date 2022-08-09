@@ -38,15 +38,16 @@ module.exports = {
                 if (proposition.type == 'add') {
                     await data.db_linguistique.validateAddition(id);
                     await data.db_linguistique.purgeProposition(id);
-                    await interaction.reply(`La proposition ${id} a été validée et ajoutée.`)
+                    await interaction.reply(`La proposition ${id} a été validée et ajoutée.`);
                 }
                 else if (proposition.type == 'edit') {
                     await data.db_linguistique.purgeProposition(id);
+                    await interaction.reply(`la proposition ${id} a été validée et ajoutée`);
                 }
             }
             else if (interaction.options.getSubcommand() === "reject"){
                 await data.db_linguistique.rejectProposition(id);
-                await interaction.reply(`La proposition ${id} a été rejetée.`)
+                await interaction.reply(`La proposition ${id} a été rejetée.`);
             }
 
         }

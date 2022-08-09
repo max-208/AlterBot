@@ -55,24 +55,26 @@ module.exports = {
             const id = interaction.options.getString('id');
             if (await data.db_linguistique.isIdValidWord(id)) {
                 //obtention des paramètres et ajout dans un objet
-                let param = {}
-                param.pierrick = interaction.options.getString('pierrick');
-                param.définition = interaction.options.getString('definition');
-                param.étymologie = interaction.options.getString('etymologie');
-                param.francais = interaction.options.getString('francais');
-                param.phonétique = interaction.options.getString('phonetique');
-                param.commentaire = interaction.options.getString('commentaire');
-                param.cyrilic = interaction.options.getString('cyrilic');
-                param.hangeul = interaction.options.getString('hangeul');
-                param.classe = interaction.options.getString('class');
+                let param = {
+                    pierrick : interaction.options.getString('pierrick'),
+                    définition : interaction.options.getString('definition'),
+                    étymologie : interaction.options.getString('etymologie'),
+                    francais : interaction.options.getString('francais'),
+                    phonétique : interaction.options.getString('phonetique'),
+                    commentaire : interaction.options.getString('commentaire'),
+                    cyrilic : interaction.options.getString('cyrilic'),
+                    hangeul : interaction.options.getString('hangeul'),
+                    classe : interaction.options.getString('class'),
+                }
                 let base = await data.db_linguistique.getWord(id);
                 //on récupère les valeurs pour vérifier si quelque chose a été mit ou non, puis on remplace les valeurs par défaut par les valeurs utilisateurs
-                for (proprieties of param){
-                    if(param[proprieties] != undefined){
+                for (let proprieties in param){
+                    if(param[proprieties] != null){
                         base[proprieties] = param[proprieties];
                     }
                 }
                 await data.db_linguistique.editWord(id, base);
+                await interaction.reply('modification effectuée');
 
             }
             else await interaction.reply("l'id est invalide")

@@ -66,7 +66,8 @@ module.exports = {
 							{name: '\u200b', value: '\u200B'},
 							{name: 'classe grammaticale', value: `${element.classe}`},
 							{name: 'définition', value: `${element.définition}`},
-							{name: 'commentaire', value: `${element.commentaire}`}
+							{name: 'commentaire', value: `${element.commentaire}`},
+							{name: 'id', value: `${element.id}`}
 						)
 				
 				await interaction.editReply({embeds: [embedSearch]});
@@ -95,7 +96,8 @@ module.exports = {
 							{name: '\u200b', value: '\u200B'},
 							{name: 'classe grammaticale', value: `${element.classe}`},
 							{name: 'définition', value: `${element.définition}`},
-							{name: 'commentaire', value: `${element.commentaire}`}
+							{name: 'commentaire', value: `${element.commentaire}`},
+							{name: 'id', value: `${element.id}`}
 						)
 					if (i == 0){
 						await interaction.editReply({embeds: [embedSearch]});
@@ -135,7 +137,8 @@ module.exports = {
 							{name: '\u200b', value: '\u200B'},
 							{name: 'classe grammaticale', value: `${element.classe}`},
 							{name: 'définition', value: `${element.définition}`},
-							{name: 'commentaire', value: `${element.commentaire}`}
+							{name: 'commentaire', value: `${element.commentaire}`},
+							{name: 'id', value: `${element.id}`}
 						)
 					
 					if (i == 0){

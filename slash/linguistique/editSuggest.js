@@ -8,19 +8,21 @@ module.exports = {
 		.setName('editsuggest')
 		.setDescription('permet à awing de modifier les propositions, seul awing peut faire cette commande')
         .addStringOption(option =>
-            option.setName('pierrick')
-                  .setDescription('Le mot en pierrick')
+            option.setName('id')
+                  .setDescription("l'id de la suggestion")
                   .setRequired(true)
+        )
+        .addStringOption(option =>
+            option.setName('pierrick')
+                  .setDescription('Le mot en pierrick')              
             )
         .addStringOption( option =>
             option.setName('definition')
-                  .setDescription('la définition de votre mot')
-                  .setRequired(true)
+                  .setDescription('la définition de votre mot')       
             )
         .addStringOption( option =>
             option.setName('etymologie')
-                  .setDescription('d\'où provient votre mot')
-                  .setRequired(true)
+                  .setDescription('d\'où provient votre mot')              
             )
         .addStringOption( option =>
             option.setName('francais')
@@ -49,26 +51,28 @@ module.exports = {
 	async execute(interaction) {
 		if (interaction.user.id == '361257883247050762'){
             const id = interaction.options.getString('id');
-            if (await data.db_linguistique.isIdValid(id)) {
+            if (await data.db_linguistique.isIdValidSuggestion(id)) {
                 //obtention des paramètres et ajout dans un objet
-                let param = {}
-                param.pierrick = interaction.options.getString('pierrick');
-                param.définition = interaction.options.getString('definition');
-                param.étymologie = interaction.options.getString('etymologie');
-                param.francais = interaction.options.getString('francais');
-                param.phonétique = interaction.options.getString('phonetique');
-                param.commentaire = interaction.options.getString('commentaire');
-                param.cyrilic = interaction.options.getString('cyrilic');
-                param.hangeul = interaction.options.getString('hangeul');
-                param.classe = interaction.options.getString('class');
-                let base = await data.db_linguistique.getWord(id);
+                let param = {
+                    pierrick : interaction.options.getString('pierrick'),
+                    definition : interaction.options.getString('definition'),
+                    etymologie : interaction.options.getString('etymologie'),
+                    francais : interaction.options.getString('francais'),
+                    phonetique : interaction.options.getString('phonetique'),
+                    commentaire : interaction.options.getString('commentaire'),
+                    cyrilic : interaction.options.getString('cyrilic'),
+                    hangeul : interaction.options.getString('hangeul'),
+                    class : interaction.options.getString('class')
+                } 
+                let base = await data.db_linguistique.getSuggest(id);
                 //on récupère les valeurs pour vérifier si quelque chose a été mit ou non, puis on remplace les valeurs par défaut par les valeurs utilisateurs
-                for (proprieties of param){
-                    if(param[proprieties] != undefined){
+                for (let proprieties in param){
+                    if(param[proprieties] != null){
                         base[proprieties] = param[proprieties];
                     }
                 }
-                await data.db_linguistique.editWord(id, base);
+                await data.db_linguistique.editSuggest(id, base);
+                await interaction.reply('suggestion modifiée')
 
             }
             else await interaction.reply("l'id est invalide")

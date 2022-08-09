@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const data = require('../../data/dao_linguistique');
+const data = require('data');
 
 
 module.exports = {
@@ -57,12 +57,19 @@ module.exports = {
 	async execute(interaction) {
         await interaction.deferReply();
         let id = ""
+        let test = true;
         do {
             for (let i = 0; i <= 8; i++){
                 //génère un identifiant aléatoire
                 id = Math.ceil(Math.random() * 9) + id; 
             }
-        } while(await data.db_linguistique.isPropositionIdTaken(id));
+            
+            //test = await data.db_linguistique.isPropositionIdTaken(id).then( () =>{ return false;}).catch( () => {return true;});
+            if (await data.db_linguistique.isPropositionIdTaken(id).length > 0) test = true;
+            else test = false;
+            
+        } while(test);
+        
         let suggestion = {
             'id': id,
             'instigateur': interaction.user.id,
@@ -77,7 +84,9 @@ module.exports = {
             'cyrilic': interaction.options.getString('cyrilic'),
             'hangeul': interaction.options.getString('hangeul')
         };
+        
         await data.db_linguistique.addProposition(suggestion);
-        await interaction.editReply('<@361257883247050762> une nouvelle suggestion a été postée')
+        await interaction.client.users.fetch('361257883247050762').then((user) => {user.send('une nouvelle suggestion a été postée')});
+        await interaction.editReply('<@361257883247050762> une nouvelle suggestion a été postée');
 	},
 };

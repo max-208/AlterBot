@@ -1,0 +1,17 @@
+commande fonctionnelle:
+
+/phonetize
+/looksuggest
+/resoundex
+/search
+/search-by-regex
+/suggest
+/editSuggest
+/editWord
+
+commande non fonctionneles:
+
+
+
+en cours:
+/decideSuggest

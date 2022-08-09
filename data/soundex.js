@@ -85,7 +85,8 @@ var functions = function(){
         db.get(inputQuery,[id], (err, row)=>{
             if (err) console.log(err);
             else {
-                let francaisSoundexed = this.soundex(row.francais);
+                let francaisSoundexed = null;
+                if (row.francais != null) francaisSoundexed = this.soundex(row.francais);
                 let pierrickSoundexed = this.soundex(row.pierrick);
                 db.run(outputQuery, [francaisSoundexed, pierrickSoundexed, row.id], (err)=>{
                     if (err) console.log(err);
