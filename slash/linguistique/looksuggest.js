@@ -14,6 +14,7 @@ module.exports = {
 		),
         
 	async execute(interaction) {
+		//verify is the interaction come from awing
 		if (interaction.user.id == '361257883247050762'){
 
 			let offset = interaction.options.getInteger('offset');
@@ -28,12 +29,14 @@ module.exports = {
 				for (const proposition of list){
 					const title = "" + proposition.francais;
 					let author = '';
+					//try to fetch the user MUST BE REWORK
 					try {
 						author = "" + await interaction.client.users.fetch(proposition.instigateur);
 					} catch (error) {
 						console.log('error: user not found ' + error);	
 						author = "error";
 					}
+					//as the embed builder need variable to be initialized as string, concat an empty string to the variable MUST BE REWORK
 					const description = "" + proposition.id;
 					const pierrick = "" + proposition.pierrick;
 					const cyrilic = "" + proposition.cyrilic;

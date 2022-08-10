@@ -45,12 +45,11 @@ module.exports = {
 		const mot = interaction.options.getString('mot')
 		let offset = interaction.options.getInteger('offset');
 		if (offset == 'undefined') offset = 0;
+		//search a word by its id 
 		if (interaction.options.getSubcommand() == 'id'){
 			await interaction.deferReply();
 			const id = interaction.options.getInteger('id');
-			
 			const element = await data.db_linguistique.getWord(id)
-			
 			if (element.pierrick == 'undefined') await interaction.editReply("le mot n'a pas été trouvé");
 			else {
 				const embedSearch = new MessageEmbed()
@@ -73,6 +72,7 @@ module.exports = {
 				await interaction.editReply({embeds: [embedSearch]});
 			}
 		}
+		//search a word by its french soundex
 		else if (interaction.options.getSubcommand() == 'francais'){
 			await interaction.deferReply();
 			let soundexedMot = data.soundex.soundex(mot);
@@ -109,6 +109,7 @@ module.exports = {
 				}
 			}
 		}
+		//Search a word by its pierrick soundex
 		else if (interaction.options.getSubcommand() == 'pierrick'){
 			
 			if (offset == 'undefined' || offset == null) offset = 0;

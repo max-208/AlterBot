@@ -29,11 +29,14 @@ module.exports = {
             ),
 
     async execute(interaction) {
+        //verify if the interaction come from awing
         if (interaction.user.id == '361257883247050762'){
+            //reinit the soundex of all word
             if (interaction.options.getSubcommand() == 'all'){
                 data.soundex.initSoundex();
                 await interaction.reply('soundex réinitialisé');
             }
+            //search a word without soundex
             else if (interaction.options.getSubcommand() == 'search'){
                 let offset = interaction.options.getInteger('offset');
                 if (offset == 'undefined' || offset == 'null' || offset == null) { offset = 0; }
@@ -44,6 +47,7 @@ module.exports = {
                 }
                 await interaction.reply(list);
             }
+            //reinit soundex for a single word
             else if (interaction.options.getSubcommand() == 'byid'){
                 const id = interaction.options.getInteger('id');
                 data.soundex.soundexId(id);

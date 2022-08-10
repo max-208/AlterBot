@@ -4,12 +4,16 @@ const db = require('./sqlite_connection_linguistique')
 var functions = function(){
 
     this.soundex = function soundex(input){
+        //test if the word isn't NULL or a number
         if (input != 'NULL' && isNaN(input)){
-            let mot = ""
-            mot = mot + input
+            //prepare word by setting it upper case and deleting whitespace before and after
+            let mot = "";
+            mot = mot + input;
             mot = mot.toUpperCase();
             mot = mot.trim();
-            result = ""
+            //init a result string
+            result = "";
+            //create regex for caracter replacement 
             let regex = {
                 AAccent : /Â|Ä|Ā|À/,
                 EAccent : /É|È|Ë|Ê/,
@@ -27,14 +31,19 @@ var functions = function(){
                 alveolar : /X|S|Z/,
                 labioDental : /F|V/,
             }
+            //simplify accentuated Vowels to ascii caracters 
             mot = mot.replace(regex.AAccent, 'A').replace(regex.EAccent, 'E').replace(regex.IAccent, 'I').replace(regex.OAccent, 'O').replace(regex.UAccent, 'U');
+            //put the first char into the result string
             result += mot[0];
+            //remove the first char
             mot = mot.slice(1);
+            //for each char, replace letters by the associated number
             for (let char of mot){
                 result += char.replace(regex.nullLetters, '').replace(regex.bilabial, '1').replace(regex.velarOcclusive, '2').replace(regex.dental, '3').replace(
                     regex.spirante, '4').replace(regex.nasale, '5').replace(regex.frenchR, '6').replace(regex.paleoAlveolar, '7').replace(regex.alveolar, '8').replace(regex.labioDental, 9);
 
             }
+            //remove char that appear two times
             for (let i = 1; i < result.length; i++) {
                 if (result[i] == result[i+1]){
                     var chars = result.split('');
@@ -42,17 +51,21 @@ var functions = function(){
                     result = chars.join('');
                 }
             }
+            //add 0 if the soundex isn't long enough 
             while (result.length < 4) {
                 result += '0';
             }
+            //remove char if the soundex is too long
             while (result.length > 4) {
                 result = result.slice(0, -1);
             }
+            //return the result
             return result;
         }
         return;
     }
 
+    //create a soundex for all the word of the table
     this.initSoundex = function initSoundex() {
         let inputQuery = "SELECT id, francais FROM dictionnaire;";
         let outputQuery = "UPDATE dictionnaire SET soundexfr = ? WHERE id = ?;";
@@ -79,6 +92,7 @@ var functions = function(){
         });
     }
 
+    //soundex a word from an id
     this.soundexId = function soundexId(id){
         let inputQuery = "SELECT id, francais, pierrick FROM dictionnaire WHERE id = ?; "
         let outputQuery = "UPDATE dictionnaire SET soundexfr = ?, soundexprk = ? WHERE id = ?"
@@ -95,6 +109,7 @@ var functions = function(){
         });
     }
 
+    //give the word that doesn't have a soundex
     this.searchNoSoundex = async function(offset){
         return new Promise(async function(resolve, reject){
             const query = "SELECT * FROM dictionnaire WHERE soundexprk = NULL and soundexfr = NULL LIMIT 5 OFFSET ?;"

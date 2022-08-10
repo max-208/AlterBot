@@ -49,6 +49,7 @@ module.exports = {
                   .setDescription("un commentaire supplémentaire (optionnel)")
             ),
 	async execute(interaction) {
+        //verify if the interaction come from awing
 		if (interaction.user.id == '361257883247050762'){
             const id = interaction.options.getString('id');
             if (await data.db_linguistique.isIdValidSuggestion(id)) {
@@ -71,6 +72,7 @@ module.exports = {
                         base[proprieties] = param[proprieties];
                     }
                 }
+                //modify the suggestion
                 await data.db_linguistique.editSuggest(id, base);
                 await interaction.reply('suggestion modifiée')
 

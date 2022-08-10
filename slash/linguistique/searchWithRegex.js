@@ -36,6 +36,7 @@ module.exports = {
         const regex = interaction.options.getString('regex')
 		let offset = interaction.options.getInteger('offset');
 		if (offset == 'undefined') offset = 0;
+		//search a word by the like operator on francais column 
 		if (interaction.options.getSubcommand() == 'francais'){
 			await interaction.deferReply();
 			if (offset == 'undefined' || offset == null) offset = 0;
@@ -71,6 +72,7 @@ module.exports = {
 				}
 			}
 		}
+		//search a word by like operator on pierrick column
 		else if (interaction.options.getSubcommand() == 'pierrick'){
 			await interaction.deferReply();
 			if (offset == 'undefined' || offset == null) offset = 0;

@@ -51,6 +51,7 @@ module.exports = {
 
         
 	async execute(interaction) {
+        //verify if the interaction come from awing
 		if (interaction.user.id == '361257883247050762'){
             const id = interaction.options.getString('id');
             if (await data.db_linguistique.isIdValidWord(id)) {
@@ -73,6 +74,7 @@ module.exports = {
                         base[proprieties] = param[proprieties];
                     }
                 }
+                //modify the suggestion
                 await data.db_linguistique.editWord(id, base);
                 await interaction.reply('modification effectuée');
 

@@ -15,6 +15,7 @@ module.exports = {
 	async execute(interaction) {
 		let mot = interaction.options.getString('mot');
         let phonetique = "/";
+        //for each char replace the API equivalent
         for (const iterator of mot) {
             phonetique = phonetique + correspondance[iterator];
         }

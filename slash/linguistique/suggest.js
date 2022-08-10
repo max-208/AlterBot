@@ -64,8 +64,7 @@ module.exports = {
                 id = Math.ceil(Math.random() * 9) + id; 
             }
             
-            //test = await data.db_linguistique.isPropositionIdTaken(id).then( () =>{ return false;}).catch( () => {return true;});
-            if (await data.db_linguistique.isPropositionIdTaken(id).length > 0) test = true;
+            if (await data.db_linguistique.getSuggest(id).length > 0) test = true;
             else test = false;
             
         } while(test);
