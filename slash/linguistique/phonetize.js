@@ -17,7 +17,7 @@ module.exports = {
         let phonetique = "/";
         //for each char replace the API equivalent
         for (const iterator of mot) {
-            phonetique = phonetique + correspondance[iterator];
+            phonetique += correspondance[iterator];
         }
         phonetique += "/";
         await interaction.reply(phonetique);
