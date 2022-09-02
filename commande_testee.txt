@@ -8,10 +8,11 @@ commande fonctionnelle:
 /suggest
 /editSuggest
 /editWord
+/decideSuggest
 
 commande non fonctionneles:
 
 
 
 en cours:
-/decideSuggest
+
