@@ -105,5 +105,7 @@ dist
 
 # do not copy data except database_linguistique
 database.db
+
+#manual tool to phonetize a lise of word
 manual_phonetize.js
 output_phonetize.json
