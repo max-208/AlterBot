@@ -109,3 +109,4 @@ database.db
 #manual tool to phonetize a lise of word
 manual_phonetize.js
 output_phonetize.json
+dissociator.js

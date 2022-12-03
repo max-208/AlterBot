@@ -1,5 +1,7 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
 const {correspondance} = require("data");
+const { MessageEmbed } = require('discord.js');
+
 
 module.exports = {
 	data: new SlashCommandBuilder()
@@ -20,6 +22,10 @@ module.exports = {
             phonetique += correspondance[iterator];
         }
         phonetique += "/";
-        await interaction.reply(phonetique);
+        embedPhonetize = new MessageEmbed()
+            .setColor('#0000FF')
+            .setTitle(`${interaction.options.getString('mot')}\u200b`)
+            .addField("resultat", phonetique)
+        await interaction.reply({embeds: [embedPhonetize]});
 	},
 };

@@ -47,20 +47,20 @@ module.exports = {
 				for (const element of list) {
 					const embedSearch = new MessageEmbed()
 						.setColor(0x0000FF)
-						.setTitle(`${element.francais}`)
-						.setDescription(`${element.pierrick}`)
+						.setTitle(`${element.francais}\u200b`)
+						.setDescription(`${element.pierrick}\u200b`)
 						.addFields(
 							{name: '\u200b', value: '\u200B'},
-							{name: 'cyrilique', value: `${element.cyrilic}`},
-							{name: 'hangeul', value: `${element.hangeul}`},
-							{name: 'étymologie', value: `${element.étymologie}`},
-							{name: 'phonétique', value: `${element.phonétique}`},
+							{name: 'cyrilique', value: `${element.cyrilic}\u200b`},
+							{name: 'hangeul', value: `${element.hangeul}\u200b`},
+							{name: 'étymologie', value: `${element.étymologie}\u200b`},
+							{name: 'phonétique', value: `${element.phonétique}\u200b`},
 							
 							{name: '\u200b', value: '\u200B'},
-							{name: 'classe grammaticale', value: `${element.classe}`},
-							{name: 'définition', value: `${element.définition}`},
-							{name: 'commentaire', value: `${element.commentaire}`},
-							{name: 'id', value: `${element.id}`}
+							{name: 'classe grammaticale', value: `${element.classe}\u200b`},
+							{name: 'définition', value: `${element.définition}\u200b`},
+							{name: 'commentaire', value: `${element.commentaire}\u200b`},
+							{name: 'id', value: `${element.id}\u200b`}
 						)
 					if (i == 0){
 						await interaction.editReply({embeds: [embedSearch]});
@@ -83,20 +83,20 @@ module.exports = {
 				for (const element of list) {
 					const embedSearch = new MessageEmbed()
 						.setColor(0x0000FF)
-						.setTitle(`${element.francais}`)
-						.setDescription(`${element.pierrick}`)
+						.setTitle(`${element.francais}\u200b`)
+						.setDescription(`${element.pierrick}\u200b`)
 						.addFields(
 							{name: '\u200b', value: '\u200B'},
-							{name: 'cyrilique', value: `${element.cyrilic}`},
-							{name: 'hangeul', value: `${element.hangeul}`},
-							{name: 'étymologie', value: `${element.étymologie}`},
-							{name: 'phonétique', value: `${element.phonétique}`},
+							{name: 'cyrilique', value: `${element.cyrilic}\u200b`},
+							{name: 'hangeul', value: `${element.hangeul}\u200b`},
+							{name: 'étymologie', value: `${element.étymologie}\u200b`},
+							{name: 'phonétique', value: `${element.phonétique}\u200b`},
 							
 							{name: '\u200b', value: '\u200B'},
-							{name: 'classe grammaticale', value: `${element.classe}`},
-							{name: 'définition', value: `${element.définition}`},
-							{name: 'commentaire', value: `${element.commentaire}`},
-							{name: 'id', value: `${element.id}`}
+							{name: 'classe grammaticale', value: `${element.classe}\u200b`},
+							{name: 'définition', value: `${element.définition}\u200b`},
+							{name: 'commentaire', value: `${element.commentaire}\u200b`},
+							{name: 'id', value: `${element.id}\u200b`}
 						)
 					if (i == 0){
 						await interaction.editReply({embeds: [embedSearch]});

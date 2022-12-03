@@ -47,7 +47,7 @@ module.exports = {
 					const classe = "" + proposition.class;
 					const definition = "" + proposition.definition;
 					const commentaire = "" + proposition.commentaire;
-					const pagination = `${offset + 1} / ${numberOfSuggestion.count}`
+					const pagination = `${offset + 1} / ${numberOfSuggestion.count}\u200b`
 					const embedProposition = new MessageEmbed()
 					.setColor(0x0011FF)
 					.setAuthor(author)
@@ -65,7 +65,7 @@ module.exports = {
 						{name: 'définition', value: definition},
 						{name: 'commentaire', value: commentaire}
 					)
-					.setFooter(`${pagination}`)
+					.setFooter(`${pagination}\u200b`)
 					i++;
 					if (i == 1) await interaction.reply({embeds: [embedProposition],});
 					else await interaction.followUp({embeds: [embedProposition],});
