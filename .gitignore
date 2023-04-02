@@ -103,10 +103,11 @@ dist
 # TernJS port file
 .tern-port
 
-# do not copy data except database_linguistique
+# do not copy database (file will be on sql format and created during deployment)
 database.db
+database_linguistique.db
 
-#manual tool to phonetize a lise of word
+#manual tool to phonetize a list of word
 manual_phonetize.js
 output_phonetize.json
 dissociator.js
