@@ -40,7 +40,7 @@ module.exports = {
 		if (interaction.options.getSubcommand() == 'francais'){
 			await interaction.deferReply();
 			if (offset == 'undefined' || offset == null) offset = 0;
-			let list = await data.db_linguistique.searchByFrenchRegex(regex, offset);
+			let list = await data.db.searchByFrenchRegex(regex, offset);
 			if(list.length == 0) await interaction.editReply("le mot n'a pas été trouvé");
 			else {
 			let i = 0;
@@ -76,7 +76,7 @@ module.exports = {
 		else if (interaction.options.getSubcommand() == 'pierrick'){
 			await interaction.deferReply();
 			if (offset == 'undefined' || offset == null) offset = 0;
-			let list = await data.db_linguistique.searchByPierrickRegex(regex, offset);
+			let list = await data.db.searchByPierrickRegex(regex, offset);
 			if(list.length == 0) await interaction.editReply("le mot n'a pas été trouvé");
 			else {
 			let i = 0;

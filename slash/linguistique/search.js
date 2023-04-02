@@ -49,7 +49,7 @@ module.exports = {
 		if (interaction.options.getSubcommand() == 'id'){
 			await interaction.deferReply();
 			const id = interaction.options.getInteger('id');
-			const element = await data.db_linguistique.getWord(id)
+			const element = await data.db.getWord(id)
 			if (element.pierrick == 'undefined') await interaction.editReply("le mot n'a pas été trouvé");
 			else {
 				const embedSearch = new MessageEmbed()
@@ -78,7 +78,7 @@ module.exports = {
 			let soundexedMot = data.soundex.soundex(mot);
 			
 			if (offset == 'undefined' || offset == null) offset = 0;
-			let list = await data.db_linguistique.searchByFrench(soundexedMot, offset);
+			let list = await data.db.searchByFrench(soundexedMot, offset);
 			let i = 0;
 			if(list.length == 0) await interaction.editReply("le mot n'a pas été trouvé");
 			else {
@@ -116,7 +116,7 @@ module.exports = {
 			let soundexedMot = data.soundex.soundex(mot);
 			
 			
-			let list = await data.db_linguistique.searchByPierrick(soundexedMot, offset);
+			let list = await data.db.searchByPierrick(soundexedMot, offset);
 			let i = 0;
 			
 			

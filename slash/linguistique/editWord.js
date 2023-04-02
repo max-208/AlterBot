@@ -55,7 +55,7 @@ module.exports = {
         //verify if the interaction come from awing
 		if (interaction.user.id == data.awing_id){
             const id = interaction.options.getString('id');
-            if (await data.db_linguistique.isIdValidWord(id)) {
+            if (await data.db.isIdValidWord(id)) {
                 //obtention des paramètres et ajout dans un objet
                 let param = {
                     pierrick : interaction.options.getString('pierrick'),
@@ -68,7 +68,7 @@ module.exports = {
                     hangeul : interaction.options.getString('hangeul'),
                     classe : interaction.options.getString('class'),
                 }
-                let base = await data.db_linguistique.getWord(id);
+                let base = await data.db.getWord(id);
                 //on récupère les valeurs pour vérifier si quelque chose a été mit ou non, puis on remplace les valeurs par défaut par les valeurs utilisateurs
                 for (let proprieties in param){
                     if(param[proprieties] != null){
@@ -76,7 +76,7 @@ module.exports = {
                     }
                 }
                 //modify the suggestion
-                await data.db_linguistique.editWord(id, base);
+                await data.db.editWord(id, base);
                 await interaction.reply('modification effectuée');
 
             }

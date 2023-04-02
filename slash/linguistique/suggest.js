@@ -64,7 +64,7 @@ module.exports = {
                 id = Math.ceil(Math.random() * 9) + id; 
             }
             
-            if (await data.db_linguistique.getSuggest(id).length > 0) test = true;
+            if (await data.db.getSuggest(id).length > 0) test = true;
             else test = false;
             
         } while(test);
@@ -84,7 +84,7 @@ module.exports = {
             'hangeul': interaction.options.getString('hangeul')
         };
         
-        await data.db_linguistique.addProposition(suggestion);
+        await data.db.addProposition(suggestion);
         await interaction.client.users.fetch('361257883247050762').then((user) => {user.send('une nouvelle suggestion a été postée')});
         await interaction.editReply('<@361257883247050762> une nouvelle suggestion a été postée');
 	},

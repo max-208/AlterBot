@@ -34,23 +34,23 @@ module.exports = {
         //verify if the interaction come from awing
 		if (interaction.user.id == data.awing_id){
             const id = interaction.options.getString('id');
-            const proposition = await data.db_linguistique.getSuggest(id);
+            const proposition = await data.db.getSuggest(id);
             if (interaction.options.getSubcommand() === "validate") {
                 if (proposition.type == 'add') {
                     //for an add suggestion, copy it and delete the suggestion
-                    await data.db_linguistique.validateAddition(id);
-                    await data.db_linguistique.purgeProposition(id);
+                    await data.db.validateAddition(id);
+                    await data.db.purgeProposition(id);
                     await interaction.reply(`La proposition ${id} a été validée et ajoutée.`);
                 }
                 else if (proposition.type == 'edit') {
                     //delete the suggestion, an edit must me done manually
-                    await data.db_linguistique.purgeProposition(id);
+                    await data.db.purgeProposition(id);
                     await interaction.reply(`la proposition ${id} a été validée et ajoutée`);
                 }
             }
             else if (interaction.options.getSubcommand() === "reject"){
                 //delete the suggestion
-                await data.db_linguistique.purgeProposition(id);
+                await data.db.purgeProposition(id);
                 await interaction.reply(`La proposition ${id} a été rejetée.`);
             }
 

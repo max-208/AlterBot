@@ -20,13 +20,13 @@ module.exports = {
 
 			let offset = interaction.options.getInteger('offset');
 			if (offset == 'undefined' || offset == null) offset = 0;
-			const numberOfSuggestion = await data.db_linguistique.countProposition();
+			const numberOfSuggestion = await data.db.countProposition();
 			if (numberOfSuggestion.count == '0') {
 				await interaction.reply("il n'y a pas de suggestion pour le moment");
 			}
 			else {
 				let i = 0;
-				list = await data.db_linguistique.lookToProposition(offset);
+				list = await data.db.lookToProposition(offset);
 				for (const proposition of list){
 					const title = "" + proposition.francais;
 					let author = '';
