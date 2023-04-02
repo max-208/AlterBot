@@ -50,7 +50,7 @@ module.exports = {
             ),
 	async execute(interaction) {
         //verify if the interaction come from awing
-		if (interaction.user.id == '361257883247050762'){
+		if (interaction.user.id == data.awing_id){
             const id = interaction.options.getString('id');
             if (await data.db_linguistique.isIdValidSuggestion(id)) {
                 //obtention des paramètres et ajout dans un objet

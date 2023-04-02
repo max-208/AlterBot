@@ -15,5 +15,6 @@ module.exports = {
     db_linguistique: linguistique_dao,
     soundex: soundex,
     correspondance: correspondance,
-    alphabet: alphabet
+    alphabet: alphabet,
+    awing_id: "1004518765834289302"
 };

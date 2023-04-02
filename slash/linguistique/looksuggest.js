@@ -4,6 +4,7 @@ const { MessageEmbed } = require('discord.js');
 
 
 
+
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('looksuggest')
@@ -15,7 +16,7 @@ module.exports = {
         
 	async execute(interaction) {
 		//verify is the interaction come from awing
-		if (interaction.user.id == '361257883247050762'){
+		if (interaction.user.id == data.awing_id){
 
 			let offset = interaction.options.getInteger('offset');
 			if (offset == 'undefined' || offset == null) offset = 0;

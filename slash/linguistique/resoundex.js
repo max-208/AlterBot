@@ -30,7 +30,7 @@ module.exports = {
 
     async execute(interaction) {
         //verify if the interaction come from awing
-        if (interaction.user.id == '361257883247050762'){
+        if (interaction.user.id == data.awing_id){
             //reinit the soundex of all word
             if (interaction.options.getSubcommand() == 'all'){
                 data.soundex.initSoundex();

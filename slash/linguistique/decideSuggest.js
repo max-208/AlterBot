@@ -3,7 +3,6 @@ const data = require('data');
 
 
 
-
 module.exports = {
 	data: new SlashCommandBuilder()
 		.setName('decidesuggest')
@@ -33,7 +32,7 @@ module.exports = {
 
 	async execute(interaction) {
         //verify if the interaction come from awing
-		if (interaction.user.id == '361257883247050762'){
+		if (interaction.user.id == data.awing_id){
             const id = interaction.options.getString('id');
             const proposition = await data.db_linguistique.getSuggest(id);
             if (interaction.options.getSubcommand() === "validate") {
