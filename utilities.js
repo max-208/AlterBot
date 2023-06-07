@@ -116,9 +116,18 @@ module.exports = {
                     test = false;
                 }
             }
+            //avoid ppl with "AlterHis" in their name that are not AlterHis
+            const ponctuation = /[\.,\/#!$%\^&\*;:{}=\-_`~()]/g;
+            var no_ponctuation = text.replace(ponctuation, '');
+            const alter = /AlterHis/i;
+            const alter_length = "AlterHis".length;
+            if(no_ponctuation.match(alter) != null && no_ponctuation.length < alter_length + 3 && member.id != "479654984104017921"){
+                test = true;
+            }
+            }
             if(test){
                 console.log(new Date().toLocaleString() + " - renommage");
-                member.setNickname("trouve toi un pseudo " + Math.round(Math.random()* 999999 ))
+                member.setNickname("trouve toi un pseudo " + Math.round(Math.random()* 999999 ));
             }
         }
     },
