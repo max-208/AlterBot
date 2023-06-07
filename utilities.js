@@ -117,7 +117,7 @@ module.exports = {
                 }
             }
             //avoid ppl with "AlterHis" in their name that are not AlterHis
-            const ponctuation = /[\.,\/#!$%\^&\*;:{}=\-_`~()]/g;
+            const ponctuation = /[\.,\/#!$%\^&\*;:{}=\-_`~()\s]/g;
             var no_ponctuation = text.replace(ponctuation, '');
             const alter = /AlterHis/i;
             const alter_length = "AlterHis".length;
