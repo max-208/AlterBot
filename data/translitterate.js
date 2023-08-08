@@ -13,14 +13,8 @@ class translitterate {
                 for (let i = 0; i < text.length; i++) {
                     const iterator = text[i];
                     if ((iterator == "j" || iterator == "w") && i < text.length - 1 && voyelles.test(text[i + 1])) {
-                        if (nasale.test(text[i + 1])) {
-                            word.push("jvn");
-                        }
-                        else {
-                            word.push("jv");
-                        }
+                        word.push("jv");
                         text = text.slice(0, i + 1) + text.slice(i + 2);
-                        
                     }
                     else {
                         word.push(iterator.replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));
@@ -28,6 +22,7 @@ class translitterate {
                 }
                 trame.push(word);
             }
+            trame = this.findNoConsonnant(trame);
             return trame;
         };
         this.findNoConsonnant = (trame) => {
@@ -41,7 +36,6 @@ class translitterate {
                             word.splice(i + 1, 0, "no_consonnant");
                         }
                     }
-                    
                 }
             }
             return trame;
@@ -66,35 +60,50 @@ class translitterate {
             for (const word of trame) {
                 let syllabic_word = [];
                 let last_consonnant = 0;
+                let syllabe = [];
                 for (let i = 0; i < word.length; i++) {
-                    let syllabe = [];
                     let has_been_pushed = false;
-                    if (word[i] == "v" && i == 0) {
-                        syllabe.push("no_consonnant");
-                        syllabe.push("v");
-                        has_been_pushed = true;
-                    }
-                    if (word[i] == "v" && word[i + 1] == "v") {
-                        if (!has_been_pushed) syllabe.push("v"); has_been_pushed = true;
-                        syllabe.push("no_consonnant")
-                        syllabic_word.push(syllabe);
-                        syllabe = [];
-                    }
-                    else if (word[i] == "v" && syllabe.length !=0 && word[i + 1] == "c") {
-                        syllabe.push("v");
-                    }
-                    if (word[i] == "c" && word[i + 1] == "c" && syllabe.length !=0 ){
-                        syllabe.push('c');
-                        last_consonnant += 1;
-                        if (last_consonnant == 3) {
-                            syllabic_word.push(syllabe);
-                            syllabe = [];
-                            last_consonnant = 0;
+                    if ( i != word.length - 1) {
+                        if (word[i] == "v" || word[i] == "jv") {
+                            if (i == 0) {
+                                console.log("notice: vowel first when translating to korean pierrick")
+                            }
+                            if (word[i + 1] == "v") {
+                                console.log("notice: two consecutive vowels when translating to korean pierrick")
+                            }
+                            if (syllabe.length !=0 && word[i + 1] == "c") {
+                                syllabe.push(word[i]);
+                                has_been_pushed = true;
+                            }
+                        }
+                    
+                        if (word[i] == "c" || word[i] == "n" || word[i] == "no_consonnant") {
+                            if (word[i + 1] == "c" && syllabe.length !=0 ){
+                                syllabe.push(word[i]);
+                                last_consonnant += 1;
+                                if (last_consonnant == 2) {
+                                    syllabic_word.push(syllabe);
+                                    syllabe = [];
+                                    last_consonnant = 0;
+                                }
+                            }
+                            if (word[i + 1] == "v") {
+                                if (syllabe.length != 0) {
+                                    syllabic_word.push(syllabe);
+                                    syllabe = [];
+                                }
+                                syllabe.push(word[i]);
+                            }
+                            if (word[i + 1] == "c" && syllabe.length == 0) {
+                                syllabe.push('c');
+                                syllabe.push('no_vowel');
+                            }
                         }
                     }
-                    if (word[i] == "c" && word[i + 1] == "c" && syllabe.length == 0) {
-                        syllabe.push('c');
-                        syllabe.push('no_vowel');
+                    else {
+                    syllabe.push(word[i]);
+                    syllabic_word.push(syllabe);
+                    syllabe = [];
                     }
                     }
                     syllabes.push(syllabic_word);
