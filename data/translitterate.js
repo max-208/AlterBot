@@ -30,6 +30,34 @@ class translitterate {
             }
             return trame;
         };
+        this.findNoConsonnant = (trame) => {
+            for (let word of trame){
+                for (let i = 0; i < word.length; i++) {
+                    if (i != word.length - 1) {
+                        if (word[i] == "v" && word[i + 1] == "v") {
+                            word.splice(i + 1, 0, "no_consonnant");
+                        }
+                    }
+                    
+                }
+            }
+            return trame;
+        }
+        this.findNoVowels = (trame) => {
+            for (let word of trame){
+                let time_since_last_vowel = 0;
+                for (let i = 0; i < word.length; i++) {
+                    time_since_last_vowel += 1;
+                    time_since_last_vowel = word[i] == "v" ? 0 : time_since_last_vowel;
+                    if (i < word.length - 1) {
+                        if (word[i] == "c" && word[i + 1] == "c") {
+                            word = word.splice(i, 0, "no_consonnant");
+                        }
+                    }
+                    
+                }
+            }
+        }
         this.syllabes = (trame) => {
             let syllabes = [];
             for (const word of trame) {
