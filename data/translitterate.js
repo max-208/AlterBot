@@ -34,6 +34,9 @@ class translitterate {
             for (let word of trame){
                 for (let i = 0; i < word.length; i++) {
                     if (i != word.length - 1) {
+                        if (word[i] == "v" && i == 0) {
+                            word.splice(0, 0, "no_consonnant");
+                        }
                         if (word[i] == "v" && word[i + 1] == "v") {
                             word.splice(i + 1, 0, "no_consonnant");
                         }
