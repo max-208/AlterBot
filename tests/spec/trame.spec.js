@@ -6,7 +6,7 @@ describe('trame function', () => {
     });
 
     it('should handle "jv" rule and nasal vowels', () => {
-        expect(translitterate.trame('jaɛ̃')).toEqual([['no_consonnant', 'jv', 'v', 'n']]);
+        expect(translitterate.trame('jaɛ̃')).toEqual([['no_consonnant', 'jv', "no_consonnant", 'v', 'n']]);
     });
 
     it('should handle complex words', () => {

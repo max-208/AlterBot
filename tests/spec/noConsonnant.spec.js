@@ -43,4 +43,9 @@ describe('findNoConsonnant function', () => {
         const expectedOutput = [[]];
         expect(translitterate.findNoConsonnant(input)).toEqual(expectedOutput);
     });
+    it('should handle lone vowel', () => {
+        const input = [['v']];
+        const expectedOutput = [['no_consonnant', 'v']];
+        expect(translitterate.findNoConsonnant(input)).toEqual(expectedOutput);
+    });
 });

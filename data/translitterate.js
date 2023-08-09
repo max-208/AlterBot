@@ -37,6 +37,9 @@ class translitterate {
                             }
                         }
                     }
+                    else if((word[i] == "v" || word[i] == "jv") && i == 0) { //if the word is only one letter
+                        word.splice(0, 0, "no_consonnant");
+                    }
                 }
             }
             return trame;
