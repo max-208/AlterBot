@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require('@discordjs/builders');
-const {correspondance} = require("data");
+const { translitterate } = require("data");
 const { MessageEmbed } = require('discord.js');
 
 
@@ -16,13 +16,8 @@ module.exports = {
         
 	async execute(interaction) {
 		let mot = interaction.options.getString('mot');
-        let phonetique = "/";
-        //for each char replace the API equivalent
-        for (const iterator of mot) {
-            phonetique += correspondance[iterator];
-        }
-        phonetique += "/";
-        embedPhonetize = new MessageEmbed()
+        let phonetique = translitterate.phonetize(mot);
+        const embedPhonetize = new MessageEmbed()
             .setColor('#0000FF')
             .setTitle(`${interaction.options.getString('mot')}\u200b`)
             .addField("resultat", phonetique)

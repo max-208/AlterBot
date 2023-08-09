@@ -2,6 +2,20 @@ const alphabet = require('./alphabet.json');
 
 class translitterate {
     constructor() {
+        this.phonetize = (str) => {
+            let phonetique = "/";
+            phonetique += this.rawPhonetize(str);
+            phonetique += "/";
+            return phonetique;
+        }
+        this.rawPhonetize = (str) => {
+            //for each char replace the API equivalent
+            let phonetique = "";
+            for (const iterator of str) {
+                phonetique += correspondance[iterator];
+            }
+            return phonetique;
+        }
         this.trame = (str) => {
             const voyelles = /[aeɛøioɔuy]/;
             const consonnes = /[bdfɡʔkjlmnn̪pʁɻsʃtwvzʒðθ]/;
@@ -119,6 +133,52 @@ class translitterate {
         };
         //TODO: add the function that will translate the syllabes to korean
         this.lat_to_kor = (text) => {
+            let result = ""
+            let syllabes = this.syllabes(this.trame(this.rawPhonetize(text)));
+            let j = 0;
+            for (const word of syllabes) {
+                for (const syllabe of word) {
+                    for (let i = 0; i < syllabe.length; i++){
+                        if (i == 0) {
+                            if (syllabe[i] == "no_consonnant") result += data.alphabet.korean[2].debut["no_consonnant"];
+                            else result += data.alphabet.korean[2].debut[text[j]];
+                            j++;
+                        }
+                        else if (i == 1){
+                            switch(syllabe[i]){
+                                case "no_vowel":
+                                    result += data.alphabet.korean[2].voyelles["no_vowel"];
+                                    break;
+                                case "v":
+                                    result += data.alphabet.korean[2].voyelles[text[j]];
+                                    break;
+                                case "jv":
+                                    result += data.alphabet.korean[2].voyelles[text[j] + text[j + 1]];
+                                    j++; //beacause the jv is two letters in latin pierrick but only one in korean
+                                    break;
+                                default:
+                                    console.log("error: no vowel in syllabe");
+                                    break;
+                            }
+                            j++
+                        }
+                        else{
+                            switch(syllabe[i]){
+                                case "c":
+                                    result += data.alphabet.korean[2].fin[text[j]];
+                                    break;
+                                case "n":
+                                    result += data.alphabet.korean[2].voyelles["nasalized"];
+                                    break;
+                                default:
+                                    console.log("error: undefined thing in end consonnant : " + syllabe[i] + " corresponding to char : " + word[j] + " in word : " + word + " in text : " + text);
+                                    break;
+                            }
+                            j++
+                        }
+                    }
+                }
+            }
         }
         this.lat_to_georg = (text) => {
             let result = "";
