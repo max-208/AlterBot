@@ -188,8 +188,9 @@ class translitterate {
                         }
                     }
                 }
-                return result;
+                result += " ";
             }
+            return result;
         }
         this.lat_to_georg = (text) => {
             let result = "";
