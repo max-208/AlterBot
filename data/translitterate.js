@@ -29,11 +29,11 @@ class translitterate {
                 for (let i = 0; i < word.length; i++) {
                     if (i != word.length - 1) {
                         if (word[i] == "v" || word[i] == "jv") {
+                            if (word[i + 1] == "v" || word[i + 1] == "jv") { //must be first bc if the other if add a no_consonnant, index changes
+                                word.splice(i + 1, 0, "no_consonnant");
+                            }
                             if (i == 0) {
                                 word.splice(0, 0, "no_consonnant");
-                            }
-                            if (word[i + 1] == "v" || word[i + 1] == "jv") {
-                                word.splice(i + 1, 0, "no_consonnant");
                             }
                         }
                     }
