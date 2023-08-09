@@ -112,8 +112,5 @@ manual_phonetize.js
 output_phonetize.json
 dissociator.js
 
-#don't import unit test (ask me if you want them)
-tests/*
-
 #vscode config
 .vscode/*

@@ -22,24 +22,26 @@ class translitterate {
                 }
                 trame.push(word);
             }
-            trame = this.findNoConsonnant(trame);
-            return trame;
+            return this.findNoConsonnant(trame);
         };
         this.findNoConsonnant = (trame) => {
             for (let word of trame){
                 for (let i = 0; i < word.length; i++) {
                     if (i != word.length - 1) {
-                        if (word[i] == "v" && i == 0) {
-                            word.splice(0, 0, "no_consonnant");
-                        }
-                        if (word[i] == "v" && word[i + 1] == "v") {
-                            word.splice(i + 1, 0, "no_consonnant");
+                        if (word[i] == "v" || word[i] == "jv") {
+                            if (i == 0) {
+                                word.splice(0, 0, "no_consonnant");
+                            }
+                            if (word[i + 1] == "v" || word[i + 1] == "jv") {
+                                word.splice(i + 1, 0, "no_consonnant");
+                            }
                         }
                     }
                 }
             }
             return trame;
         }
+        /*
         this.findNoVowels = (trame) => {
             for (let word of trame){
                 let time_since_last_vowel = 0;
@@ -54,7 +56,7 @@ class translitterate {
                     
                 }
             }
-        }
+        }*/
         this.syllabes = (trame) => {
             let syllabes = [];
             for (const word of trame) {
@@ -62,42 +64,44 @@ class translitterate {
                 let last_consonnant = 0;
                 let syllabe = [];
                 for (let i = 0; i < word.length; i++) {
-                    let has_been_pushed = false;
                     if ( i != word.length - 1) {
                         if (word[i] == "v" || word[i] == "jv") {
                             if (i == 0) {
                                 console.log("notice: vowel first when translating to korean pierrick")
                             }
-                            if (word[i + 1] == "v") {
+                            if (word[i + 1] == "v" || word[i + 1] == "jv") {
                                 console.log("notice: two consecutive vowels when translating to korean pierrick")
                             }
-                            if (syllabe.length !=0 && word[i + 1] == "c") {
+                            if (syllabe.length !=0 && (word[i + 1] == "c" || word[i + 1] == "n" )) {
                                 syllabe.push(word[i]);
-                                has_been_pushed = true;
                             }
                         }
                     
                         if (word[i] == "c" || word[i] == "n" || word[i] == "no_consonnant") {
-                            if (word[i + 1] == "c" && syllabe.length !=0 ){
-                                syllabe.push(word[i]);
-                                last_consonnant += 1;
-                                if (last_consonnant == 2) {
+                            if (word[i + 1] == "c"){
+                                if (syllabe.length != 0) {
+                                    syllabe.push(word[i]);
+                                    last_consonnant += 1;
+                                    if (last_consonnant == 2) {
+                                        syllabic_word.push(syllabe);
+                                        syllabe = [];
+                                        last_consonnant = 0;
+                                    }
+                                }
+                                else if (syllabe.length == 0) {
+                                    syllabe.push('c');
+                                    syllabe.push('no_vowel');
+                                }
+                            }
+                            if (word[i + 1] == "v" || word[i + 1] == "jv") {
+                                if (syllabe.length != 0) {
                                     syllabic_word.push(syllabe);
                                     syllabe = [];
                                     last_consonnant = 0;
                                 }
-                            }
-                            if (word[i + 1] == "v") {
-                                if (syllabe.length != 0) {
-                                    syllabic_word.push(syllabe);
-                                    syllabe = [];
-                                }
                                 syllabe.push(word[i]);
                             }
-                            if (word[i + 1] == "c" && syllabe.length == 0) {
-                                syllabe.push('c');
-                                syllabe.push('no_vowel');
-                            }
+
                         }
                     }
                     else {
@@ -110,16 +114,8 @@ class translitterate {
                 }
                 return syllabes;
         };
+        //TODO: add the function that will translate the syllabes to korean
         this.lat_to_kor = (text) => {
-            let result = "";
-            let trame = this.trame(text);
-            let j = 0;
-            for (let word of trame){
-                for (let i = 0; i < trame.length; i++) {
-
-                    j++
-                }
-            }
         }
         this.lat_to_georg = (text) => {
             let result = "";
