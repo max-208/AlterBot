@@ -1,4 +1,5 @@
 const alphabet = require('./alphabet.json');
+const correspondance = require('./phonetique.json');
 
 class translitterate {
     constructor() {
@@ -140,20 +141,20 @@ class translitterate {
                 for (const syllabe of word) {
                     for (let i = 0; i < syllabe.length; i++){
                         if (i == 0) {
-                            if (syllabe[i] == "no_consonnant") result += data.alphabet.korean[2].debut["no_consonnant"];
-                            else result += data.alphabet.korean[2].debut[text[j]];
+                            if (syllabe[i] == "no_consonnant") result += alphabet.korean[2].debut["no_consonnant"];
+                            else result += alphabet.korean[2].debut[text[j]];
                             j++;
                         }
                         else if (i == 1){
                             switch(syllabe[i]){
                                 case "no_vowel":
-                                    result += data.alphabet.korean[2].voyelles["no_vowel"];
+                                    result += alphabet.korean[2].voyelles["no_vowel"];
                                     break;
                                 case "v":
-                                    result += data.alphabet.korean[2].voyelles[text[j]];
+                                    result += alphabet.korean[2].voyelles[text[j]];
                                     break;
                                 case "jv":
-                                    result += data.alphabet.korean[2].voyelles[text[j] + text[j + 1]];
+                                    result += alphabet.korean[2].voyelles[text[j] + text[j + 1]];
                                     j++; //beacause the jv is two letters in latin pierrick but only one in korean
                                     break;
                                 default:
@@ -165,10 +166,10 @@ class translitterate {
                         else{
                             switch(syllabe[i]){
                                 case "c":
-                                    result += data.alphabet.korean[2].fin[text[j]];
+                                    result += alphabet.korean[2].fin[text[j]];
                                     break;
                                 case "n":
-                                    result += data.alphabet.korean[2].voyelles["nasalized"];
+                                    result += alphabet.korean[2].voyelles["nasalized"];
                                     break;
                                 default:
                                     console.log("error: undefined thing in end consonnant : " + syllabe[i] + " corresponding to char : " + word[j] + " in word : " + word + " in text : " + text);
