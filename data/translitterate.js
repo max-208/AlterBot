@@ -11,6 +11,7 @@ class translitterate {
         }
         this.rawPhonetize = (str) => {
             //for each char replace the API equivalent
+            str = str.toLowerCase();
             let phonetique = "";
             for (const iterator of str) {
                 phonetique += correspondance[iterator];
@@ -19,8 +20,10 @@ class translitterate {
         }
         this.trame = (str) => {
             const voyelles = /[aeɛøioɔuy]/;
-            const consonnes = /[bdfɡʔkjlmnn̪pʁɻsʃtwvzʒðθ]/;
+            const consonnes = /[bdfɡʔkjlmnpʁɻsʃtwvzʒðθ]/;
             const nasale = /\u0303/;
+            const pontet = /\u032A/;
+
             let trame = [];
             let list = str.split(" ")
             for (let text of list) {
@@ -31,7 +34,7 @@ class translitterate {
                         word.push("jv");
                         text = text.slice(0, i + 1) + text.slice(i + 2);
                     }
-                    else {
+                    else if (!pontet.test(iterator)) {
                         word.push(iterator.replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));
                     }
                 }
@@ -135,26 +138,32 @@ class translitterate {
         //TODO: add the function that will translate the syllabes to korean
         this.lat_to_kor = (text) => {
             let result = ""
-            let syllabes = this.syllabes(this.trame(this.rawPhonetize(text)));
+            let phonetized = this.rawPhonetize(text);
+            phonetized = phonetized.replace(/\u032A/g, "")
+            let syllabes = this.syllabes(this.trame(phonetized));
             let j = 0;
             for (const word of syllabes) {
                 for (const syllabe of word) {
                     for (let i = 0; i < syllabe.length; i++){
                         if (i == 0) {
-                            if (syllabe[i] == "no_consonnant") result += alphabet.korean[2].debut["no_consonnant"];
-                            else result += alphabet.korean[2].debut[text[j]];
+                            if (syllabe[i] == "no_consonnant"){
+                                result += alphabet.korean[2].debut["no_consonnant"];
+                                j--;
+                            }
+                            else result += alphabet.korean[2].debut[phonetized[j]];
                             j++;
                         }
                         else if (i == 1){
                             switch(syllabe[i]){
                                 case "no_vowel":
                                     result += alphabet.korean[2].voyelles["no_vowel"];
+                                    j--;
                                     break;
                                 case "v":
-                                    result += alphabet.korean[2].voyelles[text[j]];
+                                    result += alphabet.korean[2].voyelles[phonetized[j]];
                                     break;
                                 case "jv":
-                                    result += alphabet.korean[2].voyelles[text[j] + text[j + 1]];
+                                    result += alphabet.korean[2].voyelles[phonetized[j] + phonetized[j + 1]];
                                     j++; //beacause the jv is two letters in latin pierrick but only one in korean
                                     break;
                                 default:
@@ -166,7 +175,7 @@ class translitterate {
                         else{
                             switch(syllabe[i]){
                                 case "c":
-                                    result += alphabet.korean[2].fin[text[j]];
+                                    result += alphabet.korean[2].fin[phonetized[j]];
                                     break;
                                 case "n":
                                     result += alphabet.korean[2].voyelles["nasalized"];
@@ -179,15 +188,16 @@ class translitterate {
                         }
                     }
                 }
+                return result;
             }
         }
         this.lat_to_georg = (text) => {
             let result = "";
             text = text.toLowerCase();
-            text = text.replace(/ts/, data.alphabet.georgian[0].ts).replace(/dz/, data.alphabet.georgian[0].dz).replace(/tš/, data.alphabet.georgian[0].tš).replace(/dž/, data.alphabet.georgian[0].dž);
+            text = text.replace(/ts/, alphabet.georgian[0].ts).replace(/dz/, alphabet.georgian[0].dz).replace(/tš/, alphabet.georgian[0].tš).replace(/dž/, alphabet.georgian[0].dž);
             for (const iterator of text) {
-                if (data.alphabet.georgian[0][iterator] != undefined) {
-                    result += data.alphabet.georgian[0][iterator];
+                if (alphabet.georgian[0][iterator] != undefined) {
+                    result += alphabet.georgian[0][iterator];
                 }
                 else {
                     result += iterator;
@@ -196,14 +206,14 @@ class translitterate {
             return result
         }
         this.lat_to_cyr = (text) => {
-            text = text.replace(/ts/, data.alphabet.cyrilic[0].ts).replace(/dz/, data.alphabet.cyrilic[0].dz).replace(/tš/, data.alphabet.cyrilic[0].tš).replace(/dž/, data.alphabet.cyrilic[0].dž);
+            text = text.replace(/ts/, alphabet.cyrilic[0].ts).replace(/dz/, alphabet.cyrilic[0].dz).replace(/tš/, alphabet.cyrilic[0].tš).replace(/dž/, alphabet.cyrilic[0].dž);
             for (const iterator of text) {
-                if (data.alphabet.cyrilic[0][iterator.toLowerCase()] != undefined) {
+                if (alphabet.cyrilic[0][iterator.toLowerCase()] != undefined) {
                     if (iterator.toUpperCase() == iterator) {
-                        const inter = data.alphabet.cyrilic[0][iterator.toLowerCase()];
+                        const inter = alphabet.cyrilic[0][iterator.toLowerCase()];
                         result += inter.toUpperCase();
                     }
-                    else result += data.alphabet.cyrilic[0][iterator];
+                    else result += alphabet.cyrilic[0][iterator];
                 }
                 else {
                     result += iterator;
@@ -214,8 +224,8 @@ class translitterate {
         this.georg_to_lat = (text) => {
             text = text.replace(/\u10d3\u10ff/, 'ð').replace(/\u10e2\u10ff/, 'þ').replace(/\u10d0\u10fc/, 'ā').replace(/\u10dd\u10fc/, 'ō').replace(/\u10e3\u10fc/, 'ū');
             for (const iterator of text) {
-                if (data.alphabet.georgian[1][iterator] != undefined){
-                    result += data.alphabet.georgian[1][iterator];
+                if (alphabet.georgian[1][iterator] != undefined){
+                    result += alphabet.georgian[1][iterator];
                 }
                 else {
                     result += iterator;
@@ -225,12 +235,12 @@ class translitterate {
         }
         this.cyr_to_lat = (text) => {
             for (const iterator of text){
-                if (data.alphabet.cyrilic[1][iterator.toLowerCase()] != undefined) {
+                if (alphabet.cyrilic[1][iterator.toLowerCase()] != undefined) {
                     if (iterator.toUpperCase() == iterator) {
-                        const inter = data.alphabet.cyrilic[1][iterator.toLowerCase()];
+                        const inter = alphabet.cyrilic[1][iterator.toLowerCase()];
                         result += inter.toUpperCase();
                     }
-                    else result += data.alphabet.cyrilic[1][iterator];
+                    else result += alphabet.cyrilic[1][iterator];
                 }
                 else {
                     result += iterator;
@@ -239,9 +249,10 @@ class translitterate {
             return result;
         }
         this.kor_to_lat = (text) => {
+            let result = "";
             for (const iterator of text){
-                if (data.alphabet.korean[1][iterator] != undefined) {
-                    result += data.alphabet.korean[0][iterator];
+                if (alphabet.korean[1][iterator] != undefined) {
+                    result += alphabet.korean[1][iterator];
                 }
                 else {
                     result += iterator;
