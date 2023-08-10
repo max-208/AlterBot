@@ -127,6 +127,7 @@ class translitterate {
             let phonetized = this.rawPhonetize(text); //for some reason we need to use the phonetized text to translate
             phonetized = phonetized.replace(/\u032A/g, "") //remove the dental diacritic, not used in translation, and messes with the translation
             let syllabes = this.syllabes(this.trame(phonetized));
+            phonetized = phonetized.replace(/ /g, "") //remove the spaces from the phonetized text (will be added later)
             let j = 0; //index to iterate through the phonetized text
             for (const word of syllabes) {
                 for (const syllabe of word) {
