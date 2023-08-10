@@ -77,7 +77,7 @@ class translitterate {
                             if (word[i + 1] == "v" || word[i + 1] == "jv") { //due to the way the trame is made, two consecutive vowels should not be possible
                                 console.log("notice: two consecutive vowels when translating to korean pierrick")
                             }
-                            if (syllabe.length != 0 && (word[i + 1] == "c" || word[i + 1] == "n")) { //if the next letter is a consonnant, the vowel is pushed into the syllabe
+                            if (syllabe.length != 0 && (word[i + 1] == "c" || word[i + 1] == "n" || word[i+1] == "no_consonnant")) { //if the next letter is a consonnant, the vowel is pushed into the syllabe
                                 syllabe.push(word[i]);
                             }
                         }
