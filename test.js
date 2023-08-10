@@ -1,4 +1,10 @@
 const translitterate = require('data/translitterate.js');
 
-console.log(translitterate.lat_to_kor("bonapart"));
-console.log(translitterate.kor_to_lat("보나팔ᇀ"));
+const consonnes = "bdfghklmnprřsštvzž";
+const base = "dé";
+for (const consonne of consonnes){
+    for(const consonne2 of consonnes){
+        console.log(`${consonne}${consonne2} => ${translitterate.lat_to_kor(base + consonne + consonne2)}`)
+    }
+
+}

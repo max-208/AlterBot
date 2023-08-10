@@ -81,12 +81,12 @@ class translitterate {
                                 syllabe.push(word[i]);
                             }
                         }
-                        if (word[i] == "c" || word[i] == "n" || word[i] == "no_consonnant") { //if the letter is a consonnant ("no_consonnant" is a consonnant that is not pronounced, and "nasal" take the place of a final consonnant)
+                        else if (word[i] == "c" || word[i] == "n" || word[i] == "no_consonnant") { //if the letter is a consonnant ("no_consonnant" is a consonnant that is not pronounced, and "nasal" take the place of a final consonnant)
                             if (word[i + 1] == "c") { //if the next letter is a consonnant
                                 if (syllabe.length != 0) {//if the syllabe is not empty
                                     syllabe.push(word[i]);
                                     last_consonnant += 1;
-                                    if (last_consonnant == 2) { //if there is two consecutive consonnant, the syllabe is pushed into the word to begin the next syllabe
+                                    if (last_consonnant == 1) { //if there is two consecutive consonnant, the syllabe is pushed into the word to begin the next syllabe NB: in theory should be 2 but test has revealed that it works only for one
                                         syllabic_word.push(syllabe);
                                         syllabe = [];
                                         last_consonnant = 0;
@@ -109,7 +109,11 @@ class translitterate {
                         }
                     }
                     else { //for the last letter of the word
-                        syllabe.push(word[i]);
+                        if (word[i] == "c" && syllabe.length == 0){
+                            syllabe.push(word[i]);
+                            syllabe.push('no_vowel');
+                        }
+                        else syllabe.push(word[i]);
                         syllabic_word.push(syllabe);
                         syllabe = [];
                     }
@@ -139,7 +143,7 @@ class translitterate {
                             switch (syllabe[i]) {
                                 case "no_vowel": //if the syllabe has no vowel, we add the no_vowel to the result
                                     result += alphabet.korean[2].voyelles["no_vowel"];
-                                    j--; //because the no_vowel is not on the phonetized text, we need to go back one index
+                                    if (j != phonetized.length -1) j--; //because the no_vowel is not on the phonetized text, we need to go back one index, if it's not the last letter
                                     break;
                                 case "v":
                                     result += alphabet.korean[2].voyelles[phonetized[j]];
