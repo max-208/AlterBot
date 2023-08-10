@@ -7,7 +7,7 @@ module.exports = {
         .setDescription("permet de changer d'alphabet un mot ou une expression")
         .addStringOption(option =>
                 option.setName('langages')
-                      .setDescription("les langues disponibles sont: lat_to_georg, lat_to_cyr, georg_to_lat, cyr_to_lat, kor_to_lat, lat_to_kor")
+                      .setDescription("les langages à utiliser en entrée et en sortie")
                       .setRequired(true)
                       .addChoices(
                         {name : "latin vers géorgien", value : "lat_to_georg"},
