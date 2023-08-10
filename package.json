@@ -9,6 +9,7 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "@discordjs/builders": "^1.6.4",
     "@discordjs/rest": "^0.1.0-canary.0",
     "canvas": "^2.8.0",
     "data": "file:data",

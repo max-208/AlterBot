@@ -238,6 +238,7 @@ class translitterate {
         }
         this.kor_to_lat = (text) => {
             let result = "";
+            result = result.replace(/\u1173|\u110b/g, "");
             for (const iterator of text) {
                 if (alphabet.korean[1][iterator] != undefined) {
                     result += alphabet.korean[1][iterator];
