@@ -19,8 +19,9 @@ class translitterate {
             return phonetique;
         }
         this.trame = (str) => {
-            const voyelles = /[aeɛøioɔuy]/;
-            const consonnes = /[bdfɡʔkjlmnpʁɻsʃtwvzʒðθ]/;
+            const voyelles = /[aeɛøioɔuyj]/;
+            const consonnes = /[bdfɡʔklmnpʁɻsʃtwvzʒðθ]/;
+            const digrammes = /tʃ|dʒ|ts/;
             const nasale = /\u0303/;
             const pontet = /\u032A/;
 
@@ -35,7 +36,17 @@ class translitterate {
                         text = text.slice(0, i + 1) + text.slice(i + 2);
                     }
                     else if (!pontet.test(iterator)) {
-                        word.push(iterator.replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));
+                        if(digrammes.test(iterator)){
+                            word.push("cc")
+                            text = text.slice(0, i + 1) + text.slice(i + 2);
+                        }
+                        else if (/dz/.test(iterator)){
+                            word.push("ccf")
+                            text = text.slice(0, i + 1) + text.slice(i + 2);
+                        }
+                        else {
+                            word.push(iterator.replace(digrammes, "cc").replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));
+                        }
                     }
                 }
                 trame.push(word);
@@ -77,11 +88,43 @@ class translitterate {
                             if (word[i + 1] == "v" || word[i + 1] == "jv") { //due to the way the trame is made, two consecutive vowels should not be possible
                                 console.log("notice: two consecutive vowels when translating to korean pierrick")
                             }
-                            if (syllabe.length != 0 && (word[i + 1] == "c" || word[i + 1] == "n" || word[i+1] == "no_consonnant")) { //if the next letter is a consonnant, the vowel is pushed into the syllabe
+                            if (syllabe.length != 0 && (word[i + 1] == "c" || word[i+1] == "no_consonnant" || word[i+1] == "cc")) { //if the next letter is a consonnant, the vowel is pushed into the syllabe
                                 syllabe.push(word[i]);
                             }
+                            if (word[i+1] == "n"){ //if the vowel is nasalized
+                                syllabe.push(word[i]+'n');
+                                i++; //skip the nasalisation diacritic
+                            }
                         }
-                        else if (word[i] == "c" || word[i] == "n" || word[i] == "no_consonnant") { //if the letter is a consonnant ("no_consonnant" is a consonnant that is not pronounced, and "nasal" take the place of a final consonnant)
+                        else if (word[i] == "cc" || word[i] == "ccf") { //if the letter is a consonnant digram
+                            if (word[i + 1] == "v" || word[i + 1] == "jv") { //if the next letter is a vowel
+                                if (syllabe.length != 0) {//if the syllabe is not empty, it means that the digram is the first letter of the syllabe
+                                    syllabic_word.push(syllabe);
+                                    syllabe = [];
+                                    last_consonnant = 0;
+                                }
+                                syllabe.push(word[i]);
+                            }
+                            if (word[i + 1] == "c" || word[i + 1] == "no_consonnant" || word[i + 1] == "cc" || word[i + 1] == "ccf"){
+                                if (syllabe.length != 0 && word[i] == "ccf"){
+                                    syllabe.push(word[i]);
+                                    last_consonnant += 1;
+                                    if (last_consonnant == 1) { //if there is two consecutive consonnant, the syllabe is pushed into the word to begin the next syllabe NB: in theory should be 2 but test has revealed that it works only for one
+                                        syllabic_word.push(syllabe);
+                                        syllabe = [];
+                                        last_consonnant = 0;
+                                    }
+                                }
+                                else if (syllabe.length != 0 && word[i] == "cc"){
+                                    console.log("notice [syllabes]: end consonnant digram")
+                                }
+                                else if (syllabe.length == 0) { //a word can't begin with two consonnant, so the first consonnant is pushed into the syllabe
+                                    syllabe.push(word[i]);
+                                    syllabe.push("no_vowel");
+                                }
+                            }
+                        }
+                        else if (word[i] == "c" || word[i] == "no_consonnant") { //if the letter is a consonnant ("no_consonnant" is a consonnant that is not pronounced, and "nasal" take the place of a final consonnant)
                             if (word[i + 1] == "c") { //if the next letter is a consonnant
                                 if (syllabe.length != 0) {//if the syllabe is not empty
                                     syllabe.push(word[i]);
@@ -133,11 +176,23 @@ class translitterate {
                 for (const syllabe of word) {
                     for (let i = 0; i < syllabe.length; i++) {
                         if (i == 0) {
-                            if (syllabe[i] == "no_consonnant") { //if the syllabe begins with a no_consonnant, it is not on the phonetized text, so we add it manually
-                                result += alphabet.korean[2].debut["no_consonnant"];
-                                j--; //because the no_consonnant is not on the phonetized text, we need to go back one index
+                            switch (syllabe[i]) {
+                                case "no_consonnant": //if the syllabe begins with a no_consonnant, it is not on the phonetized text, so we add it manually
+                                    result += alphabet.korean[2].debut["no_consonnant"];
+                                    j--; //because the no_consonnant is not on the phonetized text, we need to go back one index
+                                    break;
+                                case "c":
+                                    result += alphabet.korean[2].debut[phonetized[j]]; //if the syllabe begins with a consonnant, we add it to the result
+                                    break;
+                                case "cc":
+                                case "ccf":
+                                    result += alphabet.korean[2].debut[phonetized[j] + phonetized[j + 1]]; //if the syllabe begins with a consonnant digram, we add it to the result
+                                    j++; //beacause the cc is two letters in latin pierrick but only one in korean
+                                    break;
+                                default:
+                                    console.log("notice [lat_to_kor]: default case at first consonnant " + syllabe[i]);
+                                    break;
                             }
-                            else result += alphabet.korean[2].debut[phonetized[j]]; //if the syllabe begins with a consonnant, we add it to the result
                             j++;
                         }
                         else if (i == 1) {
@@ -153,19 +208,25 @@ class translitterate {
                                     result += alphabet.korean[2].voyelles[phonetized[j] + phonetized[j + 1]];
                                     j++; //beacause the jv is two letters in latin pierrick but only one in korean
                                     break;
+                                case "vn":
+                                    result += alphabet.korean[2].voyelles[phonetized[j] + "\u0303"];
+                                    break;
+                                case "jvn":
+                                    console.log("notice : [lat_to_kor] jvn not yet supported")
+                                    break;
                                 default:
                                     console.log("error: no vowel in syllabe");
                                     break;
                             }
-                            j++
+                            j++;
                         }
                         else {
                             switch (syllabe[i]) {
                                 case "c":
                                     result += alphabet.korean[2].fin[phonetized[j]]; //if the syllabe has a consonnant, we add it to the result
                                     break;
-                                case "n":
-                                    result += alphabet.korean[2].voyelles["nasalized"]; //if the syllabe has a nasal, we add the nasalization character to the result
+                                case "ccf":
+                                    result += alphabet.korean[2].voyelles[phonetized[j] + phonetized[j+1]]; //if the syllabe has a nasal, we add the nasalization character to the result
                                     break;
                                 default:
                                     console.log("error: undefined thing in end consonnant : " + syllabe[i] + " corresponding to char : " + word[j] + " in word : " + word + " in text : " + text);

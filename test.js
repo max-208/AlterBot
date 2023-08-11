@@ -1,3 +1,3 @@
 const translitterate = require('data/translitterate.js');
 
-console.log(translitterate.lat_to_kor("béar nokt téremi"))
+console.log(translitterate.trame("cjc"))
