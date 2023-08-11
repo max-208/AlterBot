@@ -114,3 +114,6 @@ dissociator.js
 
 #vscode config
 .vscode/*
+
+#damn test file messing with merges
+test.js
