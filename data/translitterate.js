@@ -93,7 +93,7 @@ class translitterate {
                             if (word[i + 1] == "v" || word[i + 1] == "jv") { //due to the way the trame is made, two consecutive vowels should not be possible
                                 console.log("notice: two consecutive vowels when translating to korean pierrick")
                             }
-                            if (syllabe.length != 0 && (word[i + 1] == "c" || word[i+1] == "no_consonnant" || word[i+1] == "cc")) { //if the next letter is a consonnant, the vowel is pushed into the syllabe
+                            if (syllabe.length != 0 && (word[i + 1] == "c" || word[i+1] == "no_consonnant" || word[i+1] == "cc" || word[i+1] == "ccf")) { //if the next letter is a consonnant, the vowel is pushed into the syllabe
                                 syllabe.push(word[i]);
                             }
                             if (word[i+1] == "n"){ //if the vowel is nasalized
@@ -231,7 +231,7 @@ class translitterate {
                                     result += alphabet.korean[2].fin[phonetized[j]]; //if the syllabe has a consonnant, we add it to the result
                                     break;
                                 case "ccf":
-                                    result += alphabet.korean[2].voyelles[phonetized[j] + phonetized[j+1]]; //if the syllabe has a nasal, we add the nasalization character to the result
+                                    result += alphabet.korean[2].fin[phonetized[j] + phonetized[j+1]]; //if the syllabe has a nasal, we add the nasalization character to the result
                                     break;
                                 default:
                                     console.log("error: undefined thing in end consonnant : " + syllabe[i] + " corresponding to char : " + word[j] + " in word : " + word + " in text : " + text);
