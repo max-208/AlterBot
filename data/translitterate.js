@@ -45,6 +45,9 @@ class translitterate {
                                 word.push("ccf")
                                 text = text.slice(0, i + 1) + text.slice(i + 2);
                             }
+                            else {
+                                word.push(iterator.replace(digrammes, "cc").replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));
+                            }
                         }
                         else {
                             word.push(iterator.replace(digrammes, "cc").replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));
