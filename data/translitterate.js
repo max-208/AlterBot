@@ -36,13 +36,15 @@ class translitterate {
                         text = text.slice(0, i + 1) + text.slice(i + 2);
                     }
                     else if (!pontet.test(iterator)) {
-                        if(digrammes.test(iterator)){
-                            word.push("cc")
-                            text = text.slice(0, i + 1) + text.slice(i + 2);
-                        }
-                        else if (/dz/.test(iterator)){
-                            word.push("ccf")
-                            text = text.slice(0, i + 1) + text.slice(i + 2);
+                        if (i < text.length - 1){
+                            if(digrammes.test(iterator + text[i + 1])){
+                                word.push("cc")
+                                text = text.slice(0, i + 1) + text.slice(i + 2);
+                            }
+                            else if (/dz/.test(iterator + text[i + 1])){
+                                word.push("ccf")
+                                text = text.slice(0, i + 1) + text.slice(i + 2);
+                            }
                         }
                         else {
                             word.push(iterator.replace(digrammes, "cc").replace(consonnes, "c").replace(voyelles, "v").replace(nasale, "n"));

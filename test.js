@@ -1,3 +1,3 @@
 const translitterate = require('data/translitterate.js');
 
-console.log(translitterate.trame("cjc"))
+console.log(translitterate.lat_to_kor("tso"));
