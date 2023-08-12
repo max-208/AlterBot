@@ -117,3 +117,6 @@ dissociator.js
 
 #damn test file messing with merges every time 
 test.js
+
+#ignore the discord to sql script
+data/discord_dumper/*

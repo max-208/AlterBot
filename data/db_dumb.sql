@@ -9,8 +9,10 @@ CREATE TABLE IF NOT EXISTS "dictionnaire"(
   ,commentaire VARCHAR(256)
   ,définition  VARCHAR(256)
   ,étymologie  VARCHAR(256)
-, cyrilic TEXT
-hangeul TEXT, hangeul TEXT, soundexfr TEXT, soundexprk TEXT);
+  ,cyrilic TEXT
+  ,hangeul TEXT
+  ,soundexfr TEXT
+  ,soundexprk TEXT);
 INSERT INTO dictionnaire VALUES(1,'que','řō','ɻɔ̃','pron',NULL,'pronom relatif','a priori',NULL,NULL,'Q200','Ř000');
 INSERT INTO dictionnaire VALUES(2,'','řōs','ɻɔ̃s','pron',NULL,'indique que la proposition est cc de lieu','declinat de rō',NULL,NULL,NULL,'Ř800');
 INSERT INTO dictionnaire VALUES(3,'','řōþ','ɻɔ̃θ','pron',NULL,'indique que la proposition est cc de temps','declinat de rō',NULL,NULL,NULL,'Ř000');
@@ -284,23 +286,36 @@ INSERT INTO dictionnaire VALUES(276,'ses','ma','ma','det',NULL,'sa personne est 
 INSERT INTO dictionnaire VALUES(277,'ma','me','mɛ','det',NULL,'sa personne est définie par un conjugateur',NULL,NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(278,'ta','me','mɛ','det',NULL,'sa personne est définie par un conjugateur',NULL,NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(279,'sa','me','mɛ','det',NULL,'sa personne est définie par un conjugateur',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(378,'jusque','tir','/tiʁ/','adv','','vers un point ultérieur dans le temps','du P-Germanique til (vers) et tila (point dans le temps)',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(379,'foie','libřa','/libɻa/','nom',NULL,'organe qui traite le sang, produit la bile, stocke les sucres etc','du proto-germanique *libru',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(380,'gras','kraš','/kʁaʃ/','adj',NULL,'qui contient de la graisse','du latin crassus',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(381,'maigre','maže','/maʒɛ/','adj',NULL,'qui ne contient pas de graisse','du latin macer',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(382,'ou','wo','/wo/','conj','ou exclusif uniquement','Indique une disjonction exclusive : un seul dans la liste est envisageable à la fois','du latin aut',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(383,'article','atigul','/atiɡul/','nom',NULL,'Texte qui forme une division ou subdivision d’un écrit, sous forme d''un rapport ou compte rendu sur un thème ou événement précis. Ce texte peut faire l''objet d''une publication dans un journal, une revue scientifique une revue spécialisée, des comptes rendus de conférence, voire une encyclopédie. ','du latin articulus',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(384,'tous','tuts','/tus/','pron',NULL,'pl de tout | tout le monde','de tut décliné au régime pluriel',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(385,'tous','tuta','/tuta/','det',NULL,'pl de tout lorsque déterminant','de tut avec le pluriel -a',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(386,'être','ðeřë','/ðɛɻø/','nom',NULL,'substantif du verbe de même orthographe, chose qui est (vivante obligatoirement)','du verbe ðeřë',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(387,'humain','manišo','/man̪iʃo/','nom',NULL,'créature appartenant à l''espece homo sapiens','du vieil allemand mannisco',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(388,'','-an','/an̪/','particule',NULL,'particule d''origine (ablatif)','du latin -anus',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(389,'humain','manišona','/man̪iʃon̪a/','adj',NULL,'qui provient de l''Homme, généralisé à tout ce qui est lié à l''homme','de manišo avec le suffixe -an, ici inversé à cause de la cohérence phonologique',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(390,'libre','anleudrë','/an̪lɛudʁø/','adj',NULL,'qui est délivré','adjectivation du participe passé de leudre',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(391,'égal','warzo','/warzo/','adj',NULL,'littéralement qui a autant que , qui a la même chose, égal','composé de war (avoir) et aso (comme/autant que)',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(392,'digne','diugan','/diuɡan̪/','adj',NULL,'Qui a de l’honnêteté, de la probité, qui mérite l’estime.','du latin dignus',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(393,'dignité','diuganatë','/diuɡan̪atø/','nom',NULL,'Qui est digne / Fait que la personne humaine ne doive jamais être traitée seulement comme un moyen, mais toujours aussi comme une fin en soi.','de diugan avec -të',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(394,'-té','-të','/tø/','particule',NULL,'indique un état','du latin -tas',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(395,'droit','rešt','/ʁɛʃt/','nom',NULL,'Ensemble des règles générales et obligatoires posées et sanctionnées par l’autorité étatique (ou sous son contrôle) en vue d’organiser la vie sociale. | autorisation légale de faire quelque chose','du germanique reht',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(396,'naitre','našore','/n̪aʃoʁɛ/','verbe',NULL,'venir au monde, commencer à exister','du latin nascor',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(278,'jusque','tir','/tiʁ/','adv','','vers un point ultérieur dans le temps','du P-Germanique til (vers) et tila (point dans le temps)',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(279,'foie','libřa','/libɻa/','nom',NULL,'organe qui traite le sang, produit la bile, stocke les sucres etc','du proto-germanique *libru',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(280,'gras','kraš','/kʁaʃ/','adj',NULL,'qui contient de la graisse','du latin crassus',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(281,'maigre','maže','/maʒɛ/','adj',NULL,'qui ne contient pas de graisse','du latin macer',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(282,'ou','wo','/wo/','conj','ou exclusif uniquement','Indique une disjonction exclusive : un seul dans la liste est envisageable à la fois','du latin aut',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(283,'article','atigul','/atiɡul/','nom',NULL,'Texte qui forme une division ou subdivision d’un écrit, sous forme d''un rapport ou compte rendu sur un thème ou événement précis. Ce texte peut faire l''objet d''une publication dans un journal, une revue scientifique une revue spécialisée, des comptes rendus de conférence, voire une encyclopédie. ','du latin articulus',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(284,'tous','tuts','/tus/','pron',NULL,'pl de tout | tout le monde','de tut décliné au régime pluriel',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(285,'tous','tuta','/tuta/','det',NULL,'pl de tout lorsque déterminant','de tut avec le pluriel -a',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(286,'être','ðeřë','/ðɛɻø/','nom',NULL,'substantif du verbe de même orthographe, chose qui est (vivante obligatoirement)','du verbe ðeřë',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(287,'humain','manišo','/man̪iʃo/','nom',NULL,'créature appartenant à l''espece homo sapiens','du vieil allemand mannisco',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(288,'','-an','/an̪/','particule',NULL,'particule d''origine (ablatif)','du latin -anus',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(289,'humain','manišona','/man̪iʃon̪a/','adj',NULL,'qui provient de l''Homme, généralisé à tout ce qui est lié à l''homme','de manišo avec le suffixe -an, ici inversé à cause de la cohérence phonologique',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(290,'libre','anleudrë','/an̪lɛudʁø/','adj',NULL,'qui est délivré','adjectivation du participe passé de leudre',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(291,'égal','warzo','/warzo/','adj',NULL,'littéralement qui a autant que , qui a la même chose, égal','composé de war (avoir) et aso (comme/autant que)',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(292,'digne','diugan','/diuɡan̪/','adj',NULL,'Qui a de l’honnêteté, de la probité, qui mérite l’estime.','du latin dignus',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(293,'dignité','diuganatë','/diuɡan̪atø/','nom',NULL,'Qui est digne / Fait que la personne humaine ne doive jamais être traitée seulement comme un moyen, mais toujours aussi comme une fin en soi.','de diugan avec -të',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(294,'-té','-të','/tø/','particule',NULL,'indique un état','du latin -tas',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(295,'droit','rešt','/ʁɛʃt/','nom',NULL,'Ensemble des règles générales et obligatoires posées et sanctionnées par l’autorité étatique (ou sous son contrôle) en vue d’organiser la vie sociale. | autorisation légale de faire quelque chose','du germanique reht',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(296,'naitre','našore','/n̪aʃoʁɛ/','verbe',NULL,'venir au monde, commencer à exister','du latin nascor',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("manger", "edere", "verbe", "/ɛdɛʁɛ/", "Mâcher et avaler un aliment dans le but de se nourrir. ", "du latin edo");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("nuitée", "noktaa", "nom", "/nokta/", "indique une quantité de nuit", "de nokt avec le suffixe dérivé du latin -aa");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("-ée", "-aa", "particule", "/a:/", "indique une quantité", "du latin -ata");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("aller", "ere", "verbe", "/ɛʁɛ/", "indique un déplacement", "du latin ire");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("bras", "brak", "nom", "bʁak", "Chacun des deux membres supérieurs de l'homme, allant de l'épaule,sur laquelle ils s'articulent,à la main.", "du latin brachium");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("Morphée", "Morpheus", "nom p", "/mɔʁfɛus/", "Dieu des rêves dans la mythologie grecque", "du grec Μορφεύς");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("partir", "ližjën", "verbe", "/liʒjøn/", "Quitter un lieu", "du proto-Germanique occidental *laibijan");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("dans", "inus", "préposition", "/inus/", "au sein de,à l'intérieur de ,idée d'immobilitée", "du latin intus");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("je", "o", "conjug", "/o/", "indique que le verbe est à la première personne", "du latin ego");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("de", "dë", "prep", "/dø/", "indique la provenance/un lien de possession", "du latin de");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("chat", " felej", " nom", " /fɛlɛj/", "  Mammifère carnivore félin de taille moyenne, au museau court et arrondi, domestiqué, apprivoisé ou encore à l'état sauvage. ", " du latin felis, feles");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("chat", " felei", " nom", " /fɛlɛj/", "  Mammifère carnivore félin de taille moyenne, au museau court et arrondi, domestiqué, apprivoisé ou encore à l'état sauvage. ", " du latin felis, feles");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("souris", "  sorxe", " nom", " /sorksɛ/", " Petit rongeur de la famille des muridés, du genre Mus, en général la souris commune Mus musculus", " du latin sorex");
 COMMIT;
