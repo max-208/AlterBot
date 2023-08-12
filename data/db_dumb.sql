@@ -176,10 +176,10 @@ INSERT INTO dictionnaire VALUES(162,NULL,'šò','ʃɔ','conjug',NULL,'indique qu
 INSERT INTO dictionnaire VALUES(163,NULL,'an- -re → i','an̪- -ʁɛ → i','conjug','préfix- -suffix -marque sur verbe','indique que le verbe est un participe présent','a priori',NULL,NULL,NULL,'A560');
 INSERT INTO dictionnaire VALUES(164,NULL,'an- -rë','an̪- -ʁø','conjug','préfix- -suffix','indique que le verbe est un participe passé','a priori',NULL,NULL,NULL,'A560');
 INSERT INTO dictionnaire VALUES(165,NULL,'','',NULL,'absence de marque','indique que le verbe est à l''impératif','a priori',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(167,NULL,'tu','tu','conjug',NULL,'indique que le verbe est à la deuxième personne du singulier',NULL,NULL,NULL,NULL,'T000');
-INSERT INTO dictionnaire VALUES(168,NULL,'li','li','conjug',NULL,'indique que le verbe est à la troisième personne du singulier',NULL,NULL,NULL,NULL,'L000');
-INSERT INTO dictionnaire VALUES(169,NULL,'mu','mu','conjug',NULL,'indique que le verbe est à la première personne du pluriel',NULL,NULL,NULL,NULL,'M000');
-INSERT INTO dictionnaire VALUES(170,NULL,'lia','lia','conjug',NULL,'indique que le verbe est à la troisième personne du pluriel',NULL,NULL,NULL,NULL,'L000');
+INSERT INTO dictionnaire VALUES(167,'tu','tu','tu','conjug',NULL,'indique que le verbe est à la deuxième personne du singulier',NULL,NULL,NULL,NULL,'T000');
+INSERT INTO dictionnaire VALUES(168,'il','li','li','conjug',NULL,'indique que le verbe est à la troisième personne du singulier',NULL,NULL,NULL,NULL,'L000');
+INSERT INTO dictionnaire VALUES(169,'nous','mu','mu','conjug',NULL,'indique que le verbe est à la première personne du pluriel',NULL,NULL,NULL,NULL,'M000');
+INSERT INTO dictionnaire VALUES(170,'ils','lia','lia','conjug',NULL,'indique que le verbe est à la troisième personne du pluriel',NULL,NULL,NULL,NULL,'L000');
 INSERT INTO dictionnaire VALUES(171,NULL,'fë','fø','conjug',NULL,'pronom réfléchis global, sa personne doit être reprécisé par un conjugateur',NULL,NULL,NULL,NULL,'F000');
 INSERT INTO dictionnaire VALUES(172,NULL,'ë','ø','pron',NULL,'pronom tonique global, sa personne doit être reprécisé par un conjugateur',NULL,NULL,NULL,NULL,'E000');
 INSERT INTO dictionnaire VALUES(174,'le','le','lɛ','det',NULL,NULL,NULL,NULL,NULL,'L000','L000');
