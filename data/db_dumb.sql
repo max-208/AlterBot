@@ -286,8 +286,8 @@ INSERT INTO dictionnaire VALUES(276,'ses','ma','ma','det',NULL,'sa personne est 
 INSERT INTO dictionnaire VALUES(277,'ma','me','mɛ','det',NULL,'sa personne est définie par un conjugateur',NULL,NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(278,'ta','me','mɛ','det',NULL,'sa personne est définie par un conjugateur',NULL,NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(279,'sa','me','mɛ','det',NULL,'sa personne est définie par un conjugateur',NULL,NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(278,'jusque','tir','/tiʁ/','adv','','vers un point ultérieur dans le temps','du P-Germanique til (vers) et tila (point dans le temps)',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(279,'foie','libřa','/libɻa/','nom',NULL,'organe qui traite le sang, produit la bile, stocke les sucres etc','du proto-germanique *libru',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(297,'jusque','tir','/tiʁ/','adv','','vers un point ultérieur dans le temps','du P-Germanique til (vers) et tila (point dans le temps)',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(298,'foie','libřa','/libɻa/','nom',NULL,'organe qui traite le sang, produit la bile, stocke les sucres etc','du proto-germanique *libru',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(280,'gras','kraš','/kʁaʃ/','adj',NULL,'qui contient de la graisse','du latin crassus',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(281,'maigre','maže','/maʒɛ/','adj',NULL,'qui ne contient pas de graisse','du latin macer',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(282,'ou','wo','/wo/','conj','ou exclusif uniquement','Indique une disjonction exclusive : un seul dans la liste est envisageable à la fois','du latin aut',NULL,NULL,NULL,NULL);
