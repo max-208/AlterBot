@@ -2,30 +2,30 @@ PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
 CREATE TABLE IF NOT EXISTS "dictionnaire"(
    id	       INTEGER PRIMARY KEY NOT NULL
-  ,francais    VARCHAR(128)
-  ,pierrick    VARCHAR(128) NOT NULL
-  ,phonétique  VARCHAR(128) NOT NULL
-  ,classe      VARCHAR(24)
-  ,commentaire VARCHAR(256)
-  ,définition  VARCHAR(256)
-  ,étymologie  VARCHAR(256)
+  ,francais    TEXT NOT NULL DEFAULT '[intraduisible]'
+  ,pierrick    TEXT NOT NULL
+  ,phonétique  TEXT NOT NULL
+  ,classe      TEXT
+  ,commentaire TEXT
+  ,définition  TEXT
+  ,étymologie  TEXT
   ,cyrilic TEXT
   ,hangeul TEXT
   ,soundexfr TEXT
   ,soundexprk TEXT);
 INSERT INTO dictionnaire VALUES(1,'que','řō','ɻɔ̃','pron',NULL,'pronom relatif','a priori',NULL,NULL,'Q200','Ř000');
-INSERT INTO dictionnaire VALUES(2,'','řōs','ɻɔ̃s','pron',NULL,'indique que la proposition est cc de lieu','declinat de rō',NULL,NULL,NULL,'Ř800');
-INSERT INTO dictionnaire VALUES(3,'','řōþ','ɻɔ̃θ','pron',NULL,'indique que la proposition est cc de temps','declinat de rō',NULL,NULL,NULL,'Ř000');
-INSERT INTO dictionnaire VALUES(4,'','řōš','ɻɔ̃ʃ','pron',NULL,'indique que la proposition est cc de manière','declinat de rō',NULL,NULL,NULL,'Ř000');
-INSERT INTO dictionnaire VALUES(5,'','řōk','ɻɔ̃k','pron',NULL,'indique que la proposition est cc de moyen','declinat de rō',NULL,NULL,'M500','Ř200');
-INSERT INTO dictionnaire VALUES(6,'','řōð','ɻɔ̃ð','pron',NULL,'indique que la proposition est cc de but','declinat de rō',NULL,NULL,'B300','Ř000');
-INSERT INTO dictionnaire VALUES(7,'','řōf','ɻɔ̃f','pron',NULL,'indique que la proposition est cc de cause','declinat de rō',NULL,NULL,'C800','Ř900');
-INSERT INTO dictionnaire VALUES(8,'','řōfë','ɻɔ̃fø','pron',NULL,'indique que la proposition est cc de conséquence','declinat de rō',NULL,NULL,'C582','Ř900');
-INSERT INTO dictionnaire VALUES(9,'','řōv','ɻɔ̃v','pron',NULL,'indique que la proposition est cc d''hypothèse','declinat de rō',NULL,NULL,'H138','Ř900');
-INSERT INTO dictionnaire VALUES(10,'','řōg','ɻɔ̃g','pron',NULL,'indique que la proposition est cc de comparaison','declinat de rō',NULL,NULL,'C516','Ř700');
-INSERT INTO dictionnaire VALUES(11,'','řō','ɻɔ̃','pron',NULL,'indique que la proposition est cc de concession','declinat de rō',NULL,NULL,'C520','Ř000');
-INSERT INTO dictionnaire VALUES(12,'','řōhë','ɻɔ̃ʔø','pron',NULL,'indique que la proposition est cc d''opposition','declinat de rō',NULL,NULL,'O000','Ř000');
-INSERT INTO dictionnaire VALUES(13,NULL,'kor','koʁ','pron',NULL,'renvoit au pronom de début de proposition','a priori',NULL,NULL,NULL,'K600');
+INSERT INTO dictionnaire VALUES(2,'[intraduisible]','řōs','ɻɔ̃s','pron',NULL,'indique que la proposition est cc de lieu','declinat de rō',NULL,NULL,NULL,'Ř800');
+INSERT INTO dictionnaire VALUES(3,'[intraduisible]','řōþ','ɻɔ̃θ','pron',NULL,'indique que la proposition est cc de temps','declinat de rō',NULL,NULL,NULL,'Ř000');
+INSERT INTO dictionnaire VALUES(4,'[intraduisible]','řōš','ɻɔ̃ʃ','pron',NULL,'indique que la proposition est cc de manière','declinat de rō',NULL,NULL,NULL,'Ř000');
+INSERT INTO dictionnaire VALUES(5,'[intraduisible]','řōk','ɻɔ̃k','pron',NULL,'indique que la proposition est cc de moyen','declinat de rō',NULL,NULL,'M500','Ř200');
+INSERT INTO dictionnaire VALUES(6,'[intraduisible]','řōð','ɻɔ̃ð','pron',NULL,'indique que la proposition est cc de but','declinat de rō',NULL,NULL,'B300','Ř000');
+INSERT INTO dictionnaire VALUES(7,'[intraduisible]','řōf','ɻɔ̃f','pron',NULL,'indique que la proposition est cc de cause','declinat de rō',NULL,NULL,'C800','Ř900');
+INSERT INTO dictionnaire VALUES(8,'[intraduisible]','řōfë','ɻɔ̃fø','pron',NULL,'indique que la proposition est cc de conséquence','declinat de rō',NULL,NULL,'C582','Ř900');
+INSERT INTO dictionnaire VALUES(9,'[intraduisible]','řōv','ɻɔ̃v','pron',NULL,'indique que la proposition est cc d''hypothèse','declinat de rō',NULL,NULL,'H138','Ř900');
+INSERT INTO dictionnaire VALUES(10,'[intraduisible]','řōg','ɻɔ̃g','pron',NULL,'indique que la proposition est cc de comparaison','declinat de rō',NULL,NULL,'C516','Ř700');
+INSERT INTO dictionnaire VALUES(11,'[intraduisible]','řō','ɻɔ̃','pron',NULL,'indique que la proposition est cc de concession','declinat de rō',NULL,NULL,'C520','Ř000');
+INSERT INTO dictionnaire VALUES(12,'[intraduisible]','řōhë','ɻɔ̃ʔø','pron',NULL,'indique que la proposition est cc d''opposition','declinat de rō',NULL,NULL,'O000','Ř000');
+INSERT INTO dictionnaire VALUES(13,'[intraduisible]','kor','koʁ','pron',NULL,'renvoit au pronom de début de proposition','a priori',NULL,NULL,NULL,'K600');
 INSERT INTO dictionnaire VALUES(15,'géminogenre','žeminogūřë','ʒɛmin̪ogɛɻø','nom',NULL,'désigne le fait de se sentir deux fois du même genre','emprunt au mot d''origine franco-anglais, lui même surement dérivé du latin gemino (jumeau) et genre',NULL,NULL,'G000','Ž000');
 INSERT INTO dictionnaire VALUES(16,'dieu','Altër','altøʁ','nom p',NULL,'entité supérieur ayant créé le monde','Provient du pseudo Alterhis',NULL,NULL,'D000','A436');
 INSERT INTO dictionnaire VALUES(17,'début','ðépu','ðepu','nom',NULL,'commencement','du francais début',NULL,NULL,'D132','Ð100');
@@ -169,19 +169,19 @@ INSERT INTO dictionnaire VALUES(154,'ennemi','inik','in̪ik','nom',NULL,NULL,NUL
 INSERT INTO dictionnaire VALUES(155,'ennemi','iniks','in̪iks','adj',NULL,NULL,NULL,NULL,NULL,'E000','I528');
 INSERT INTO dictionnaire VALUES(156,'âme','anima','an̪ima','nom',NULL,NULL,NULL,NULL,NULL,'A500','A000');
 INSERT INTO dictionnaire VALUES(157,'emporter','waf[h]er','waf[ʔ]ɛʁ','verbe',NULL,NULL,NULL,NULL,NULL,'E516','W961');
-INSERT INTO dictionnaire VALUES(159,NULL,'na','n̪a','conjug',NULL,'indique que le verbe est au présent de l''indicatif','a priori',NULL,NULL,NULL,'N000');
-INSERT INTO dictionnaire VALUES(160,NULL,'žé','ʒe','conjug',NULL,'indique que le verbe est au parfait de l''indicatif','a priori',NULL,NULL,NULL,'Ž000');
-INSERT INTO dictionnaire VALUES(161,NULL,'še','ʃɛ','conjug',NULL,'indique que le verbe est à l''imparfait de l''indicatif','a priori',NULL,NULL,NULL,'Š000');
-INSERT INTO dictionnaire VALUES(162,NULL,'šò','ʃɔ','conjug',NULL,'indique que le verbe est au subjonctif présent','a priori',NULL,NULL,NULL,'Š000');
-INSERT INTO dictionnaire VALUES(163,NULL,'an- -re → i','an̪- -ʁɛ → i','conjug','préfix- -suffix -marque sur verbe','indique que le verbe est un participe présent','a priori',NULL,NULL,NULL,'A560');
-INSERT INTO dictionnaire VALUES(164,NULL,'an- -rë','an̪- -ʁø','conjug','préfix- -suffix','indique que le verbe est un participe passé','a priori',NULL,NULL,NULL,'A560');
-INSERT INTO dictionnaire VALUES(165,NULL,'','',NULL,'absence de marque','indique que le verbe est à l''impératif','a priori',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(159,'[intraduisible]','na','n̪a','conjug',NULL,'indique que le verbe est au présent de l''indicatif','a priori',NULL,NULL,NULL,'N000');
+INSERT INTO dictionnaire VALUES(160,'[intraduisible]','žé','ʒe','conjug',NULL,'indique que le verbe est au parfait de l''indicatif','a priori',NULL,NULL,NULL,'Ž000');
+INSERT INTO dictionnaire VALUES(161,'[intraduisible]','še','ʃɛ','conjug',NULL,'indique que le verbe est à l''imparfait de l''indicatif','a priori',NULL,NULL,NULL,'Š000');
+INSERT INTO dictionnaire VALUES(162,'[intraduisible]','šò','ʃɔ','conjug',NULL,'indique que le verbe est au subjonctif présent','a priori',NULL,NULL,NULL,'Š000');
+INSERT INTO dictionnaire VALUES(163,'[intraduisible]','an- -re → i','an̪- -ʁɛ → i','conjug','préfix- -suffix -marque sur verbe','indique que le verbe est un participe présent','a priori',NULL,NULL,NULL,'A560');
+INSERT INTO dictionnaire VALUES(164,'[intraduisible]','an- -rë','an̪- -ʁø','conjug','préfix- -suffix','indique que le verbe est un participe passé','a priori',NULL,NULL,NULL,'A560');
+INSERT INTO dictionnaire VALUES(165,'[intraduisible]','','',NULL,'absence de marque','indique que le verbe est à l''impératif','a priori',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(167,'tu','tu','tu','conjug',NULL,'indique que le verbe est à la deuxième personne du singulier',NULL,NULL,NULL,NULL,'T000');
 INSERT INTO dictionnaire VALUES(168,'il','li','li','conjug',NULL,'indique que le verbe est à la troisième personne du singulier',NULL,NULL,NULL,NULL,'L000');
 INSERT INTO dictionnaire VALUES(169,'nous','mu','mu','conjug',NULL,'indique que le verbe est à la première personne du pluriel',NULL,NULL,NULL,NULL,'M000');
 INSERT INTO dictionnaire VALUES(170,'ils','lia','lia','conjug',NULL,'indique que le verbe est à la troisième personne du pluriel',NULL,NULL,NULL,NULL,'L000');
-INSERT INTO dictionnaire VALUES(171,NULL,'fë','fø','conjug',NULL,'pronom réfléchis global, sa personne doit être reprécisé par un conjugateur',NULL,NULL,NULL,NULL,'F000');
-INSERT INTO dictionnaire VALUES(172,NULL,'ë','ø','pron',NULL,'pronom tonique global, sa personne doit être reprécisé par un conjugateur',NULL,NULL,NULL,NULL,'E000');
+INSERT INTO dictionnaire VALUES(171,'[intraduisible]','fë','fø','conjug',NULL,'pronom réfléchis global, sa personne doit être reprécisé par un conjugateur',NULL,NULL,NULL,NULL,'F000');
+INSERT INTO dictionnaire VALUES(172,'[intraduisible]','ë','ø','pron',NULL,'pronom tonique global, sa personne doit être reprécisé par un conjugateur',NULL,NULL,NULL,NULL,'E000');
 INSERT INTO dictionnaire VALUES(174,'le','le','lɛ','det',NULL,NULL,NULL,NULL,NULL,'L000','L000');
 INSERT INTO dictionnaire VALUES(175,'les','la','la','det',NULL,NULL,NULL,NULL,NULL,'L800','L000');
 INSERT INTO dictionnaire VALUES(176,'un','de','dɛ','det',NULL,NULL,NULL,NULL,NULL,'U500','D000');
@@ -206,7 +206,7 @@ INSERT INTO dictionnaire VALUES(196,'ex-','ke-','kɛ-','particule',NULL,NULL,NUL
 INSERT INTO dictionnaire VALUES(197,'superlatif','nu-','n̪u-','particule',NULL,NULL,NULL,NULL,NULL,'S164','N000');
 INSERT INTO dictionnaire VALUES(198,'qui appartient à','-ališ','-aliʃ','particule','ex : rectangulaire',NULL,NULL,NULL,NULL,'Q000','-400');
 INSERT INTO dictionnaire VALUES(199,'in-','iz','iz','particule',NULL,NULL,'de la marque latine -aris',NULL,NULL,'I500','I800');
-INSERT INTO dictionnaire VALUES(200,NULL,'-pua','-pua','particule','marqueur d’adjectif',NULL,NULL,NULL,NULL,NULL,'-100');
+INSERT INTO dictionnaire VALUES(200,'[intraduisible]','-pua','-pua','particule','marqueur d’adjectif',NULL,NULL,NULL,NULL,NULL,'-100');
 INSERT INTO dictionnaire VALUES(201,'-if','-iva','-iva','particule',NULL,NULL,NULL,NULL,NULL,'-900','-900');
 INSERT INTO dictionnaire VALUES(202,'-ique','-ika','-ika','particule','marqueur d’appartenance',NULL,NULL,NULL,NULL,'-200','-200');
 INSERT INTO dictionnaire VALUES(203,'-able','-abis','-abis','particule','marqueur de capacité',NULL,NULL,NULL,NULL,'-140','-180');
@@ -296,7 +296,7 @@ INSERT INTO dictionnaire VALUES(284,'tous','tuts','/tus/','pron',NULL,'pl de tou
 INSERT INTO dictionnaire VALUES(285,'tous','tuta','/tuta/','det',NULL,'pl de tout lorsque déterminant','de tut avec le pluriel -a',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(286,'être','ðeřë','/ðɛɻø/','nom',NULL,'substantif du verbe de même orthographe, chose qui est (vivante obligatoirement)','du verbe ðeřë',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(287,'humain','manišo','/man̪iʃo/','nom',NULL,'créature appartenant à l''espece homo sapiens','du vieil allemand mannisco',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(288,'','-an','/an̪/','particule',NULL,'particule d''origine (ablatif)','du latin -anus',NULL,NULL,NULL,NULL);
+INSERT INTO dictionnaire VALUES(288,'[intraduisible]','-an','/an̪/','particule',NULL,'particule d''origine (ablatif)','du latin -anus',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(289,'humain','manišona','/man̪iʃon̪a/','adj',NULL,'qui provient de l''Homme, généralisé à tout ce qui est lié à l''homme','de manišo avec le suffixe -an, ici inversé à cause de la cohérence phonologique',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(290,'libre','anleudrë','/an̪lɛudʁø/','adj',NULL,'qui est délivré','adjectivation du participe passé de leudre',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(291,'égal','warzo','/warzo/','adj',NULL,'littéralement qui a autant que , qui a la même chose, égal','composé de war (avoir) et aso (comme/autant que)',NULL,NULL,NULL,NULL);
@@ -318,4 +318,11 @@ INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, 
 INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("chat", " felej", " nom", " /fɛlɛj/", "  Mammifère carnivore félin de taille moyenne, au museau court et arrondi, domestiqué, apprivoisé ou encore à l'état sauvage. ", " du latin felis, feles");
 INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("chat", " felei", " nom", " /fɛlɛj/", "  Mammifère carnivore félin de taille moyenne, au museau court et arrondi, domestiqué, apprivoisé ou encore à l'état sauvage. ", " du latin felis, feles");
 INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("souris", "  sorxe", " nom", " /sorksɛ/", " Petit rongeur de la famille des muridés, du genre Mus, en général la souris commune Mus musculus", " du latin sorex");
+UPDATE dictionnaire SET francais = '[intraduisible]' WHERE francais = '' or francais = NULL;
 COMMIT;
+CREATE VIRTUAL TABLE IF NOT EXISTS fts USING fts4(francais, pierrick, id);
+INSERT INTO fts SELECT francais, pierrick, id FROM dictionnaire;
+CREATE VIRTUAL TABLE IF NOT EXISTS pierrick USING spellfix1;
+CREATE VIRTUAL TABLE IF NOT EXISTS francais USING spellfix1;
+INSERT INTO pierrick(word) SELECT pierrick FROM fts;
+INSERT INTO francais(word) SELECT francais FROM fts;
