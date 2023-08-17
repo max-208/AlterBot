@@ -212,11 +212,8 @@ INSERT INTO dictionnaire VALUES(202,'-ique','-ika','-ika','particule','marqueur 
 INSERT INTO dictionnaire VALUES(203,'-able','-abis','-abis','particule','marqueur de capacité',NULL,NULL,NULL,NULL,'-140','-180');
 INSERT INTO dictionnaire VALUES(204,'-ation','-škio','-ʃkio','particule','marqueur de substantif verbal',NULL,NULL,NULL,NULL,'-350','-200');
 INSERT INTO dictionnaire VALUES(205,'vallée','řola','/ɻola/','nom',NULL,'creux entre deux montagnes','du latin vola',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(206,'vallée','řola','ɻola','nom',NULL,'creu entre deux montagnes','du latin vola',NULL,NULL,'V000','Ř400');
 INSERT INTO dictionnaire VALUES(207,'combe','kōm','kɔ̃m','nom',NULL,'pli de terrain, lieu bas entouré de colline','du breton komm',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(208,'montagne','mënū','møn̪ɛ̃','nom','mont','relief topographique présentant des versants prononcés','de l''IE commun *men',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(209,'montagne','mënū','møn̪ɛ̃','nom','mont','relief topographique présentant des versants prononcés','de l''IE commun *men',NULL,NULL,NULL,NULL);
-INSERT INTO dictionnaire VALUES(210,'vallée','řola','/ɻola/',NULL,NULL,'creux entre deux montagnes','du latin vola',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(211,'combe','kōm','/kɔ̃m/',NULL,NULL,'pli de terrain, lieu bas entouré de collines','du breton komm',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(212,'fond','buþus','/buθus/',NULL,NULL,'limite, point extrême','de l IE commun *bʰudʰ-',NULL,NULL,NULL,NULL);
 INSERT INTO dictionnaire VALUES(213,'mont','mënū','/møn̪ɛ̃/',NULL,NULL,'Relief topographique présentant des versant prononcés','de l IE commun *men',NULL,NULL,NULL,NULL);
