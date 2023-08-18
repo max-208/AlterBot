@@ -180,7 +180,46 @@ var dao_linguistique = function(){
         });
     }
 
-
+    this.searchByFrenchSpellfix = async function(mot){
+        return new Promise(async function(resolve, reject){
+            const query = "SELECT word, dictionnaire.id, dictionnaire.définition \
+                           FROM francais \
+                           INNER JOIN dictionnaire \
+                           ON francais.word == dictionnaire.francais \
+                           WHERE francais.word MATCH ?;";
+            let id = {}; //pour éviter les doublons
+            let rows = [];
+            db.each(query, [mot], (err, row) => {
+                if(err) reject(err);
+                else if (!(row.id in id)){
+                    id[`${row.id}`] = 1;
+                    rows.push(row);
+                    resolve(rows);
+                }
+            });
+            
+        });
+    }
+    this.searchByPierrickSpellfix = async function(mot){
+        return new Promise(async function(resolve, reject){
+            const query = "SELECT word, dictionnaire.id, dictionnaire.définition \
+                           FROM pierrick \
+                           INNER JOIN dictionnaire \
+                           ON pierrick.word == dictionnaire.pierrick \
+                           WHERE pierrick.word MATCH ?;";
+            let id = {}; //pour éviter les doublons
+            let rows = [];
+            db.each(query, [mot], (err, row) => {
+                if(err) reject(err);
+                else if (!(row.id in id)){
+                    id[`${row.id}`] = 1;
+                    rows.push(row);
+                    resolve(rows);
+                }
+            });
+            
+        });
+    }
 }
 const dao = new dao_linguistique();
 module.exports = dao;
