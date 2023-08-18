@@ -182,7 +182,7 @@ var dao_linguistique = function(){
 
     this.searchByFrenchSpellfix = async function(mot){
         return new Promise(async function(resolve, reject){
-            const query = "SELECT word, dictionnaire.id, dictionnaire.francais, dictionnaire.définition, dictionnaire.pierrick \
+            const query = "SELECT word, dictionnaire.id, dictionnaire.définition \
                            FROM francais \
                            INNER JOIN dictionnaire \
                            ON francais.word == dictionnaire.francais \
@@ -203,7 +203,7 @@ var dao_linguistique = function(){
     }
     this.searchByPierrickSpellfix = async function(mot){
         return new Promise(async function(resolve, reject){
-            const query = "SELECT word, dictionnaire.id, dictionnaire.francais, dictionnaire.définition, dictionnaire.pierrick \
+            const query = "SELECT word, dictionnaire.id, dictionnaire.définition \
                            FROM pierrick \
                            INNER JOIN dictionnaire \
                            ON pierrick.word == dictionnaire.pierrick \
