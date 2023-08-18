@@ -116,7 +116,7 @@ dissociator.js
 .vscode/*
 
 #damn test file messing with merges every time 
-test.js
+test.*
 
 #ignore the discord to sql script
 data/discord_dumper/*
