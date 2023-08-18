@@ -186,7 +186,8 @@ var dao_linguistique = function(){
                            FROM francais \
                            INNER JOIN dictionnaire \
                            ON francais.word == dictionnaire.francais \
-                           WHERE francais.word MATCH ?;";
+                           WHERE francais.word MATCH ?\
+                           ORDER BY dictionnaire.id;";
             let id = {}; //pour éviter les doublons
             let rows = [];
             db.each(query, [mot], (err, row) => {
@@ -206,7 +207,8 @@ var dao_linguistique = function(){
                            FROM pierrick \
                            INNER JOIN dictionnaire \
                            ON pierrick.word == dictionnaire.pierrick \
-                           WHERE pierrick.word MATCH ?;";
+                           WHERE pierrick.word MATCH ?\
+                           ORDER BY dictionnaire.id;";
             let id = {}; //pour éviter les doublons
             let rows = [];
             db.each(query, [mot], (err, row) => {
