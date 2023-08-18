@@ -1,6 +1,5 @@
 //comment ca je copie ton système comme un gros porc ?
 const db = require('./sqlite_connection_linguistique.js');
-const soundex = require('./soundex');
 
 //ensemble des fonctions communiquant avec la db
 var dao_linguistique = function(){
@@ -103,10 +102,7 @@ var dao_linguistique = function(){
                             WHERE id = ?;"
             db.run(query, [values.francais, values.pierrick, values.phonétique, values.classe, values.commentaire, values.définition, values.étymologie, values.cyrilic, values.hangeul, id], (err, rows) => {
                 if(err) reject(err);
-                else {
-                    soundex.soundexId(values.id);
-                    resolve(rows);
-                }
+                else resolve(rows);
             });
         });
     }
@@ -130,28 +126,6 @@ var dao_linguistique = function(){
         return new Promise(async function(resolve, reject){
             const query = "SELECT * FROM dictionnaire WHERE id = ?;"
             db.get(query, [id], (err, rows) => {
-                if(err) reject(err);
-                else resolve(rows);
-            });
-        });
-    }
-
-    //search a word by its french soundex
-    this.searchByFrench = async function(soundexedMot, offset){
-        return new Promise(async function(resolve, reject){
-            const query = "SELECT * FROM dictionnaire WHERE soundexfr = ? LIMIT 5 OFFSET ?;";
-            db.all(query, [soundexedMot, offset], (err, rows) => {
-                if(err) reject(err);
-                else resolve(rows);
-            });
-        });
-    }
-
-    //search a word by its pierrick soundex
-    this.searchByPierrick = async function(soundexedMot, offset){
-        return new Promise(async function(resolve, reject){
-            const query = "SELECT * FROM dictionnaire WHERE soundexprk = ? LIMIT 5 OFFSET ?;";
-            db.all(query, [soundexedMot, offset], (err, rows) => {
                 if(err) reject(err);
                 else resolve(rows);
             });
