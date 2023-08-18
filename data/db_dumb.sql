@@ -326,3 +326,61 @@ CREATE VIRTUAL TABLE IF NOT EXISTS pierrick USING spellfix1;
 CREATE VIRTUAL TABLE IF NOT EXISTS francais USING spellfix1;
 INSERT INTO pierrick(word) SELECT pierrick FROM fts;
 INSERT INTO francais(word) SELECT francais FROM fts;
+BEGIN TRANSACTION;
+
+CREATE TRIGGER insert_fts
+AFTER INSERT ON dictionnaire
+BEGIN
+INSERT INTO fts (francais, pierrick, id)
+VALUES (new.francais, new.pierrick, new.id);
+END;
+
+CREATE TRIGGER update_fts
+AFTER UPDATE ON dictionnaire
+BEGIN
+UPDATE fts SET francais = new.francais, pierrick = new.pierrick, id = new.id
+WHERE id = old.id;
+END;
+
+CREATE TRIGGER delete_fts
+AFTER DELETE ON dictionnaire
+BEGIN
+DELETE FROM fts WHERE id = old.id;
+END;
+
+CREATE TRIGGER insert_pierrick
+AFTER INSERT ON fts
+BEGIN
+INSERT INTO pierrick (word) VALUES (new.pierrick);
+END;
+
+CREATE TRIGGER update_pierrick
+AFTER UPDATE ON fts
+BEGIN
+UPDATE pierrick SET word = new.pierrick WHERE word = old.pierrick;
+END;
+
+CREATE TRIGGER delete_pierrick
+AFTER DELETE ON fts
+BEGIN
+DELETE FROM pierrick WHERE word = old.pierrick;
+END;
+
+CREATE TRIGGER insert_francais
+AFTER INSERT ON fts
+BEGIN
+INSERT INTO francais (word) VALUES (new.francais);
+END;
+
+CREATE TRIGGER update_francais
+AFTER UPDATE ON fts
+BEGIN
+UPDATE francais SET word = new.francais WHERE word = old.francais;
+END;
+
+CREATE TRIGGER delete_francais
+AFTER DELETE ON fts
+BEGIN
+DELETE FROM francais WHERE word = old.francais;
+END;
+COMMIT;
