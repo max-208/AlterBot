@@ -27,13 +27,13 @@ module.exports = {
 							{name : 'francais', value : 'francais'},
 							{name : 'pierrick', value : 'pierrick'}
 						  )
+				)
 				.addStringOption(option=>
 					option.setName('mot')
 						.setDescription('le mot à rechercher')
 						.setRequired(true)
 					)
-				)
-		),
+			),
 
 	async execute(interaction) {
 		const mot = interaction.options.getString('mot')
