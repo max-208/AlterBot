@@ -313,7 +313,9 @@ INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, 
 INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("de", "dë", "prep", "/dø/", "indique la provenance/un lien de possession", "du latin de");
 INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("chat", "felej", " nom", " /fɛlɛj/", "  Mammifère carnivore félin de taille moyenne, au museau court et arrondi, domestiqué, apprivoisé ou encore à l'état sauvage. ", " du latin felis, feles");
 INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("chat", "felei", " nom", " /fɛlɛj/", "  Mammifère carnivore félin de taille moyenne, au museau court et arrondi, domestiqué, apprivoisé ou encore à l'état sauvage. ", " du latin felis, feles");
-INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("souris", " sorxe", " nom", " /sorksɛ/", " Petit rongeur de la famille des muridés, du genre Mus, en général la souris commune Mus musculus", " du latin sorex");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("souris", "sorxe", " nom", " /sorksɛ/", " Petit rongeur de la famille des muridés, du genre Mus, en général la souris commune Mus musculus", " du latin sorex");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("reposer", "redekuore", "verbe", "/ʁɛdɛkuoʁɛ/", "gésir en un lieu pendant une longue période", "du latin requiesco");
+INSERT INTO dictionnaire (francais, pierrick, classe, phonétique, définition, étymologie) VALUES ("paix", "pak", "nom", "/pak/", "tranquillité, calme dans et/ou entre les états", "du latin pace");
 UPDATE dictionnaire SET francais = '[intraduisible]' WHERE francais = '' or francais = NULL;
 CREATE VIRTUAL TABLE IF NOT EXISTS fts USING fts4(francais, pierrick, id);
 INSERT INTO fts SELECT francais, pierrick, id FROM dictionnaire;
