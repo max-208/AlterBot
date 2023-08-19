@@ -20,6 +20,15 @@ module.exports = {
 			subcommand.setName('langue')
 					  .setDescription('rechercher un mot à partir d\'un mot dans une autre langue')
 				.addStringOption(option =>
+					option.setName('mode')
+						  .setDescription("le mode de recherche")
+						  .setRequired(true)
+						  .addChoices(
+							{name : 'classique', value : 'classique'},
+							{name : 'regex', value : 'regex'},
+						  )
+				)
+				.addStringOption(option =>
 					option.setName('langue')
 						  .setDescription('la langue du mot')
 						  .setRequired(true)
@@ -67,18 +76,28 @@ module.exports = {
 		}
 		else {
 			let result;
-			if (langue == 'francais') result = await data.db.searchByFrenchSpellfix(mot);
-			else if (langue == 'pierrick') result = await data.db.searchByPierrickSpellfix(mot);
-			let embed = {
-				color: 0x0000FF,
-				title: `résultat de la recherche pour ${mot}`,
-				description: 'les mots suivants ont été trouvés, pour plus d\'information veuillez utiliser la commande /dictionnaire id avec l\id du mot',
-				fields: []
+			const mode = interaction.options.getString('mode');
+			if (mode == 'classique'){
+				if (langue == 'francais') result = await data.db.searchByFrenchSpellfix(mot);
+				else if (langue == 'pierrick') result = await data.db.searchByPierrickSpellfix(mot);
 			}
-			for (let i = 0; i < result.length; i++){
-				embed.fields.push({name: `${result[i].word}`, value: `id : ${result[i].id}, définition : ${result[i]["définition"]}`})
+			else if (mode == 'regex'){
+				if (langue == 'francais') result = await data.db.searchByFrenchRegex(mot);
+				else if (langue == 'pierrick') result = await data.db.searchByPierrickRegex(mot);
 			}
-			await interaction.reply({embeds: [embed]});
+			if (result.length == 0) await interaction.reply("aucun mot n'a été trouvé");
+			else {
+				let embed = {
+					color: 0x0000FF,
+					title: `résultat de la recherche pour ${mot}`,
+					description: 'les mots suivants ont été trouvés, pour plus d\'information veuillez utiliser la commande /dictionnaire id avec l\id du mot',
+					fields: []
+				}
+				for (let i = 0; i < result.length; i++){
+					embed.fields.push({name: `${result[i].word}`, value: `id : ${result[i].id}, définition : ${result[i]["définition"]}`})
+				}
+				await interaction.reply({embeds: [embed]});
+			}
 		}
 	},
 };
