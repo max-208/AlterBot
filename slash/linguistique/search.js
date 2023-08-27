@@ -85,7 +85,7 @@ module.exports = {
 				if (langue == 'francais') result = await data.db.searchByFrenchRegex(mot);
 				else if (langue == 'pierrick') result = await data.db.searchByPierrickRegex(mot);
 			}
-			if (result.length == undefined) await interaction.reply("aucun mot n'a été trouvé");
+			if (result.length === 0) await interaction.reply("aucun mot n'a été trouvé");
 			else {
 				let embed = {
 					color: 0x0000FF,

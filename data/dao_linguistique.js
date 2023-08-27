@@ -170,6 +170,9 @@ var dao_linguistique = function(){
                     rows.push(row);
                     resolve(rows);
                 }
+            }, (err, nb) => {
+                if(err) reject(err);
+                else if (nb == 0) resolve([]);
             });
             
         });
@@ -190,6 +193,9 @@ var dao_linguistique = function(){
                     rows.push(row);
                     resolve(rows);
                 }
+            }, (err, nb) => {
+                if(err) reject(err);
+                else if (nb == 0) resolve([]);
             });
             
         });
