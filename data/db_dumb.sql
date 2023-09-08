@@ -1,5 +1,17 @@
 PRAGMA foreign_keys=OFF;
 BEGIN TRANSACTION;
+CREATE TABLE IF NOT EXISTS "suggestion" (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  instigateur TEXT NOT NULL,
+  francais TEXT NOT NULL, 
+  pierrick TEXT NOT NULL, 
+  phonétique TEXT NOT NULL, 
+  classe TEXT NOT NULL, 
+  commentaire TEXT NOT NULL, 
+  définition TEXT NOT NULL, 
+  étymologie TEXT NOT NULL, 
+  cyrilic TEXT, 
+  hangeul TEXT, );
 CREATE TABLE IF NOT EXISTS "dictionnaire"(
    id	       INTEGER PRIMARY KEY NOT NULL
   ,francais    TEXT NOT NULL DEFAULT '[intraduisible]'
