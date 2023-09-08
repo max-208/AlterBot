@@ -1,17 +1,17 @@
-var linguistique_connection = require('./sqlite_connection_linguistique');
+const linguistiqueConnection = require('./sqlite_connection_linguistique');
+const linguistiqueDao = require('./dao_linguistique');
+// dictionnaire associant le pierrick latin au pierrick georgien / cyrilique
+const alphabet = require('./alphabet.json');
+// dictionnaire (json) associant lettres pierrick et alphabet phonétique international
+const correspondance = require('./phonetique.json');
 
-var linguistique_dao = require('./dao_linguistique');
-
-var alphabet = require("./alphabet.json"); //dictionnaire associant le pierrick latin au pierrick georgien / cyrilique 
-var correspondance = require('./phonetique.json'); //dictionnaire (json) associant lettres pierrick et alphabet phonétique international
-
-var translitterate = require('./translitterate.js'); //translation logic
+const translitterate = require('./translitterate.js'); // translation logic
 
 module.exports = {
-    linguistique_connection: linguistique_connection,
-    db: linguistique_dao,
-    correspondance: correspondance,
-    alphabet: alphabet,
-    awing_id: "1004518765834289302",
-    translitterate: translitterate
+  linguistique_connection: linguistiqueConnection,
+  db: linguistiqueDao,
+  correspondance: correspondance,
+  alphabet: alphabet,
+  awing_id: '1004518765834289302',
+  translitterate: translitterate,
 };

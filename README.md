@@ -27,12 +27,9 @@ npm install
 cd ..
 ```
 
-créez la base de données (pour premier avril)
+créez la base de données
 ```
 cd ./data
-touch database_linguistique.db
-sqlite3 database_linguistique.db
-.read db_dump.sql
-.quit
+./db_create.sh
 cd ..
 ```
