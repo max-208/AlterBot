@@ -1,27 +1,28 @@
 const fs = require('fs');
-const { REST } = require('@discordjs/rest');
-const { Routes } = require('discord-api-types/v9');
+//const { REST } = require('@discordjs/rest');
+//const { Routes } = require('discord-api-types/v9');
 const Discord = require('discord.js');
+const { REST, Routes } = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
 
-const { Client, Intents } = require('discord.js');
+const { Client, GatewayIntentBits } = require('discord.js');
 const myIntents = [
-	Intents.FLAGS.GUILDS,
-	Intents.FLAGS.GUILD_MEMBERS,
-	Intents.FLAGS.GUILD_BANS,
-	Intents.FLAGS.GUILD_EMOJIS_AND_STICKERS,
-	Intents.FLAGS.GUILD_INTEGRATIONS,
-	Intents.FLAGS.GUILD_WEBHOOKS,
-	Intents.FLAGS.GUILD_INVITES,
-	Intents.FLAGS.GUILD_VOICE_STATES,
-	Intents.FLAGS.GUILD_PRESENCES,
-	Intents.FLAGS.GUILD_MESSAGES,
-	Intents.FLAGS.GUILD_MESSAGE_REACTIONS,
-	Intents.FLAGS.GUILD_MESSAGE_TYPING,
-	Intents.FLAGS.DIRECT_MESSAGES,
-	Intents.FLAGS.DIRECT_MESSAGE_REACTIONS,
-	Intents.FLAGS.DIRECT_MESSAGE_TYPING
+	GatewayIntentBits.Guilds,
+	GatewayIntentBits.GuildMembers,
+	GatewayIntentBits.GuildModeration,
+	GatewayIntentBits.GuildEmojisAndStickers,
+	GatewayIntentBits.GuildIntegrations,
+	GatewayIntentBits.GuildWebhooks,
+	GatewayIntentBits.GuildInvites,
+	GatewayIntentBits.GuildVoiceStates,
+	GatewayIntentBits.GuildPresences,
+	GatewayIntentBits.GuildMessages,
+	GatewayIntentBits.GuildMessageReactions,
+	GatewayIntentBits.GuildMessageTyping,
+	GatewayIntentBits.DirectMessages,
+	GatewayIntentBits.DirectMessageReactions,
+	GatewayIntentBits.DirectMessageTyping
 ]
 
 const client = new Client({intents: myIntents, allowedMentions: { parse: ['users', 'roles'], repliedUser: true} });
@@ -39,21 +40,26 @@ for (const folder of commandFolders) {
 const prefix = 'a!';
 
 //commandes slash
-client.slashCommands = new Discord.Collection();
+client.commands = new Discord.Collection();
 const clientId = process.env.CLIENT_ID;
 const guildId = process.env.GUILD_ID;
-slashCommands = [];
 const slashCommandFolders = fs.readdirSync('./slash');
+let slashCommands = [];
 for (const folder of slashCommandFolders) {
 	const slashCommandFiles = fs.readdirSync(`./slash/${folder}`).filter(file => file.endsWith('.js'));
 	for (const file of slashCommandFiles) {
 		const slashCommand = require(`./slash/${folder}/${file}`);
-		client.slashCommands.set(slashCommand.data.name, slashCommand)
-		slashCommands.push(slashCommand.data.toJSON());
+        if ('data' in slashCommand && 'execute' in slashCommand) {
+		    client.commands.set(slashCommand.data.name, slashCommand)
+            slashCommands.push(slashCommand.data.toJSON());
+        } else {
+            console.warn(`Slash command ${file} is missing data or execute function`);
+        }
+
 	}
 }
 
-const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
+const rest = new REST().setToken(process.env.BOT_TOKEN);
 (async () => {
 	try {
 		console.log('Started refreshing application (/) commands.');
@@ -65,7 +71,7 @@ const rest = new REST({ version: '9' }).setToken(process.env.BOT_TOKEN);
 		} else {
 			await rest.put(
 				Routes.applicationCommands(clientId),
-				{ body: slashCommands },
+				{ body: commands },
 			);
 		}
 
@@ -91,43 +97,19 @@ client.on("guildBanRemove", function(guild, user){
     }
 });
 
-//mise a jour utilisateur
-client.on("guildMemberUpdate", function(oldMember, newMember){
-	utilities.latiniser(newMember);
-});
-//arrivée utilisateur
-client.on("guildMemberAdd", function(member){
-	utilities.latiniser(member);
-});
-
 // this code is executed every time they add a reaction
 client.on('messageReactionAdd', async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
 	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
-	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot && reaction.message.author.id != 352459053928022017) {
+	if (reaction.emoji.name == '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot && reaction.message.author.id != "352459053928022017") {
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
 		await utilities.warn(reaction.message,null);
 		await reaction.message.delete();
 	}
 	//console.log(reaction.emoji.name);
-	if(utilities.premierAvril == "TRUE"){
-		if ( (reaction.emoji.name == 'chingchong' || reaction.emoji.name == 'lmao' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
-			utilities.premierAvrilAjoutReaction(reaction,user);
-		}
-	}
 });
-
-client.on('messageReactionRemove', (reaction, user) => {
-	
-	if(utilities.premierAvril == "TRUE"){
-		if ( (reaction.emoji.name == 'chingchong' || reaction.emoji.name == 'lmao' ) && reaction.message.author.id != user.id && reaction.message.channel != "522437669582667787" ) {
-			utilities.premierAvrilRetirerReaction(reaction,user);
-		}
-	}
-});
-
 
 client.on('messageCreate', message => {
 
@@ -198,7 +180,7 @@ client.on('messageCreate', message => {
 client.on('interactionCreate', async interaction => {
 	if (!interaction.isCommand()) return;
 
-	const command = client.slashCommands.get(interaction.commandName);
+	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
 

@@ -1,99 +1,16 @@
 var fs = require("fs");
 const Discord = require('discord.js');
-const data = require("data");
 require("dotenv").config();
 module.exports = {
 
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
-    premierAvril : process.env.BOOL_PREMIER_AVRIL,
     roleMj : process.env.RP_ROLE_MJ,
     salonMj :process.env.RP_SALON_MJ,
     roleMod :process.env.MOD_ROLE,
     logWarnMod : process.env.MOD_WARN_LOG,
     salonMeme : process.env.SALON_MEME,
-
-    premierAvrilGetScore(id){
-        return -1
-    },
-    
-    
-/**
- * 
- * @param {Discord.MessageReaction} reaction 
- * @param {*} user 
- */
-    async premierAvrilAjoutReaction(reaction, user){
-        if(await data.premierAvril_dao.getUser(user.id) == undefined){
-            await this.premierAvrilAddUser(reaction.message.guild,user);
-        }
-        if(await data.premierAvril_dao.getUser(reaction.message.author.id) == undefined){
-            await this.premierAvrilAddUser(reaction.message.guild,reaction.message.author);
-        }
-        let weight = (await data.premierAvril_dao.getUser(user.id)).Weight;
-        if(await data.premierAvril_dao.getMessage(reaction.message.id) == undefined){
-            await data.premierAvril_dao.createMessage(reaction.message.id);
-        }
-        if(reaction.emoji.name == 'chingchong'){
-            data.premierAvril_dao.vote(user.id,reaction.message.id,reaction.message.author.id,reaction.message.channel.id, weight * 1)
-        } else {
-            data.premierAvril_dao.vote(user.id,reaction.message.id,reaction.message.author.id,reaction.message.channel.id, weight * -1)
-        }
-    },
-
-    async premierAvrilRetirerReaction(reaction,user){
-        if(await data.premierAvril_dao.getUser(user.id) == undefined){
-            await this.premierAvrilAddUser(reaction.message.guild,user);
-        }
-        if(await data.premierAvril_dao.getUser(reaction.message.author.id) == undefined){
-            await this.premierAvrilAddUser(reaction.message.guild,reaction.message.author);
-        }
-        let weight = (await data.premierAvril_dao.getUser(user.id)).Weight;
-        if(await data.premierAvril_dao.getMessage(reaction.message.id) == undefined){
-            await data.premierAvril_dao.createMessage(reaction.message.id);
-        }
-        if(reaction.emoji.name == 'chingchong'){
-            data.premierAvril_dao.removeVote(user.id,reaction.message.id,reaction.message.author.id,weight * 1)
-        } else {
-            data.premierAvril_dao.removeVote(user.id,reaction.message.id,reaction.message.author.id,weight * -1)
-        }
-    },
-
-    /**
-     * 
-     * @param {Discord.Guild} guild
-     * @param {Discord.User} user 
-     */
-    async premierAvrilAddUser(guild,user){
-        let weight = 1;
-        let member = await guild.members.fetch(user.id);
-        let roles = [
-            ['476424267672584193' , 0 ], //bot
-            ['476423949543145484' , 1 ],
-            ['476423906274836480' , 2 ],
-            ['476423808278855708' , 4 ],
-            ['476423722803396617' , 8 ],
-            ['476423665169203221' , 18 ],
-            ['476423483484798977' , 32 ],
-            ['476423434528751636' , 64 ],
-            ['476423386147454986' , 128 ],
-            ['476423326420434944' , 256 ],
-            ['476423067527151626' , 512 ],
-            ['527232178791251997' , 1024 ],
-            ['527232376217010196' , 2048 ],
-            ['527232496585408516' , 4096 ],
-            ['527232618249322506' , 8192 ],
-            ['527232807177682974' , 16384 ],
-            ['527232954808664065' , 32768 ]
-        ]
-        for(let [key,value] of roles){
-            if(member.roles.cache.has(key)){
-                weight = value
-            }
-        }
-        await data.premierAvril_dao.CreateUser(user.id,weight);
-    },
 
     /**
      * @param {Discord.GuildMember} member 
@@ -248,8 +165,5 @@ module.exports = {
         msgConfirmation.edit(embed);
         return ret;
     },
-
-
-
 
 };
