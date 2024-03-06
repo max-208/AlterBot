@@ -62,7 +62,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 		} else {
 			await rest.put(
 				Routes.applicationCommands(clientId),
-				{ body: commands },
+				{ body: slashCommands },
 			);
 		}
 
