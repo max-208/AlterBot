@@ -22,18 +22,4 @@ SALON_MEME=
 installez les modules node nécéssaires
 ```
 npm install
-cd ./data
-npm install
-cd ..
-```
-
-créez la base de données (pour premier avril)
-```
-cd ./data
-touch database.db
-sqlite3 database.db
-PRAGMA foreign_keys = ON;
-.read tables.sql
-.quit
-cd ..
 ```
