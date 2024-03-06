@@ -1,4 +1,3 @@
-var fs = require("fs");
 const Discord = require('discord.js');
 require("dotenv").config();
 module.exports = {
@@ -61,7 +60,6 @@ module.exports = {
             .setTitle("Repost")
             .setColor(this.colGreen)
         }
-        //console.log(message.attachments.first());
 		if(message.attachments.first() != undefined){
 			var attachementText = "";
 			message.attachments.forEach(att => {
