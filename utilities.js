@@ -5,8 +5,6 @@ module.exports = {
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
-    roleMj : process.env.RP_ROLE_MJ,
-    salonMj :process.env.RP_SALON_MJ,
     roleMod :process.env.MOD_ROLE,
     logWarnMod : process.env.MOD_WARN_LOG,
     salonMeme : process.env.SALON_MEME,
