@@ -22,7 +22,8 @@ const myIntents = [
 	GatewayIntentBits.GuildMessageTyping,
 	GatewayIntentBits.DirectMessages,
 	GatewayIntentBits.DirectMessageReactions,
-	GatewayIntentBits.DirectMessageTyping
+	GatewayIntentBits.DirectMessageTyping,
+    GatewayIntentBits.MessageContent
 ]
 
 const client = new Client({intents: myIntents, allowedMentions: { parse: ['users', 'roles'], repliedUser: true} });
