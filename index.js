@@ -2,9 +2,11 @@ const fs = require('fs');
 //const { REST } = require('@discordjs/rest');
 //const { Routes } = require('discord-api-types/v9');
 const Discord = require('discord.js');
-const { REST, Routes } = require('discord.js');
+const { REST, Routes, PermissionsBitField, Events } = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
+
+const CHANNEL_SONDAGE = "1038906584673304683" //"522437669582667787";
 
 const { Client, GatewayIntentBits } = require('discord.js');
 const myIntents = [
@@ -27,18 +29,6 @@ const myIntents = [
 ]
 
 const client = new Client({intents: myIntents, allowedMentions: { parse: ['users', 'roles'], repliedUser: true} });
-
-//commandes a!
-client.commands = new Discord.Collection();
-const commandFolders = fs.readdirSync('./commands');
-for (const folder of commandFolders) {
-	const commandFiles = fs.readdirSync(`./commands/${folder}`).filter(file => file.endsWith('.js'));
-	for (const file of commandFiles) {
-		const command = require(`./commands/${folder}/${file}`);
-		client.commands.set(command.name, command);
-	}
-}
-const prefix = 'a!';
 
 //commandes slash
 client.commands = new Discord.Collection();
@@ -86,7 +76,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 
 client.once('ready', () => {
 	console.log('Ready!');
-	client.user.setActivity('a!help les bgs');
+	client.user.setActivity('Me voila tout neuf');
 });
 
 //spéciale dédi au bans qui ont des potes dans la moderation <3
@@ -99,7 +89,7 @@ client.on("guildBanRemove", function(guild, user){
 });
 
 // this code is executed every time they add a reaction
-client.on('messageReactionAdd', async (reaction, user) => {
+client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
 	if (reaction.emoji.name == '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
@@ -109,73 +99,16 @@ client.on('messageReactionAdd', async (reaction, user) => {
 		await utilities.warn(reaction.message,null);
 		await reaction.message.delete();
 	}
-	//console.log(reaction.emoji.name);
 });
 
+// listener pour sondage
 client.on('messageCreate', message => {
-
-	if(message.author.bot || message.channel.type === "DM"){
+	if (message.channel.id == CHANNEL_SONDAGE) {
+		let command = client.commands.get("sondage");
+        command.newSondage(message);
+	} else {
 		return;
 	}
-
-	let command;
-	
-	if (!message.content.toLowerCase().startsWith(prefix) ) {
-		if (message.channel.id == "522437669582667787") {
-			command = client.commands.get("sondage");
-		} else {
-			return;
-		}
-	}
-
-	const args = message.content.slice(prefix.length).trim().split(/ +/);
-	const commandName = args.shift().toLowerCase();
-	if (command === undefined) {
-		command = client.commands.get(commandName) || client.commands.find(cmd => cmd.aliases && cmd.aliases.includes(commandName));
-	}
-	//implementation commande sondage random
-
-	if(commandName === "kill"){
-		const authorPerms = message.channel.permissionsFor(message.author);
-		if (!authorPerms || !authorPerms.has("ADMINISTRATOR")) {
-			return message.reply('Vous ne pouvez pas faire cela !');
-		} else {
-			message.reply( '<@' + message.author.id + '> a detruit le bot !');
-			client.destroy();
-			return;
-		}
-	}
-
-	if (!command) return;
-
-	if (command.guildOnly && message.channel.type === 'DM') {
-		return message.reply('Je ne peut pas exectuer cette commande en message privé');
-	}
-
-	if (command.permissions) {
-		const authorPerms = message.channel.permissionsFor(message.author);
-		if (!authorPerms || !authorPerms.has(command.permissions)) {
-			return message.reply('Vous ne pouvez pas faire cela !');
-		}
-	}
-
-	if (command.args && !args.length) {
-		let reply = `Tu n'a fourni aucun argument, ${message.author}!`;
-
-		if (command.usage) {
-			reply += `\nIl faudrait suivre la syntaxe suivante: \`${prefix}${command.name} ${command.usage}\``;
-		}
-
-		return message.channel.send(reply);
-	}
-
-	try {
-		command.execute(message, args);
-	} catch (error) {
-		console.error(error);
-		message.reply('<@352459053928022017> erreur lors de l\'exectution de la commande.\n```' + error + '```');
-	}
-
 });
 
 client.on('interactionCreate', async interaction => {
@@ -184,7 +117,11 @@ client.on('interactionCreate', async interaction => {
 	const command = client.commands.get(interaction.commandName);
 
 	if (!command) return;
-
+    if (interaction.commandName === "kill" && interaction.user.has(PermissionsBitField.Flags.Administrator)){
+        interaction.reply( '<@' + interaction.user.id + '> a detruit le bot !');
+        client.destroy();
+        return;
+    }
 	try {
 		await command.execute(interaction);
 	} catch (error) {

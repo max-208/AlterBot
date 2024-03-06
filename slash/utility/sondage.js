@@ -8,9 +8,12 @@ module.exports = {
         const filter = m => m.author.id === interaction.user.id;
         interaction.channel.awaitMessages({filter, max: 1, time: 60000, errors: ['time'] })
             .then(collected => {createSondage(collected.first())})
-            .catch(collected => {console.log("Sondage annulé (1 min passée)")});
+            .catch(collected => {console.log("Erreur lors de la création du sondage")});
         await interaction.reply({ content: "Envoyez votre sondage !", ephemeral: true });
     },
+    async newSondage(message) {
+        createSondage(message);
+    }
 };
 
 /**
