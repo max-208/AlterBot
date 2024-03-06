@@ -6,7 +6,7 @@ const { REST, Routes, PermissionsBitField, Events } = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
 
-const CHANNEL_SONDAGE = "1038906584673304683" //"522437669582667787";
+const CHANNEL_SONDAGE = "522437669582667787";
 
 const { Client, GatewayIntentBits } = require('discord.js');
 const myIntents = [

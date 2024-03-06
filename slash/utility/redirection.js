@@ -50,7 +50,7 @@ module.exports = {
                 interaction.channel.permissionOverwrites.edit(usr, { SendMessages: null });
                 interaction.channel.permissionOverwrites.delete(usr);
             });
-        }, 30000);
+        }, 180000);
 
     }
 }
