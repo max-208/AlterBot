@@ -10,34 +10,6 @@ module.exports = {
     salonMeme : process.env.SALON_MEME,
 
     /**
-     * @param {Discord.GuildMember} member 
-     */
-    latiniser(member){
-	    if(!member.roles.cache.some(role => role.id == this.roleMod )){
-            var text = member.displayName
-            chars = ["A","a","À","à","Â","â","Ä","ä","Ã","ã","B","b","C","c","ç","D","d","E","e","é","È","è","Ê","ê","Ë","ë","F","f","G","g","H","h","I","i","Ì","ì","Î","î","Ï","ï","J","j","K","k","L","l","M","m","N","n","Ñ","ñ","O","o","Ò","ò","Ô","ô","Ö","ö","Õ","õ","P","p","Q","q","R","r","S","s","T","t","U","u","Ù","ù","Û","û","Ü","ü","V","v","W","w","X","x","Y","y","ÿ","Z","z","","_","-","'",".",",",";",":","!","?","@","&","§","~","^","`","¨","°","|","(",")","{","}","[","]","/","\\","<",">","\"","#","0","1","2","3","4","5","6","7","8","9","²","*","+","=","%","µ",";","€","$","¤","£"];
-            normal = [];
-            for (let i = 0; i < text.length; i++) {
-                if(chars.includes(text.charAt(i))){
-                    normal.push(true);
-                } else {
-                    normal.push(false);
-                }
-            }
-            test = true;
-            for (let i = 0; i < normal.length - 2; i++) {
-                if(normal[i] == true && normal[i+1] == true && normal[i+2] == true ){
-                    test = false;
-                }
-            }
-            if(test){
-                console.log(new Date().toLocaleString() + " - renommage");
-                member.setNickname("trouve toi un pseudo " + Math.round(Math.random()* 999999 ))
-            }
-        }
-    },
-
-    /**
      * @param {Discord.Message} message 
      * @param {Discord.GuildMember} member 
      */
