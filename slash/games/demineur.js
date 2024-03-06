@@ -1,21 +1,25 @@
-var fs = require("fs");
-const Discord = require('discord.js');
-let utilites = require("../../utilities.js");
+const { SlashCommandBuilder } = require('discord.js');
 const { randomInt } = require("crypto");
+
+
 module.exports = {
-    name: 'demineur',
-    description: 'crées un démineur',
-    args: false, 				//mettre a true quand la commande nécésite des arguments
-    usage: '[{dimension x}] [{dimension y}] [{nombres de mines}]',	//décrit les arguments nécéssaires a la commande
-    guildOnly: true,			//définit si la commande doit etre utilisé seulement sur le serveur
-    cooldown: 5,				//cooldown en nombres de secondes
-    aliases: [],	    //autres manières d'appeler la commande
-    permissions: "",
-    /**
-     * @param {Discord.Message} message 
-     * @param {String} args 
-     */
-    execute(message, args) {
+    data: new SlashCommandBuilder()
+    .setName('demineur')
+    .setDescription('crées un démineur')
+    .addIntegerOption(option =>
+        option.setName('dimension_x')
+        .setDescription('dimension x')
+        .setRequired(true))
+    .addIntegerOption(option =>
+        option.setName('dimension_y')
+        .setDescription('dimension y')
+        .setRequired(true))
+    .addIntegerOption(option =>
+        option.setName('nombres_de_mines')
+        .setDescription('nombres de mines')
+        .setRequired(true)),
+    async execute(interaction) {
+        const args = [interaction.options.getInteger('dimension_x'), interaction.options.getInteger('dimension_y'), interaction.options.getInteger('nombres_de_mines')];
         const symbol = {
             "*": "💥",
             "0": "⬛",
@@ -51,7 +55,7 @@ module.exports = {
         }
 
         if (nbBombes > (dimX * dimY)/2 || dimX*dimY > 100 || dimX < 2 || dimY <2) {
-            message.reply("plateau non valide, il doit avoir moins de 100 cases et ne doit pas contenir plus de 50% de bombes")
+            interaction.reply("plateau non valide, il doit avoir moins de 100 cases et ne doit pas contenir plus de 50% de bombes")
         } else {
             for (let i = 0; i < dimX; i++) {
                 for (let j = 0; j < dimY; j++) {
@@ -115,8 +119,7 @@ module.exports = {
                 }
                 texte = texte + "\n";
             }
-            console.log(board);
-            message.reply(texte);
+            interaction.reply(texte);
         }
     },
 };
