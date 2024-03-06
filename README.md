@@ -12,28 +12,12 @@ BOT_TOKEN=
 GUILD_ID=
 CLIENT_ID=
 DEV_ENV=FALSE
-RP_ROLE_MJ=
-RP_SALON_MJ=
 MOD_ROLE=
-MOD_WARN_ROLE=
+MOD_WARN_LOG=
 SALON_MEME=
 ```
 
 installez les modules node nécéssaires
 ```
 npm install
-cd ./data
-npm install
-cd ..
-```
-
-créez la base de données (pour premier avril)
-```
-cd ./data
-touch database.db
-sqlite3 database.db
-PRAGMA foreign_keys = ON;
-.read tables.sql
-.quit
-cd ..
 ```
