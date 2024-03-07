@@ -1,5 +1,4 @@
 echo "Deploiement alterbot"
-source /home/ubuntu/.bashrc
 pm2 stop alterbot
 cd /home/ubuntu/AlterBot
 git pull origin main
