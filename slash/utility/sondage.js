@@ -25,12 +25,12 @@ module.exports = {
         const client = message.client;
         const discordEmoji = new RegExp(/(:[^:\s]+:|<:[^:\s]+:[0-9]+>|<a:[^:\s]+:[0-9]+>)/ug);
         const unicodeEmoji = new RegExp(EMOJI_REGEX, 'g');
-        console.log(message.content);
+        //console.log(message.content);
 
         const discordMatch = message.content.match(discordEmoji);
         const unicodeMatch = message.content.match(unicodeEmoji);
-        console.log(discordMatch);
-        console.log(unicodeMatch);
+        //console.log(discordMatch);
+        //console.log(unicodeMatch);
         let count = 0;
         if (discordMatch !== null) {
             for (let i = 0; i < discordMatch.length; i++) {
@@ -61,14 +61,14 @@ module.exports = {
                             emote = await message.guild.emojis.create({attachment: "https://cdn.discordapp.com/emojis/"+ reactionEmoji[1]+".png", name: reactionEmoji[0]})
                             await message.react(emote);
                             emote.delete();
-                            console.log("supression emoji");
+                            console.log("suppression emoji");
                         }
                         continue;
                     }
                 } else {
                     reactionEmoji = emojiMessage;
                 }
-                console.log(reactionEmoji);
+                //console.log(reactionEmoji);
                 message.react(reactionEmoji);
             }
         }
@@ -81,7 +81,7 @@ module.exports = {
                 }
                 //type3 ! emoji unicode
                 message.react(unicodeMatch[i]);
-                console.log(unicodeMatch[i]);
+                //console.log(unicodeMatch[i]);
             }
         }
 }
