@@ -23,7 +23,7 @@ module.exports = {
     */
     async function createSondage(message) {
         const client = message.client;
-        const discordEmoji = new RegExp(/(:[^:\s]+:|<:[^:\s]+:[0-9]+>|<a:[^:\s]+:[0-9]+>)/ug);
+        const discordEmoji = new RegExp(/(:[^:^<\s]+:|<:[^:\s]+:[0-9]+>|<a:[^:\s]+:[0-9]+>)/ug);
         const unicodeEmoji = new RegExp(EMOJI_REGEX, 'g');
         //console.log(message.content);
 
