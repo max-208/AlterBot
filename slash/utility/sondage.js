@@ -23,23 +23,32 @@ module.exports = {
     */
     async function createSondage(message) {
         const client = message.client;
-        const discordEmoji = new RegExp(/(:[^:^<\s]+:|<:[^:\s]+:[0-9]+>|<a:[^:\s]+:[0-9]+>)/ug);
+        const discordEmoji = new RegExp(/(<:[^:\s]+:[0-9]+>|<a:[^:\s]+:[0-9]+>)/ug);
         const unicodeEmoji = new RegExp(EMOJI_REGEX, 'g');
         //console.log(message.content);
 
         const discordMatch = message.content.match(discordEmoji);
         const unicodeMatch = message.content.match(unicodeEmoji);
+
+        let discordMatches = [];
+        let unicodeMatches = [];
+        let match;
+        while ((match = discordEmoji.exec(message.content)) !== null) {
+            discordMatches.push({ match: match[0], index: match.index });
+        }
+        while ((match = unicodeEmoji.exec(message.content)) !== null) {
+            unicodeMatches.push({ match: match[0], index: match.index });
+        }
+
+        const allMatches = [...discordMatches, ...unicodeMatches];
+        allMatches.sort((a, b) => a.index - b.index);
         //console.log(discordMatch);
         //console.log(unicodeMatch);
-        let count = 0;
-        if (discordMatch !== null) {
-            for (let i = 0; i < discordMatch.length; i++) {
-                count ++;
-                if(count === 20){
-                    message = await message.channel.send("suite");
-                    count = 0;
-                }
-                const emojiMessage = discordMatch[i];
+        let emoteList = [];
+        let reactList = [];
+        //console.log(allMatches[0])
+        if (allMatches !== null) {
+            for (const { match: emojiMessage } of allMatches) {
                 let reactionEmoji;
                 if (emojiMessage.match(/:/g)) {
                     reactionEmoji = (emojiMessage.match(/[^:<>]+/g));
@@ -53,15 +62,13 @@ module.exports = {
                         if(emojiMessage.match(/<a/g)){
                             console.log("creation emoji animé");
                             emote = await message.guild.emojis.create({attachment: "https://cdn.discordapp.com/emojis/"+ reactionEmoji[2]+".gif", name: reactionEmoji[1]})
+                            emoteList.push(emote);
                             await message.react(emote);
-                            emote.delete();
-                            console.log("supression emoji");
                         } else {
                             console.log("creation emoji");
                             emote = await message.guild.emojis.create({attachment: "https://cdn.discordapp.com/emojis/"+ reactionEmoji[1]+".png", name: reactionEmoji[0]})
+                            emoteList.push(emote);
                             await message.react(emote);
-                            emote.delete();
-                            console.log("suppression emoji");
                         }
                         continue;
                     }
@@ -69,20 +76,22 @@ module.exports = {
                     reactionEmoji = emojiMessage;
                 }
                 //console.log(reactionEmoji);
-                message.react(reactionEmoji);
+                reactList.push(reactionEmoji);
             }
         }
-        if (unicodeMatch !== null && !message.author.bot) {
-            for (let i = 0; i < unicodeMatch.length; i++) {
-                count ++;
-                if(count === 20){
-                    message = await message.channel.send("suite");
-                    count = 0;
-                }
-                //type3 ! emoji unicode
-                message.react(unicodeMatch[i]);
-                //console.log(unicodeMatch[i]);
+        //console.log(reactList);
+        let count = 0;
+        for (let react of reactList) {
+            if (count >= 20){
+                message = await message.channel.send("Suite :")
+                count = 0;
             }
+            await message.react(react);
+            count++;
+        }
+        for (let emote of emoteList) {
+            await emote.delete();
+            console.log("suppression emoji");
         }
 }
 
