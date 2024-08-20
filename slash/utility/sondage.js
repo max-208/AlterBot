@@ -27,9 +27,6 @@ module.exports = {
         const unicodeEmoji = new RegExp(EMOJI_REGEX, 'g');
         //console.log(message.content);
 
-        const discordMatch = message.content.match(discordEmoji);
-        const unicodeMatch = message.content.match(unicodeEmoji);
-
         let discordMatches = [];
         let unicodeMatches = [];
         let match;
@@ -42,13 +39,19 @@ module.exports = {
 
         const allMatches = [...discordMatches, ...unicodeMatches];
         allMatches.sort((a, b) => a.index - b.index);
-        //console.log(discordMatch);
-        //console.log(unicodeMatch);
-        let emoteList = [];
-        let reactList = [];
-        //console.log(allMatches[0])
-        if (allMatches !== null) {
-            for (const { match: emojiMessage } of allMatches) {
+        //console.log(allMatches)
+        // Remove duplicates
+        const uniqueMatches = allMatches.filter((item, index, self) =>
+            index === self.findIndex((t) => t.match === item.match)
+        );
+        if (uniqueMatches !== null) {
+            let count = 0;
+            for (const { match: emojiMessage } of uniqueMatches) {
+                count ++;
+                if (count >= 20){
+                    message = await message.channel.send("Suite :")
+                    count = 0;
+                }
                 let reactionEmoji;
                 if (emojiMessage.match(/:/g)) {
                     reactionEmoji = (emojiMessage.match(/[^:<>]+/g));
@@ -58,40 +61,24 @@ module.exports = {
                         } else {
                             reactionEmoji = reactionEmoji[1];
                         }
+                        await message.react(reactionEmoji);
                     } else {
                         if(emojiMessage.match(/<a/g)){
                             console.log("creation emoji animé");
                             emote = await message.guild.emojis.create({attachment: "https://cdn.discordapp.com/emojis/"+ reactionEmoji[2]+".gif", name: reactionEmoji[1]})
-                            emoteList.push(emote);
                             await message.react(emote);
+                            await emote.delete()
                         } else {
                             console.log("creation emoji");
                             emote = await message.guild.emojis.create({attachment: "https://cdn.discordapp.com/emojis/"+ reactionEmoji[1]+".png", name: reactionEmoji[0]})
-                            emoteList.push(emote);
                             await message.react(emote);
+                            await emote.delete()
                         }
-                        continue;
                     }
                 } else {
-                    reactionEmoji = emojiMessage;
+                    await message.react(emojiMessage);
                 }
-                //console.log(reactionEmoji);
-                reactList.push(reactionEmoji);
             }
-        }
-        //console.log(reactList);
-        let count = 0;
-        for (let react of reactList) {
-            if (count >= 20){
-                message = await message.channel.send("Suite :")
-                count = 0;
-            }
-            await message.react(react);
-            count++;
-        }
-        for (let emote of emoteList) {
-            await emote.delete();
-            console.log("suppression emoji");
         }
 }
 
