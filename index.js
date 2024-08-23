@@ -6,7 +6,9 @@ const { REST, Routes, PermissionsBitField, Events } = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
 
-const salonSondage = process.env.SALON_SONDAGE ?? "522437669582667787";
+const CHANNEL_SONDAGE = "522437669582667787";
+const repostReactionNumber = 5;
+
 
 const { Client, GatewayIntentBits } = require('discord.js');
 const myIntents = [
@@ -94,7 +96,8 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	if (reaction.emoji.name === '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
-	if (reaction.emoji.name === '♻️' && reaction.count >= 3 && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot && reaction.message.author.id != "352459053928022017") {
+	if (reaction.emoji.name == '♻️' && reaction.count >= repostReactionNumber && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot && reaction.message.author.id != "352459053928022017") {
+
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
 		await utilities.warn(reaction.message,null);
 		await reaction.message.delete();
