@@ -6,6 +6,8 @@ const { REST, Routes, PermissionsBitField, Events } = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
 
+const salonSondage = process.env.SALON_SONDAGE ?? "522437669582667787";
+
 const { Client, GatewayIntentBits } = require('discord.js');
 const myIntents = [
 	GatewayIntentBits.Guilds,
@@ -101,11 +103,9 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 
 // listener pour sondage
 client.on('messageCreate', message => {
-	if (message.channel.id == process.env.SALON_SONDAGE) {
+	if (message.channel.id == salonSondage) {
 		let command = client.commands.get("sondage");
         command.newSondage(message);
-	} else {
-		return;
 	}
 });
 
