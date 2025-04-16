@@ -1,4 +1,4 @@
-const { SlashCommandBuilder } = require('discord.js');
+const { SlashCommandBuilder, MessageFlags } = require('discord.js');
 const EMOJI_REGEX = require('emojibase-regex');
 
 module.exports = {
@@ -10,7 +10,7 @@ module.exports = {
         interaction.channel.awaitMessages({filter, max: 1, time: 60000, errors: ['time'] })
             .then(collected => {createSondage(collected.first())})
             .catch(collected => {console.log("Erreur lors de la création du sondage")});
-        await interaction.reply({ content: "Envoyez votre sondage !", ephemeral: true });
+        await interaction.reply({ content: "Envoyez votre sondage !", flags: MessageFlags.Ephemeral });
     },
     async newSondage(message) {
         createSondage(message);
