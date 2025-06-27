@@ -1,8 +1,7 @@
 const fs = require('fs');
-//const { REST } = require('@discordjs/rest');
-//const { Routes } = require('discord-api-types/v9');
+
 const Discord = require('discord.js');
-const { REST, Routes, PermissionsBitField, Events } = require('discord.js');
+const { REST, Routes, PermissionsBitField, Events, Client, GatewayIntentBits } = require('discord.js');
 const utilities = require('./utilities');
 require("dotenv").config();
 
@@ -10,7 +9,7 @@ const CHANNEL_SONDAGE = "522437669582667787";
 const repostReactionNumber = 5;
 
 
-const { Client, GatewayIntentBits } = require('discord.js');
+
 const myIntents = [
 	GatewayIntentBits.Guilds,
 	GatewayIntentBits.GuildMembers,
@@ -56,7 +55,7 @@ const rest = new REST().setToken(process.env.BOT_TOKEN);
 (async () => {
 	try {
 		console.log('Started refreshing application (/) commands.');
-		if(process.env.DEV_ENV == "TRUE"){
+		if(process.env.DEV_ENV === "TRUE"){
 			await rest.put(
 				Routes.applicationGuildCommands(clientId, guildId),
 				{ body: slashCommands },
@@ -93,10 +92,16 @@ client.on("guildBanRemove", function(guild, user){
 // this code is executed every time they add a reaction
 client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
-	if (reaction.emoji.name === '🚩' && reaction.count >= 1 &&  member.roles.cache.some(role => role.id == utilities.roleMod ) ) {
+	if (reaction.emoji.name === '🚩' &&
+		reaction.count >= 1 &&
+		member.roles.cache.some(role => role.id === utilities.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
-	if (reaction.emoji.name == '♻️' && reaction.count >= repostReactionNumber && reaction.message.channel == utilities.salonMeme && !reaction.message.author.bot && reaction.message.author.id != "352459053928022017") {
+	if (reaction.emoji.name === '♻️' &&
+		reaction.count >= repostReactionNumber &&
+		reaction.message.channel === utilities.salonMeme &&
+		!reaction.message.author.bot &&
+		reaction.message.author.id !== "352459053928022017") {
 
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
 		await utilities.warn(reaction.message,null);
@@ -106,7 +111,7 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 
 // listener pour sondage
 client.on('messageCreate', message => {
-	if (message.channel.id == salonSondage) {
+	if (message.channel.id === CHANNEL_SONDAGE) {
 		let command = client.commands.get("sondage");
         command.newSondage(message);
 	}
