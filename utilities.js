@@ -1,13 +1,11 @@
 const Discord = require('discord.js');
-require("dotenv").config();
+const fs = require('fs');
+const CONFIG_PATH = 'config/config.json';
 module.exports = {
 
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
-    roleMod :process.env.MOD_ROLE,
-    logWarnMod : process.env.MOD_WARN_LOG,
-    salonMeme : process.env.SALON_MEME,
 
     /**
      * @param {Discord.Message} message 
@@ -39,11 +37,114 @@ module.exports = {
 		}
         
         if(member!=null){
-            message.client.channels.fetch(this.logWarnMod).then(channel => {;
+            const channelWarnMod = await this.readConfig("channelWarnMod");
+            message.client.channels.fetch(channelWarnMod).then(channel => {;
                 channel.send({embeds:[embed], content : message.author.id});});
             message.author.send({embeds:[embed], content : "Votre message a été jugé inaproprié ou non respectueux des regles du salon " + message.channel.toString() + " ou du serveur **AlterHis et Uchronies** par un modérateur.\nCeci n'est qu'un avertissement, cependant en cas de repetition cette infraction sera stockée et poura servir a justifier une sanction." });
         } else {
             message.author.send({embeds:[embed], content :"Le repost hammer est tombé *bonk*"});
         }
-    }, 
+    },
+
+    defaultConfig : {
+        //général
+        "roleMod": "476422844180332544",
+        
+        // reposts
+        "channelMeme": "476826071489052695",
+        "repostNumberReaction": 5,
+
+        // warns mod
+        "channelWarnMod": "842831533693468683",
+        "warnNumberReaction": 1,
+
+        //sondage
+        "channelSondage": "522437669582667787",
+    },
+    allowedConfigProperties : [
+        "roleMod",
+        "channelMeme",
+        "repostNumberReaction",
+        "channelWarnMod",
+        "warnNumberReaction",
+        "channelSondage",
+    ],
+
+    async initConfigIfEmpty() {
+        try {
+            const config = await this.readConfig();
+            if (Object.keys(config).length === 0) {
+                console.log('Config file is empty, initializing with default values.');
+                await this.writeConfig(this.defaultConfig);
+            } else {
+                console.log('Config file loaded successfully.');
+            }
+        } catch (error) {
+            console.error('Error reading config file');
+            console.log('Creating new config file with default values.');
+            await this.writeConfig(this.defaultConfig);
+        }
+    },
+
+    cachedConfig : null,
+    cachedConfigDate : null,
+    async readConfig() {
+        const cacheDuration = 1000 * 60 * 60 * 24; // 1 jour
+        if (this.cachedConfig && this.cachedConfigDate && (Date.now() - this.cachedConfigDate < cacheDuration)) {
+            return this.cachedConfig;
+        }
+        this.cachedConfig = await this.readConfigNoCache();
+        this.cachedConfigDate = Date.now();
+        return this.cachedConfig;
+    },
+
+    async readConfigNoCache() {
+        return new Promise((resolve, reject) => {
+            fs.readFile(CONFIG_PATH, 'utf8', (err, data) => {
+                if (err) reject(err);
+                else {
+                    try {
+                        const config = JSON.parse(data);
+                        if (!config) {
+                            reject(new Error('Config file is empty or invalid'));
+                        }
+                        badKeys = [];
+                        for (let key in config) {
+                            if (!this.allowedConfigProperties.includes(key)) {
+                                badKeys.push(key);
+                            }
+                        }
+                        if (badKeys.length > 0) {
+                            console.warn(`Config file contains unknown keys: ${badKeys.join(', ')}`);
+                            reject(new Error(`Config file contains unknown keys: ${badKeys.join(', ')}`));
+                        }
+                        resolve(config);
+                    } catch (parseError) {
+                        reject(parseError);
+                    }
+                }
+            })
+        });
+    },
+
+    async writeConfig(config) {
+        fs.writeFile(CONFIG_PATH, JSON.stringify(config, null, 4), (err) => {
+            if (err) console.error('Could not write config file:', err);
+        })
+        this.cachedConfig = config;
+        this.cachedConfigDate = Date.now();
+    },
+
+    async updateConfig(key, value) {
+        try {
+            let config = await this.readConfig();
+            if (!this.allowedConfigProperties.includes(key)) {
+                throw new Error(`Invalid config key: ${key}`);
+            }
+            config[key] = value;
+            await this.writeConfig(config);
+        } catch (error) {
+            console.error('Error updating config:', error);
+        }
+    }
 };
