@@ -99,7 +99,7 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	}
 	if (reaction.emoji.name === '♻️' &&
 		reaction.count >= repostReactionNumber &&
-		reaction.message.channel === utilities.salonMeme &&
+		reaction.message.channel.id === utilities.salonMeme &&
 		!reaction.message.author.bot &&
 		reaction.message.author.id !== "352459053928022017") {
 
