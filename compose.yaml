@@ -6,5 +6,12 @@ services:
       dockerfile: ./Dockerfile
     restart: unless-stopped
     volumes:
-      - config.json:/usr/src/bot/config.json
+      - config:/usr/src/bot/config
     env_file: ./.env
+volumes:
+  config:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/config
+      o: bind

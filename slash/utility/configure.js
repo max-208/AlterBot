@@ -47,8 +47,7 @@ module.exports = {
             await interaction.reply({content: "Invalid setting", ephemeral: true});
             return;
         } else {
-            utilities.config[setting] = value;
-            await utilities.syncConfig()
+            await utilities.updateConfig(setting, value);
         }
         if (setting.startsWith("channel")) {
             await interaction.reply(`Setting ${setting} has been set to <#${value}>.`);

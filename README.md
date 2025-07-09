@@ -11,12 +11,11 @@ BOT_TOKEN=
 GUILD_ID=
 CLIENT_ID=
 DEV_ENV=FALSE
-MOD_ROLE=
-MOD_WARN_LOG=
-SALON_MEME=
 ```
 
 installez les modules node nécéssaires
 ```
 npm install
 ```
+
+vous pourrez ensuite au besoin modifier la configuration de plusieurs fonctionnalités du bot dans le fichier config/config.json ou avec la commande /configure

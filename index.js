@@ -3,11 +3,9 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { REST, Routes, PermissionsBitField, Events, Client, GatewayIntentBits } = require('discord.js');
 const utilities = require('./utilities');
-const { config } = require('./utilities')
 require("dotenv").config();
 
-
-utilities.configFromDisk()
+utilities.initConfigIfEmpty();
 
 const myIntents = [
 	GatewayIntentBits.Guilds,
@@ -79,28 +77,19 @@ client.once('ready', () => {
 	client.user.setActivity('Me voila tout neuf');
 });
 
-//spéciale dédi au bans qui ont des potes dans la moderation <3
-client.on("guildBanRemove", function(guild, user){
-	console.log(user.id);
-	if(["334321322232381440","332153457005953025"].includes(user.id)){
-		console.log("ça a tenté d'unban quelqu'un qui ne doit pas l'etre, olalala");
-		guild.members.ban(user);
-    }
-});
-
 // this code is executed every time they add a reaction
 client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
+	config = await utilities.readConfig();
 	if (reaction.emoji.name === '🚩' &&
-		reaction.count >= 1 &&
+		reaction.count >= config.warnNumberReaction &&
 		member.roles.cache.some(role => role.id === config.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
 	if (reaction.emoji.name === '♻️' &&
-		reaction.count >= config.numberRepostReaction &&
+		reaction.count >= config.repostNumberReaction &&
 		reaction.message.channel.id === config.channelMeme &&
-		!reaction.message.author.bot &&
-		reaction.message.author.id !== "352459053928022017") {
+		!reaction.message.author.bot) {
 
 		reaction.message.channel.send("le repost hammer est tombé sur " + reaction.message.author.username + " *bonk*")
 		await utilities.warn(reaction.message,null);
@@ -109,7 +98,8 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 });
 
 // listener pour sondage
-client.on('messageCreate', message => {
+client.on('messageCreate', async message => {
+	const config = await utilities.readConfig();
 	if (message.channel.id === config.channelSondage) {
 		let command = client.commands.get("sondage");
         command.newSondage(message);
@@ -121,11 +111,6 @@ client.on('interactionCreate', async interaction => {
 		const command = client.commands.get(interaction.commandName);
 
 		if (!command) return;
-		if (interaction.commandName === "kill" && interaction.user.has(PermissionsBitField.Flags.Administrator)) {
-			interaction.reply('<@' + interaction.user.id + '> a detruit le bot !');
-			client.destroy();
-			return;
-		}
 		try {
 			await command.execute(interaction);
 		} catch (error) {
