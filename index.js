@@ -3,12 +3,11 @@ const fs = require('fs');
 const Discord = require('discord.js');
 const { REST, Routes, PermissionsBitField, Events, Client, GatewayIntentBits } = require('discord.js');
 const utilities = require('./utilities');
+const { config } = require('./utilities')
 require("dotenv").config();
 
-const CHANNEL_SONDAGE = "522437669582667787";
-const repostReactionNumber = 5;
 
-
+utilities.configFromDisk()
 
 const myIntents = [
 	GatewayIntentBits.Guilds,
@@ -94,12 +93,12 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
 	if (reaction.emoji.name === '🚩' &&
 		reaction.count >= 1 &&
-		member.roles.cache.some(role => role.id === utilities.roleMod ) ) {
+		member.roles.cache.some(role => role.id === config.roleMod ) ) {
 		utilities.warn(reaction.message,member);
 	}
 	if (reaction.emoji.name === '♻️' &&
-		reaction.count >= repostReactionNumber &&
-		reaction.message.channel.id === utilities.salonMeme &&
+		reaction.count >= config.numberRepostReaction &&
+		reaction.message.channel.id === config.channelMeme &&
 		!reaction.message.author.bot &&
 		reaction.message.author.id !== "352459053928022017") {
 
@@ -111,28 +110,36 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 
 // listener pour sondage
 client.on('messageCreate', message => {
-	if (message.channel.id === CHANNEL_SONDAGE) {
+	if (message.channel.id === config.channelSondage) {
 		let command = client.commands.get("sondage");
         command.newSondage(message);
 	}
 });
 
 client.on('interactionCreate', async interaction => {
-	if (!interaction.isCommand()) return;
+	if (interaction.isChatInputCommand()) {
+		const command = client.commands.get(interaction.commandName);
 
-	const command = client.commands.get(interaction.commandName);
-
-	if (!command) return;
-    if (interaction.commandName === "kill" && interaction.user.has(PermissionsBitField.Flags.Administrator)){
-        interaction.reply( '<@' + interaction.user.id + '> a detruit le bot !');
-        client.destroy();
-        return;
-    }
-	try {
-		await command.execute(interaction);
-	} catch (error) {
-		console.error(error);
-		return interaction.reply({ content: 'There was an error while executing this command!', ephemeral: true });
+		if (!command) return;
+		if (interaction.commandName === "kill" && interaction.user.has(PermissionsBitField.Flags.Administrator)) {
+			interaction.reply('<@' + interaction.user.id + '> a detruit le bot !');
+			client.destroy();
+			return;
+		}
+		try {
+			await command.execute(interaction);
+		} catch (error) {
+			console.error(error);
+			return interaction.reply({content: 'There was an error while executing this command!', ephemeral: true});
+		}
+	} else if (interaction.isAutocomplete()){
+		const command = client.commands.get(interaction.commandName);
+		if (!command) return;
+		try {
+			await command.autocomplete(interaction);
+		} catch (error) {
+			console.error(error);
+		}
 	}
 });
 

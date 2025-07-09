@@ -5,4 +5,6 @@ services:
       context: ./
       dockerfile: ./Dockerfile
     restart: unless-stopped
+    volumes:
+      - config.json:/usr/src/bot/config.json
     env_file: ./.env

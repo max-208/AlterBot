@@ -1,13 +1,18 @@
 const Discord = require('discord.js');
+const fs = require('fs');
 require("dotenv").config();
 module.exports = {
 
     colGreen : "#2E8B57",
     colRed : "#FF0000",
     colBlue : "#4169E1",
-    roleMod :process.env.MOD_ROLE,
-    logWarnMod : process.env.MOD_WARN_LOG,
-    salonMeme : process.env.SALON_MEME,
+    allowedConfigProperties : [
+        "numberRepostReaction",
+        "channelSondage",
+        "channelMeme",
+        "roleMod",
+        "logWarnMod"
+    ],
 
     /**
      * @param {Discord.Message} message 
@@ -45,5 +50,59 @@ module.exports = {
         } else {
             message.author.send({embeds:[embed], content :"Le repost hammer est tombé *bonk*"});
         }
-    }, 
+    },
+
+    config : {
+        "numberRepostReaction": 5,
+        "channelSondage": process.env.CHANNEL_SONDAGE ?? "522437669582667787",
+        "channelMeme": process.env.SALON_MEME,
+        "roleMod": process.env.MOD_ROLE,
+        "logWarnMod": process.env.MOD_WARN_LOG
+    },
+
+    async readConfig() {
+        return new Promise((resolve, reject) => {
+            fs.access('config.json', fs.constants.F_OK, (err) => {
+                if (err) {
+                    fs.writeFileSync("config.json", "{}");
+                    fs.access('config.json', fs.constants.F_OK, (err) => {
+                        if (err) console.error('Could not read nor create the config file');
+                        else resolve(undefined);
+                    });
+                }
+            });
+            fs.readFile('config.json', 'utf8', (err, data) => {
+                if (err) reject(err);
+                else {
+                    try {
+                        const config = JSON.parse(data);
+                        resolve(config);
+                    } catch (parseError) {
+                        reject(parseError);
+                    }
+                }
+            })
+
+        });
+    },
+
+    async configFromDisk() {
+        this.readConfig().then(config => {
+            if (config) {
+                for (let key in config) {
+                    if (this.allowedConfigProperties.includes(key)) {
+                        this.config[key] = config[key];
+                    }
+                }
+            }
+        }).catch(err => {
+            console.error('Error reading config file:', err);
+        })
+    },
+
+    async syncConfig() {
+        fs.writeFile('config.json', JSON.stringify(this.config, null, 4), (err) => {
+            if (err) console.error('Could not write config file:', err);
+        })
+    }
 };
