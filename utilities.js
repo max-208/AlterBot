@@ -109,6 +109,11 @@ module.exports = {
                 console.log('Config file is empty, initializing with default values.');
                 await this.writeConfig(this.defaultConfig);
             } else {
+                for (const key of Object.keys(this.config)) {
+                    if (!Object.keys(config).includes(key)) {
+                        config[key] = this.config[key];
+                    }
+                }
                 console.log('Config file loaded successfully.');
             }
         } catch (error) {
