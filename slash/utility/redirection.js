@@ -31,7 +31,7 @@ module.exports = {
                 .setDescription("l'autre utilisateur à rediriger")
                 .setRequired(false)),
     async execute(interaction) {
-        const TIMEOUT_TIME = await utilities.readConfigProperty("redirectionTimeout");
+        const TIMEOUT_TIME = await utilities.readConfigProperty("redirectionTimeoutMinutes");
         const channel = interaction.options.getChannel('salon');
         const users = [];
         for (let i = 0; i < 5; i++) {
