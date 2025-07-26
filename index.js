@@ -100,6 +100,7 @@ client.on(Events.MessageReactionAdd, async (reaction, user) => {
 // listener pour sondage
 client.on('messageCreate', async message => {
 	const config = await utilities.readConfig();
+	await utilities.deletionHook(message)
 	if (message.channel.id === config.channelSondage) {
 		let command = client.commands.get("sondage");
         command.newSondage(message);

@@ -60,6 +60,9 @@ module.exports = {
 
         //sondage
         "channelSondage": "522437669582667787",
+
+        //redirection
+        "redirectionTimeoutMinutes" : 3,
     },
     allowedConfigProperties : [
         "roleMod",
@@ -68,7 +71,38 @@ module.exports = {
         "channelWarnMod",
         "warnNumberReaction",
         "channelSondage",
+        "redirectionTimeoutMinutes",
     ],
+
+    deletionList : {}, // of type personId : [channelId, channelId..]
+
+    async deletionHook(message) {
+        if (message.author.id in this.deletionList && this.deletionList[message.author.id].includes(message.channel.id)) {
+            await message.author.send("Votre message dans le salon " + message.channel.toString() + " a été supprimé car vous êtes sous la sanction d'une redirection !")
+            message.delete().catch(error => {
+                console.error('Error deleting message on deletion hook:', error);
+            });
+        }
+    },
+
+    async registerUserForDeletionHook(userId, channelId, time) {
+        if (!(userId in this.deletionList)) {
+            this.deletionList[userId] = [channelId];
+        } else {
+            this.deletionList[userId].push(channelId);
+        }
+        setTimeout(this.removeUserFromDeletionHook.bind(this), time * 60 * 1000, userId, channelId);
+    },
+
+    async removeUserFromDeletionHook(userId, channelId) {
+        const index = this.deletionList[userId].indexOf(channelId);
+        if (index !== -1) {
+            this.deletionList[userId].splice(index, 1);
+        }
+        if (this.deletionList[userId].length === 0) {
+            delete this.deletionList[userId];
+        }
+    },
 
     async initConfigIfEmpty() {
         try {
@@ -77,6 +111,12 @@ module.exports = {
                 console.log('Config file is empty, initializing with default values.');
                 await this.writeConfig(this.defaultConfig);
             } else {
+                for (const key of Object.keys(this.config)) {
+                    if (!Object.keys(config).includes(key)) {
+                        config[key] = this.config[key];
+                    }
+                }
+                await this.writeConfig(config);
                 console.log('Config file loaded successfully.');
             }
         } catch (error) {
@@ -96,6 +136,14 @@ module.exports = {
         this.cachedConfig = await this.readConfigNoCache();
         this.cachedConfigDate = Date.now();
         return this.cachedConfig;
+    },
+
+    async readConfigProperty(key) {
+        if (!this.allowedConfigProperties.includes(key)) {
+            console.error("Access to invalid config property: " + key)
+        }
+        let config = await this.readConfig();
+        return config[key];
     },
 
     async readConfigNoCache() {
