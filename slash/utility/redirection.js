@@ -1,4 +1,5 @@
 const { SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
+const utilities = require('../../utilities');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -30,27 +31,34 @@ module.exports = {
                 .setDescription("l'autre utilisateur à rediriger")
                 .setRequired(false)),
     async execute(interaction) {
+        const TIMEOUT_TIME = await utilities.readConfigProperty("redirectionTimeout");
         const channel = interaction.options.getChannel('salon');
-        const user = [];
+        const users = [];
         for (let i = 0; i < 5; i++) {
             const usr = interaction.options.getUser('utilisateur' + i);
             if (usr) {
-                user.push(usr);
+                users.push(usr);
             }
         }
         let userMentions = "";
-        user.forEach(usr => {
-            userMentions = "<@" + usr.id + ">, " + userMentions;
-            interaction.channel.permissionOverwrites.edit(usr, { SendMessages: false });
-        });
         interaction.reply(userMentions + " merci de bien vouloir vous diriger dans <#" + channel + "> comme l\'a demandé <@" + interaction.user + ">. votre acces a <#" + interaction.channel + "> sera donc restreint pour les 3 prochaines minutes");
-        setTimeout(() => {
-            console.log("entering timeout");
-            user.forEach(usr => {
-                interaction.channel.permissionOverwrites.edit(usr, { SendMessages: null });
-                interaction.channel.permissionOverwrites.delete(usr);
+        console.log("interaction is in thread : " + interaction.channel.isThread())
+        if (interaction.channel.isThread()) {
+            for (const user of users) {
+                await utilities.registerUserForDeletionHook(user.id, interaction.channel.id, TIMEOUT_TIME);
+            }
+        } else {
+            users.forEach(usr => {
+                userMentions = "<@" + usr.id + ">, " + userMentions;
+                interaction.channel.permissionOverwrites.edit(usr, {SendMessages: false});
             });
-        }, 180000);
-
+            setTimeout(() => {
+                console.log("entering timeout");
+                users.forEach(usr => {
+                    interaction.channel.permissionOverwrites.edit(usr, {SendMessages: null});
+                    interaction.channel.permissionOverwrites.delete(usr);
+                });
+            }, TIMEOUT_TIME);
+        }
     }
 }

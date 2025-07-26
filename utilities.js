@@ -60,6 +60,9 @@ module.exports = {
 
         //sondage
         "channelSondage": "522437669582667787",
+
+        //redirection
+        "redirectionTimeout" : 180000, // 3 minutes
     },
     allowedConfigProperties : [
         "roleMod",
@@ -68,7 +71,36 @@ module.exports = {
         "channelWarnMod",
         "warnNumberReaction",
         "channelSondage",
+        "redirectionTimeout",
     ],
+
+    deletionList : {}, // of type personId : [channelId, channelId..]
+
+    async deletionHook(message) {
+        if (message.author.id in this.deletionList && this.deletionList[message.author.id].includes(message.channel.id)) {
+            await message.author.send("Votre message dans le salon " + message.channel.toString() + " a été supprimé car vous êtes sous la sanction d'une redirection !")
+            message.delete().catch(error => {
+                console.error('Error deleting message on deletion hook:', error);
+            });
+        }
+    },
+
+    async registerUserForDeletionHook(userId, channelId, time) {
+        console.log(time)
+        if (!(userId in this.deletionList)) {
+            this.deletionList[userId] = [channelId];
+        } else {
+            this.deletionList[userId].push(channelId);
+        }
+        setTimeout(this.removeUserFromDeletionHook.bind(this), time, userId, channelId);
+    },
+
+    async removeUserFromDeletionHook(userId, channelId) {
+        this.deletionList[userId].splice(channelId, 1);
+        if (this.deletionList[userId].length === 0) {
+            delete this.deletionList[userId];
+        }
+    },
 
     async initConfigIfEmpty() {
         try {
@@ -96,6 +128,16 @@ module.exports = {
         this.cachedConfig = await this.readConfigNoCache();
         this.cachedConfigDate = Date.now();
         return this.cachedConfig;
+    },
+
+    async readConfigProperty(key) {
+        if (!this.allowedConfigProperties.includes(key)) {
+            console.error("Access to invalid config property: " + key)
+        }
+        let config = await this.readConfig();
+        console.log(config);
+        console.log(config[key])
+        return config[key];
     },
 
     async readConfigNoCache() {
