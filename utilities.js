@@ -62,7 +62,7 @@ module.exports = {
         "channelSondage": "522437669582667787",
 
         //redirection
-        "redirectionTimeout" : 180000, // 3 minutes
+        "redirectionTimeoutMinutes" : 3,
     },
     allowedConfigProperties : [
         "roleMod",
@@ -71,7 +71,7 @@ module.exports = {
         "channelWarnMod",
         "warnNumberReaction",
         "channelSondage",
-        "redirectionTimeout",
+        "redirectionTimeoutMinutes",
     ],
 
     deletionList : {}, // of type personId : [channelId, channelId..]
@@ -91,7 +91,7 @@ module.exports = {
         } else {
             this.deletionList[userId].push(channelId);
         }
-        setTimeout(this.removeUserFromDeletionHook.bind(this), time, userId, channelId);
+        setTimeout(this.removeUserFromDeletionHook.bind(this), time * 60 * 1000, userId, channelId);
     },
 
     async removeUserFromDeletionHook(userId, channelId) {
@@ -116,6 +116,7 @@ module.exports = {
                         config[key] = this.config[key];
                     }
                 }
+                await this.writeConfig(config);
                 console.log('Config file loaded successfully.');
             }
         } catch (error) {
