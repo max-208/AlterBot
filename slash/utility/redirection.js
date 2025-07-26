@@ -41,7 +41,7 @@ module.exports = {
             }
         }
         let userMentions = "";
-        interaction.reply(userMentions + " merci de bien vouloir vous diriger dans <#" + channel + "> comme l\'a demandé <@" + interaction.user + ">. votre acces a <#" + interaction.channel + "> sera donc restreint pour les 3 prochaines minutes");
+        interaction.reply(userMentions + " merci de bien vouloir vous diriger dans <#" + channel + "> comme l\'a demandé <@" + interaction.user + ">. votre acces a <#" + interaction.channel + "> sera donc restreint pour les " + TIMEOUT_TIME / 60000 + " prochaines minutes");
         if (interaction.channel.isThread()) {
             for (const user of users) {
                 await utilities.registerUserForDeletionHook(user.id, interaction.channel.id, TIMEOUT_TIME);
@@ -52,7 +52,6 @@ module.exports = {
                 interaction.channel.permissionOverwrites.edit(usr, {SendMessages: false});
             });
             setTimeout(() => {
-                console.log("entering timeout");
                 users.forEach(usr => {
                     interaction.channel.permissionOverwrites.edit(usr, {SendMessages: null});
                     interaction.channel.permissionOverwrites.delete(usr);
