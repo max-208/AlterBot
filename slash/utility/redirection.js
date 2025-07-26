@@ -42,7 +42,6 @@ module.exports = {
         }
         let userMentions = "";
         interaction.reply(userMentions + " merci de bien vouloir vous diriger dans <#" + channel + "> comme l\'a demandé <@" + interaction.user + ">. votre acces a <#" + interaction.channel + "> sera donc restreint pour les 3 prochaines minutes");
-        console.log("interaction is in thread : " + interaction.channel.isThread())
         if (interaction.channel.isThread()) {
             for (const user of users) {
                 await utilities.registerUserForDeletionHook(user.id, interaction.channel.id, TIMEOUT_TIME);

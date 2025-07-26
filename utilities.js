@@ -86,7 +86,6 @@ module.exports = {
     },
 
     async registerUserForDeletionHook(userId, channelId, time) {
-        console.log(time)
         if (!(userId in this.deletionList)) {
             this.deletionList[userId] = [channelId];
         } else {
@@ -96,7 +95,10 @@ module.exports = {
     },
 
     async removeUserFromDeletionHook(userId, channelId) {
-        this.deletionList[userId].splice(channelId, 1);
+        const index = this.deletionList[userId].indexOf(channelId);
+        if (index !== -1) {
+            this.deletionList[userId].splice(index, 1);
+        }
         if (this.deletionList[userId].length === 0) {
             delete this.deletionList[userId];
         }
@@ -140,8 +142,6 @@ module.exports = {
             console.error("Access to invalid config property: " + key)
         }
         let config = await this.readConfig();
-        console.log(config);
-        console.log(config[key])
         return config[key];
     },
 
