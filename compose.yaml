@@ -7,6 +7,7 @@ services:
     restart: unless-stopped
     volumes:
       - config:/usr/src/bot/config
+      - data:/usr/src/bot/data
     env_file: ./.env
 volumes:
   config:
@@ -14,4 +15,10 @@ volumes:
     driver_opts:
       type: none
       device: ${PWD}/config
+      o: bind
+  data:
+    driver: local
+    driver_opts:
+      type: none
+      device: ${PWD}/data
       o: bind
