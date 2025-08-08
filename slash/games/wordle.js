@@ -1,6 +1,6 @@
 const { SlashCommandBuilder, InteractionContextType } = require('discord.js');
-const { wordle, wordList } = require('../../utils/wordle.js');
-const utilities = require('../../utils/utilities.js');
+const { wordle, wordList } = require('utils/wordle.js');
+const utilities = require('utils/utilities.js');
 
 module.exports = {
     data: new SlashCommandBuilder()
@@ -49,9 +49,8 @@ module.exports = {
                         ephemeral: true
                     });
                 }).catch(err => {
-                    console.error(err);
                     interaction.reply({
-                        content: "Une erreur est survenue lors du démarrage de la partie. Veuillez prévenir <@1004518765834289302> et réessayer plus tard.",
+                        content: err,
                         ephemeral: true
                     });
                 })
@@ -83,7 +82,7 @@ module.exports = {
                     });
                 }
 
-                this.makeGuess(authorId, guess).catch((err) => {
+                this.makeGuess(authorId, guess, interaction).catch((err) => {
                     console.error(err);
                     interaction.reply({
                         content: "Une erreur est survenue lors de la vérification de votre supposition. Veuillez réessayer plus tard.",
@@ -115,10 +114,45 @@ module.exports = {
     },
 
     async startGame(userId) {
-
+        const gameStamp = wordle.getLastGame(userId);
+        if (await wordle.getPlayerActualGame(userId, gameStamp)) {
+            return Promise.reject("Vous avez déjà une partie en cours. Veuillez terminer votre partie actuelle avant d'en commencer une nouvelle.");
+        }
+        await wordle.addPlayerToGame(userId);
     },
 
-    async makeGuess(userId, guess) {
+    async makeGuess(userId, guess, interaction) {
+        const hasStarted = await wordle.verifyPlayerStartedGame(userId, guess);
+
+        if (!hasStarted) {
+            return interaction.reply({
+                content: "Vous n'avez pas encore commencé de partie. Veuillez utiliser la commande `/wordle play` pour commencer une nouvelle partie.",
+                ephemeral: true
+            });
+        }
+
+        if (!await wordle.insertGuessIntoDb()){
+            return interaction.reply({
+                content: "Vous avez déjà fait 6 suppositions pour cette partie !",
+                ephemeral: true
+            })
+        }
+
+        const embed = await wordle.buildGuessEmbed(userId)
+        if (embed) {
+            interaction.user.send({ embeds: [embed] }).catch(err => {
+                console.error("Erreur lors de l'envoi du message en DM :", err);
+                interaction.reply({
+                    content: "Une erreur est survenue lors de l'envoi du message en DM.",
+                    ephemeral: true
+                });
+            });
+        } else {
+            interaction.reply({
+                content: "Vous avez déjà trouvé le mot !",
+                ephemeral: true
+            });
+        }
 
     },
 

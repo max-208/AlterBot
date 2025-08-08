@@ -4,7 +4,8 @@ find_project_root() {
     local dir="$PWD"
     while [[ "$dir" != "/" ]]; do
         if [[ -f "$dir/index.js" ]]; then
-            return $dir
+            echo "$dir"
+            return 0
         fi
         dir="$(dirname "$dir")"
     done
@@ -23,5 +24,6 @@ else
     echo "Creating database..."
     touch "$PROJECT_ROOT/data/wordle_score.db"
     sqlite3 "$PROJECT_ROOT/data/wordle_score.db" < "$PROJECT_ROOT/utils/create_wordle_score.sql"
+    bash "$PROJECT_ROOT/utils/populate_db_with_test_value.sh" "$PROJECT_ROOT/data/wordle_score.db" "$PROJECT_ROOT/utils/populate_db_with_test_value.sql"
     echo "Database initialized successfully."
 fi

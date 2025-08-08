@@ -1,5 +1,5 @@
-const wordle = require("./wordle_core.db");
-const {wordleDatabase, db_connection} = require("./wordle_database.js");
+const { wordle} = require("utils/wordle_core.js");
+const {wordleDatabase, db_connection} = require("utils/wordle_database.js");
 const fs = require('fs');
 
 const getWordList = function() {

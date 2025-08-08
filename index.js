@@ -2,7 +2,7 @@ const fs = require('fs');
 
 const Discord = require('discord.js');
 const { REST, Routes, PermissionsBitField, Events, Client, GatewayIntentBits } = require('discord.js');
-const utilities = require('./utils/utilities');
+const utilities = require('utils/utilities');
 require("dotenv").config();
 
 utilities.initConfigIfEmpty();
