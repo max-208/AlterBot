@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const sharp = require("sharp");
 const CONFIG_PATH = 'config/config.json';
 module.exports = {
 
@@ -194,5 +195,32 @@ module.exports = {
         } catch (error) {
             console.error('Error updating config:', error);
         }
+    },
+
+    async convertSVGtoPNG(svgString) {
+        if (!fs.existsSync("tmp")){
+            fs.mkdirSync("tmp");
+        }
+        const epoch = new Date().getTime();
+        await sharp(Buffer.from(svgString))
+            .png()
+            .toFile('tmp/tmp_' + epoch + '.png');
+        return 'tmp_' + epoch + '.png';
+    },
+
+    async deleteFiles(fileList) {
+        for (const file of fileList){
+            const filePath = 'tmp/' + file;
+            if (fs.existsSync(filePath)) {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error(`Error deleting file ${filePath}:`, err);
+                    }
+                });
+            }
+        }
+
     }
+
+
 };

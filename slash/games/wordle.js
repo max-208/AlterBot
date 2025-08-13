@@ -1,4 +1,4 @@
-const { SlashCommandBuilder, InteractionContextType } = require('discord.js');
+const { SlashCommandBuilder, InteractionContextType, EmbedBuilder} = require('discord.js');
 const { wordle, wordList } = require('utils/wordle.js');
 const utilities = require('utils/utilities.js');
 
@@ -101,7 +101,7 @@ module.exports = {
                 break;
             case 'top':
                 const page = interaction.options.getInteger('page') || 1;
-                this.getTop(page).catch(err => {
+                this.getTop(page, interaction).catch(err => {
                     console.error(err);
                     interaction.reply({
                         content: "Une erreur est survenue lors de la récupération du top des joueurs. Veuillez réessayer plus tard.",
@@ -122,9 +122,7 @@ module.exports = {
     },
 
     async makeGuess(userId, guess, interaction) {
-        const hasStarted = await wordle.verifyPlayerStartedGame(userId, guess);
-
-        if (!hasStarted) {
+        if (!await wordle.verifyPlayerStartedGame(userId, guess)) {
             return interaction.reply({
                 content: "Vous n'avez pas encore commencé de partie. Veuillez utiliser la commande `/wordle play` pour commencer une nouvelle partie.",
                 ephemeral: true
@@ -138,9 +136,9 @@ module.exports = {
             })
         }
 
-        const embed = await wordle.buildGuessEmbed(userId)
+        const {embed, attachment, validatedArray} = await wordle.buildGuessEmbed(userId)
         if (embed) {
-            interaction.user.send({ embeds: [embed] }).catch(err => {
+            interaction.user.send({ embeds: [embed], files: [attachment] }).catch(err => {
                 console.error("Erreur lors de l'envoi du message en DM :", err);
                 interaction.reply({
                     content: "Une erreur est survenue lors de l'envoi du message en DM.",
@@ -153,14 +151,39 @@ module.exports = {
                 ephemeral: true
             });
         }
+        if (validatedArray[5] || validatedArray[validatedArray.filter((v) => v !== null).length - 1].reduce((a, b) => a + b, 0) === 10 ){
+            await wordle.updatePlayerStats()
+        }
 
     },
 
     async getStats(userId) {
-
+        const embed = await wordle.getPlayerStatsEmbed(userId);
+        interaction.reply({
+            embeds: [embed],
+            ephemeral: true
+        });
     },
 
-    async getTop(page) {
+    async getTop(page, interaction) {
+        if (page < 1) {
+            interaction.reply("Vous devez spécifier une page supérieure ou égale à 1.", { ephemeral: true });
+            return;
+        }
         page -= 1; // Convert to 0-based index
+        const topPlayers = await wordle.getTopPlayers(page);
+        let messageBody = "";
+        for (let i = 0; i < topPlayers.length; i++) {
+            messageBody += `${i}. <@${topPlayers[i].id}> : ${topPlayers[i].score_total} points\n`;
+        }
+        const embed = new EmbedBuilder()
+            .setTitle("Wordle")
+            .setDescription(`${messageBody}`)
+            .setColor(0x00FF00)
+            .setFooter({ text: `Page ${page + 1}` });
+        interaction.reply({
+            embeds: [embed],
+            ephemeral: true
+        });
     },
 }

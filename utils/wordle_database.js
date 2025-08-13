@@ -79,22 +79,6 @@ const wordleDatabase = function(){
             )
         })
     }
-
-    this.getWordValue = async function(dateStamp){
-        return new Promise((resolve, reject) => {
-            db.get("SELECT word_score FROM games WHERE date = ?", [dateStamp], (err, row) => {
-                if (err) {
-                    console.error("Error fetching word value from database:", err);
-                    reject(err);
-                } else if (row) {
-                    resolve(row.word_score);
-                } else {
-                    console.warn("No game found for the given timestamp.");
-                    resolve(null);
-                }
-            });
-        })
-    }
     this.getPlayer = async function(id){
         return new Promise((resolve, reject) => {
             db.get("SELECT * FROM players WHERE id = ?", [id], (err, row) => {
@@ -125,8 +109,8 @@ const wordleDatabase = function(){
     };
     this.updatePlayerStats = async function(playerId, stats){
         return new Promise((resolve, reject) => {
-            db.run("UPDATE players SET games_played = ?, games_won = ?, average_guesses = ? WHERE id = ?",
-                [stats.gamesPlayed, stats.gamesWon, stats.averageGuesses, playerId], err => {
+            db.run("UPDATE players SET  first_game_date = ?, last_game_date = ?, current_streak = ?, longest_streak = ?, score_average = ?, score_median = ?, score_total = ? WHERE id = ?",
+                [stats.first_game_date, stats.last_game_date, stats.current_streak, stats.longest_streak, stats.score_average, stats.score_median, stats.score_total, playerId], err => {
                 if (err) {
                     console.error("Error updating player stats in database:", err);
                     reject(err);
@@ -163,7 +147,7 @@ const wordleDatabase = function(){
            })
         });
     }
-    this.insertNewGuess = async function(playerId, gameStamp, guess, guessNumber){
+    this.insertNewGuess = async function(playerId, gameStamp, guess, guessNumber, score = null){
         const map = {
             0: 'first_guess',
             1: 'second_guess',
@@ -177,8 +161,14 @@ const wordleDatabase = function(){
             return Promise.reject("Invalid guess number. Must be between 0 and 5.");
         }
         const guessField = map[guessNumber];
+        let query;
+        if (score){
+            query = `UPDATE guesses SET ${guessField} = ?, score = ? WHERE player_id = ? AND date = ?`;
+        } else {
+            query = `UPDATE guesses SET ${guessField} = ? WHERE player_id = ? AND date = ?`;
+        }
         return new Promise((resolve, reject) => {
-            db.run("UPDATE guesses SET ${guessField} = ? WHERE player_id = ? AND date = ?", [guess, playerId, gameStamp], err => {
+            db.run(query, [guess, score, playerId, gameStamp], err => {
                 if (err) {
                     console.error("Error inserting new guess into database:", err);
                     reject(err);
@@ -187,6 +177,18 @@ const wordleDatabase = function(){
                 }
             })
         })
+    }
+    this.getAllPlayers = async function(limit = 10, page = 0){
+        return new Promise((resolve, reject) => {
+            db.all("SELECT id,  FROM players ORDER BY score_total DESC LIMIT ? OFFSET ?", [limit, page * limit], (err, rows) => {
+                if (err) {
+                    console.error("Error fetching all players from database:", err);
+                    reject(err);
+                } else {
+                    resolve(rows);
+                }
+            });
+        });
     }
 }
 

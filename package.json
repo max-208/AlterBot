@@ -1,6 +1,6 @@
 {
   "name": "alterbot",
-  "version": "1.0.0",
+  "version": "2.2.0",
   "description": "",
   "main": "index.js",
   "type": "commonjs",
@@ -13,6 +13,7 @@
     "discord.js": "^14.18.0",
     "dotenv": "^16.5.0",
     "emojibase-regex": "^16.0.0",
+    "sharp": "^0.34.3",
     "sqlite3": "^5.1.7"
   }
 }

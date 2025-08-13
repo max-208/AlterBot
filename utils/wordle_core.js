@@ -1,5 +1,7 @@
 const {wordleDatabase} = require('utils/wordle_database.js');
 const fs = require('fs');
+const utilities = require('utils/utilities.js');
+const {AttachmentBuilder, EmbedBuilder} = require('discord.js');
 
 const letterScore = {
     "A" : 1,
@@ -81,11 +83,20 @@ const wordleCore = function () {
         }
         return row.word;
     }
-    this.verifyWord = async function (word) {
+    this.verifyWord = async function (word, compareTo = null) {
+        /**
+         * Verify the word against the current word.
+         * Returns an array of 5 integers representing the validity of each letter:
+         * 0: not in word, 1: in word but wrong position, 2: in word and correct position
+         *
+         * @param {string} word - The word to verify.
+         * @param {string|null} compareTo - The word to compare against. If null, uses the current word.
+         * @return {Promise<Array<number>>} - A promise that resolves to an array of integers.
+         */
         if (word === null){
             return null
         }
-        const currentWord = await this.getCurrentWord();
+        const currentWord = compareTo ?? await this.getCurrentWord();
         const currentWordArr = currentWord.split('');
         const wordArr = word.split('');
         let result = [0, 0, 0, 0, 0];
@@ -114,24 +125,6 @@ const wordleCore = function () {
 
         return result;
     };
-    this.computePlayerAverage = async function (playerId) {
-        const guesses = await wordleDatabase.getPlayerGuesses(playerId);
-        if (guesses.length === 0) {
-            console.warn("No guesses found for player");
-            return null;
-        }
-        const totalGuesses = guesses.reduce((sum, guess) => sum + guess.score, 0);
-        return totalGuesses / guesses.length;
-    };
-    this.computePlayerMedian = async function (playerId) {
-        const guesses = await wordleDatabase.getPlayerGuesses(playerId);
-        if (guesses.length === 0) {
-            console.warn("No guesses found for player");
-            return null;
-        }
-        const scores = guesses.map(guess => guess.score).sort();
-        return scores[Math.floor(scores.length / 2)];
-    };
     this.registerPlayerToGame = async function (playerId) {
         const gameStamp = await this.getCurrentStamp();
         const player = await wordleDatabase.getPlayer(playerId);
@@ -140,9 +133,21 @@ const wordleCore = function () {
         }
         await wordleDatabase.registerPlayerToGame(playerId, gameStamp);
     };
-    this.updatePlayerStats = async function (playerId) {
-        const average = await this.computePlayerAverage(playerId);
-        const median = await this.computePlayerMedian(playerId);
+    this.updatePlayerStats = async function (playerId, streak) {
+        const guesses = (await wordleDatabase.getPlayerGuesses(playerId)).sort();
+        const totalScore = guesses.reduce((sum, guess) => sum + guess.score, 0);
+        const average = totalGuesses / guesses.length;
+        const median = guesses[Math.floor(guesses.length / 2)].score;
+        const stats = {
+            first_game_date: streak.last_game_date,
+            last_game_date: streak.last_game_date,
+            current_streak: streak.current_streak,
+            longest_streak: streak.longest_streak,
+            score_average: average,
+            score_median: median,
+            score_total: totalScore
+        }
+        await wordleDatabase.updatePlayerStats(playerId, stats);
     };
 
     this.computePlayerScore = async function (playerId, dateStamp) {
@@ -208,27 +213,161 @@ const wordleCore = function () {
     this.insertGuessIntoDb = async function (playerId, guess) {
         const dateStamp = await this.getCurrentStamp();
         const numberOfGuess = await this.getNumberOfGuess(playerId, dateStamp);
+
         if (numberOfGuess === null) {
             return;
         } else if (numberOfGuess >= 6) {
             return false;
+        } else if (numberOfGuess === 6 || (await this.verifyWord(guess)).reduce((a, b) => a + b, 0) === 10) { //si le jeu est fini on calcule le score
+            const score = await this.computePlayerScore(playerId, dateStamp);
+            await wordleDatabase.insertNewGuess(playerId, guess, dateStamp, numberOfGuess, score);
+            if (numberOfGuess === 6 && (await this.verifyWord(guess)).reduce((a, b) => a + b, 0) === 10) {
+                //game is lost
+                await this.updateStreak(playerId, dateStamp, false);
+            } else {
+                await this.updateStreak(playerId, dateStamp, true);
+            }
         } else {
             await wordleDatabase.insertNewGuess(playerId, guess, dateStamp, numberOfGuess);
+            return true;
         }
+    }
+
+    this.updateStreak = async function(playerId, dateStamp, won) {
+        const player = await wordleDatabase.getPlayer(playerId);
+        if (!player) {
+            console.error("Player not found in the database while trying to update streak.");
+        }
+        const streak = {
+            first_game_date: player.first_game_date ?? dateStamp,
+            last_game_date: dateStamp,
+            current_streak: won ? player.current_streak + 1 : 0,
+            longest_streak: Math.max(player.longest_streak, this.current_streak),
+        }
+        await this.updatePlayerStats(playerId, streak)
     }
 
     this.verifyPlayerStartedGame = async function (playerId) {
         const gameStamp = await this.getCurrentStamp();
-        const game = await wordleDatabase.getPlayerActualGame(playerId, gameStamp);
-        if (!game) {
-            return false
-        }
-        return true;
+        return await wordleDatabase.getPlayerActualGame(playerId, gameStamp);
+
     }
+
+    this.createSVGFromLettersList = async function (guessesArray, validatedArray) {
+        /**
+         * Create an SVG representation of the guesses grid
+         *
+         * @param {Array<string>} guessesArray - The array of guesses made by the player.
+         * @param {Array<Array<number>>} validatedArray - The array of arrays containing the validity of each letter in the guesses.
+         * @return {Promise<string>} A promise that resolves to the SVG string.
+         */
+        const colors = {
+            font : 'hsl(0, 0%, 100%)',
+            stroke : 'hsl(0, 0%, 15%)',
+            null : 'hsl(0, 0%, 0%)',
+            0 : 'hsl(0, 0%, 40%)', // Gray
+            1 : 'hsl(45, 100%, 40%)', // Yellow
+            2 : 'hsl(120, 100%, 40%)' // Green
+        }
+
+        const scale = 1.5;
+        const rows = 6;
+        const cols = 5;
+        const cellSize = 20 * scale;
+        const margin = 6 * scale;
+        const gap = 24 * scale;
+        const svgWidth = margin * 2 + gap * (cols - 1) + cellSize;
+        const svgHeight = margin * 2 + gap * (rows - 1) + cellSize;
+
+        let svgContent = `<svg xmlns="http://www.w3.org/2000/svg" width="${svgWidth}" height="${svgHeight}">
+    <rect width="100%" height="100%" fill="hsl(0, 0%, 10%)"/>
+`;
+
+        for (let row = 0; row < rows; row++) {
+            for (let col = 0; col < cols; col++) {
+                const { x, y, cellSize, textX, textY } = getCellParams(row, col, scale);
+                let letter = ' ';
+                let color = colors.null;
+                if (guessesArray[row] && guessesArray[row][col]) {
+                    letter = guessesArray[row][col];
+                    color = colors[validatedArray[row][col]];
+                }
+                svgContent += `    <rect x="${x}" y="${y}" height="${cellSize}" width="${cellSize}" fill="${color}" stroke="${colors.stroke}" stroke-width="${2 * scale}"/>\n`;
+                svgContent += `    <text x="${textX}" y="${textY}" font-size="${12 * scale}" font-family="Arial" fill="${colors.font}" text-anchor="middle">${letter}</text>\n`;
+            }
+        }
+
+        svgContent += `</svg>\n`;
+
+        return svgContent;
+    }
+
 
     this.buildGuessEmbed = async function (playerId) {
         const game = await wordleDatabase.getPlayerActualGame(playerId, await this.getCurrentStamp());
+        const guesses = [
+            game.first_guess,
+            game.second_guess,
+            game.third_guess,
+            game.fourth_guess,
+            game.fifth_guess,
+            game.sixth_guess
+        ];
+        let validatedArray = [];
+        for (const guess of guesses) {
+            if (guess) {
+                const verified = await this.verifyWord(guess, game.word);
+                validatedArray.push(verified);
+            } else {
+                validatedArray.push([null, null, null, null, null]);
+            }
+        }
+        const svgContent = await this.createSVGFromLettersList(guesses, validatedArray);
+        const pngPath = await utilities.convertSVGtoPNG(svgContent);
+        const attachment = new AttachmentBuilder(pngPath, { name: 'wordle_grid.png' });
+        const embed = new EmbedBuilder()
+            .setTitle("Wordle")
+            .setDescription(`${guesses.filter(g => g).length}/6`)
+            .setFields(
+                {name: "score", value: `${game.score}`, inline: true},
+            )
+            .setColor('Blue')
+            .setImage('attachment://wordle_grid.png')
+        return {
+            embed: embed,
+            file: attachment,
+            validatedArray: validatedArray,
+        };
+    }
 
+    this.getPlayerStatsEmbed = async function (playerId) {
+        const player = await wordleDatabase.getPlayer(playerId);
+        if (!player) {
+            return new EmbedBuilder()
+                .setTitle("Wordle")
+                .setDescription("Aucun joueur trouvé avec cet ID.")
+                .setColor('Red');
+        } else {
+            return new EmbedBuilder()
+                .setTitle("Wordle")
+                .setDescription(`Statistiques de <@${playerId}>`)
+                .addFields(
+                    {name: "Première partie", value: new Date(player.first_game_date).toLocaleDateString(), inline: true},
+                    {name: "Dernière partie", value: new Date(player.last_game_date).toLocaleDateString(), inline: true},
+                    {name: "\u200B", value: "\u200B"}, // Empty field for spacing
+                    {name: "Streak actuel", value: player.current_streak.toString(), inline: true},
+                    {name: "Streak le plus long", value: player.longest_streak.toString(), inline: true},
+                    {name: "\u200B", value: "\u200B"}, // Empty field for spacing
+                    {name: "Score moyen", value: player.score_average.toFixed(2).toString(), inline: true},
+                    {name: "Score médian", value: player.score_median.toFixed(2).toString(), inline: true},
+                    {name: "Score total", value: player.score_total.toString(), inline: true}
+                )
+                .setColor('Blue');
+        }
+    }
+
+    this.getPlayerTop = async function () {
+        const players = await wordleDatabase.getAllPlayers()
 
     }
 }

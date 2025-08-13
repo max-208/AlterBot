@@ -5,16 +5,13 @@ CREATE TABLE IF NOT EXISTS players (
     id INTEGER PRIMARY KEY NOT NULL,
     first_game_date INTEGER DEFAULT NULL,
     last_game_date INTEGER DEFAULT NULL,
+    score_total INTEGER DEFAULT 0,
     score_average REAL DEFAULT NULL,
     score_median INTEGER DEFAULT NULL,
     current_streak INTEGER DEFAULT 0,
     longest_streak INTEGER DEFAULT 0,
-    longest_streak_begin_date INTEGER DEFAULT NULL,
-    longest_streak_end_date INTEGER DEFAULT NULL,
     FOREIGN KEY (first_game_date) REFERENCES games(date) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (last_game_date) REFERENCES games(date) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (longest_streak_begin_date) REFERENCES games(date) ON UPDATE CASCADE ON DELETE CASCADE,
-    FOREIGN KEY (longest_streak_end_date) REFERENCES games(date) ON UPDATE CASCADE ON DELETE CASCADE
+    FOREIGN KEY (last_game_date) REFERENCES games(date) ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE IF NOT EXISTS games (
