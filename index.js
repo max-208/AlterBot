@@ -2,7 +2,8 @@ const fs = require('fs');
 
 const Discord = require('discord.js');
 const { REST, Routes, PermissionsBitField, Events, Client, GatewayIntentBits } = require('discord.js');
-const utilities = require('./utilities');
+const utilities = require('utils/utilities');
+const { wordle } = require('utils/wordle.js');
 require("dotenv").config();
 
 utilities.initConfigIfEmpty();
@@ -80,7 +81,7 @@ client.once('ready', () => {
 // this code is executed every time they add a reaction
 client.on(Events.MessageReactionAdd, async (reaction, user) => {
 	var member = user.client.guilds.cache.get(reaction.message.guild.id).members.cache.get(user.id);
-	config = await utilities.readConfig();
+	const config = await utilities.readConfig();
 	if (reaction.emoji.name === '🚩' &&
 		reaction.count >= config.warnNumberReaction &&
 		member.roles.cache.some(role => role.id === config.roleMod ) ) {
@@ -128,6 +129,21 @@ client.on('interactionCreate', async interaction => {
 		}
 	}
 });
+
+let lastWordle = await wordle.initOnStartup()
+let nextWordleTime = await getNextWordleTimeout();
+setTimeout(nextGame, nextWordleTime);
+
+async function nextGame() {
+	await wordle.createGame()
+	nextWordleTime = await getNextWordleTimeout();
+	setTimeout(nextGame, nextWordleTime);
+}
+
+async function getNextWordleTimeout() {
+	const config = utilities.getConfig();
+	return new Date(lastWordle.getTime() + 24 / config.wordleFrequency * 60 * 60 * 1000) - new Date();
+}
 
 
 client.login(process.env.BOT_TOKEN);
