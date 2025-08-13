@@ -151,12 +151,26 @@ const wordleCore = function () {
     };
 
     this.computePlayerScore = async function (playerId, dateStamp) {
-        const parameters = {
-            externalScaling : 1,
-            internalAdjustment : 30,
-            magic1 : 2,
-            magic2 : 2/this.magic1
-        }
+        /**
+         * Compute the score for a player based on their guesses and the game they played.
+         * The mathematical formula used is:
+         * score = (pointsFromNthGuess + pointsFromScore) * mult
+         * where :
+         * - mult is a constant
+         * - pointsFromNthGuess is calculated based on the word score and the number of guesses with the formula:
+         *   pointsFromNthGuess = wordScoreFactor * (-(guessCount - 1)/6 + 1)
+         * - pointsFromScore is calculated based on the word score and the total score with the formula:
+         *   pointsFromScore = wordScoreFactor / a * (1 - exp(- a * b * score / wordScoreFactor))
+         *   where:
+         *   - a is a constant
+         *   - b is a constant
+         *   - wordScoreFactor is the score of the word plus a constant
+         *
+         * @param {string} playerId - The ID of the player.
+         * @param {string} dateStamp - The timestamp of the game.
+         * @return {Promise<number>} - A promise that resolves to the computed score.
+         */
+        const config = await utilities.readConfig();
 
         const guessesAndGame = await wordleDatabase.getGuessAndGame(playerId, dateStamp);
         let score = 0;
@@ -178,7 +192,7 @@ const wordleCore = function () {
         }
         score = scores.reduce((acc, cur) => acc + cur.reduce((a, b) => a + b, 0), 0);
 
-        const wordScoreFactor = guessesAndGame.word_score + parameters.internalAdjustment;
+        const wordScoreFactor = guessesAndGame.word_score + config.wordleInternalAdjustment;
 
         let guessCount = 0
         if (scores[5].reduce((acc, cur) => acc + cur, 0) <= 10) {
@@ -188,9 +202,9 @@ const wordleCore = function () {
         }
 
         const pointsFromNthGuess = wordScoreFactor * (-(guessCount - 1)/6 + 1)
-        const pointsFromScore = wordScoreFactor / parameters.magic1 * (1 - Math.exp(- parameters.magic1 * parameters.magic2 * score / wordScoreFactor))
+        const pointsFromScore = wordScoreFactor / config.wordleMagic1 * (1 - Math.exp(- config.wordleMagic1 * config.wordleMagic2 * score / wordScoreFactor))
 
-        return Math.round((pointsFromNthGuess + pointsFromScore) * parameters.externalScaling);
+        return Math.round((pointsFromNthGuess + pointsFromScore) * config.wordleExternalScaling);
     };
 
     this.getNumberOfGuess = async function (playerId, dateStamp) {
@@ -365,10 +379,18 @@ const wordleCore = function () {
                 .setColor('Blue');
         }
     }
-
-    this.getPlayerTop = async function () {
-        const players = await wordleDatabase.getAllPlayers()
-
+    this.getTopPlayers = async function () {
+        return await wordleDatabase.getAllPlayers()
+    }
+    this.initOnStartup = async function () {
+        const now = new Date();
+        const lastGame = await wordleDatabase.getCurrentGame();
+        if (now - Date.parse(lastGame.date) / 1000 / 60 / 60 >= await utilities.readConfigProperty("wordleFrequency")) {
+            await this.createGame();
+            return now;
+        } else {
+            return new Date(Date.parse(lastGame.date))
+        }
     }
 }
 

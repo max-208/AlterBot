@@ -64,6 +64,14 @@ module.exports = {
 
         //redirection
         "redirectionTimeoutMinutes" : 3,
+
+        wordleExternalScaling : 1,
+        wordleInternalAdjustment : 30,
+        wordleMagic1 : 2,
+        wordleMagic2 : 2/this.wordleMagic1,
+        wordleBaseHour : 20,
+        wordleBaseMinute : 0,
+        wordleFrequency : 1
     },
     allowedConfigProperties : [
         "roleMod",
@@ -73,6 +81,13 @@ module.exports = {
         "warnNumberReaction",
         "channelSondage",
         "redirectionTimeoutMinutes",
+        "wordleExternalScaling",
+        "wordleInternalAdjustment",
+        "wordleMagic1",
+        "wordleMagic2",
+        "wordleBaseHour",
+        "wordleBaseMinute",
+        "wordleFrequency"
     ],
 
     deletionList : {}, // of type personId : [channelId, channelId..]
