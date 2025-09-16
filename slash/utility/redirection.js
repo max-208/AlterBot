@@ -41,6 +41,9 @@ module.exports = {
             }
         }
         let userMentions = "";
+		users.forEach(usr => {
+			userMentions = "<@" + usr.id + ">, " + userMentions;
+		});
         interaction.reply(userMentions + " merci de bien vouloir vous diriger dans <#" + channel + "> comme l\'a demandé <@" + interaction.user + ">. votre acces a <#" + interaction.channel + "> sera donc restreint pour les " + TIMEOUT_TIME + " prochaines minutes");
         if (interaction.channel.isThread()) {
             for (const user of users) {
@@ -48,7 +51,6 @@ module.exports = {
             }
         } else {
             users.forEach(usr => {
-                userMentions = "<@" + usr.id + ">, " + userMentions;
                 interaction.channel.permissionOverwrites.edit(usr, {SendMessages: false});
             });
             setTimeout(() => {
@@ -56,7 +58,7 @@ module.exports = {
                     interaction.channel.permissionOverwrites.edit(usr, {SendMessages: null});
                     interaction.channel.permissionOverwrites.delete(usr);
                 });
-            }, TIMEOUT_TIME);
+            }, TIMEOUT_TIME * 60 * 1000); 
         }
     }
 }
