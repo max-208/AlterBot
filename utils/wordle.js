@@ -1,5 +1,4 @@
 const { wordle} = require("utils/wordle_core.js");
-const {wordleDatabase, db_connection} = require("utils/wordle_database.js");
 const fs = require('fs');
 
 const getWordList = function() {
@@ -20,7 +19,5 @@ const wordList = getWordList();
 
 module.exports = {
     wordle: wordle,
-    wordleDatabase: wordleDatabase,
-    db_connection: db_connection,
     wordList: wordList,
 };

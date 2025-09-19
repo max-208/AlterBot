@@ -7,8 +7,15 @@ services:
     restart: unless-stopped
     volumes:
       - config:/usr/src/bot/config
-      - data:/usr/src/bot/data
     env_file: ./.env
+  database:
+    container_name: alterbot_db
+    build:
+      context: database
+      dockerfile: ./database/Dockerfile
+    restart: unless-stopped
+    volumes:
+      - database:/var/database
 volumes:
   config:
     driver: local
@@ -16,9 +23,9 @@ volumes:
       type: none
       device: ${PWD}/config
       o: bind
-  data:
+  database:
     driver: local
     driver_opts:
       type: none
-      device: ${PWD}/data
+      device: ${PWD}/database/data
       o: bind

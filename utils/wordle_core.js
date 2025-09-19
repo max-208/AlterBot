@@ -1,4 +1,4 @@
-const {wordleDatabase} = require('utils/wordle_database.js');
+
 const fs = require('fs');
 const utilities = require('utils/utilities.js');
 const {AttachmentBuilder, EmbedBuilder} = require('discord.js');
