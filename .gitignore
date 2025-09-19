@@ -110,3 +110,4 @@ dist
 
 # do not copy temp files
 *~
+.idea/
