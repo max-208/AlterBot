@@ -1,5 +1,6 @@
 const Discord = require('discord.js');
 const fs = require('fs');
+const sharp = require("sharp");
 const CONFIG_PATH = 'config/config.json';
 module.exports = {
 
@@ -63,6 +64,14 @@ module.exports = {
 
         //redirection
         "redirectionTimeoutMinutes" : 3,
+
+        wordleExternalScaling : 1,
+        wordleInternalAdjustment : 30,
+        wordleMagic1 : 2,
+        wordleMagic2 : 2/this.wordleMagic1,
+        wordleBaseHour : 20,
+        wordleBaseMinute : 0,
+        wordleFrequency : 1
     },
     allowedConfigProperties : [
         "roleMod",
@@ -72,6 +81,13 @@ module.exports = {
         "warnNumberReaction",
         "channelSondage",
         "redirectionTimeoutMinutes",
+        "wordleExternalScaling",
+        "wordleInternalAdjustment",
+        "wordleMagic1",
+        "wordleMagic2",
+        "wordleBaseHour",
+        "wordleBaseMinute",
+        "wordleFrequency"
     ],
 
     deletionList : {}, // of type personId : [channelId, channelId..]
@@ -194,5 +210,32 @@ module.exports = {
         } catch (error) {
             console.error('Error updating config:', error);
         }
+    },
+
+    async convertSVGtoPNG(svgString) {
+        if (!fs.existsSync("tmp")){
+            fs.mkdirSync("tmp");
+        }
+        const epoch = new Date().getTime();
+        await sharp(Buffer.from(svgString))
+            .png()
+            .toFile('tmp/tmp_' + epoch + '.png');
+        return 'tmp_' + epoch + '.png';
+    },
+
+    async deleteFiles(fileList) {
+        for (const file of fileList){
+            const filePath = 'tmp/' + file;
+            if (fs.existsSync(filePath)) {
+                fs.unlink(filePath, (err) => {
+                    if (err) {
+                        console.error(`Error deleting file ${filePath}:`, err);
+                    }
+                });
+            }
+        }
+
     }
+
+
 };

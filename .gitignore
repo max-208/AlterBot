@@ -11,7 +11,7 @@ lerna-debug.log*
 # Diagnostic reports (https://nodejs.org/api/report.html)
 report.[0-9]*.[0-9]*.[0-9]*.[0-9]*.json
 
-# Runtime data
+# Runtime database
 pids
 *.pid
 *.seed
@@ -105,7 +105,7 @@ dist
 # TernJS port file
 .tern-port
 
-# do not copy data
+# do not copy database
 *.db
 
 # do not copy temp files
