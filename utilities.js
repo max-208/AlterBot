@@ -72,6 +72,8 @@ module.exports = {
         "warnNumberReaction",
         "channelSondage",
         "redirectionTimeoutMinutes",
+        "categoryArchive",
+        "roleArchivist"
     ],
 
     deletionList : {}, // of type personId : [channelId, channelId..]
@@ -111,15 +113,11 @@ module.exports = {
                 console.log('Config file is empty, initializing with default values.');
                 await this.writeConfig(this.defaultConfig);
             } else {
-                for (const key of Object.keys(this.config)) {
-                    if (!Object.keys(config).includes(key)) {
-                        config[key] = this.config[key];
-                    }
-                }
                 await this.writeConfig(config);
                 console.log('Config file loaded successfully.');
             }
         } catch (error) {
+            console.error(error);
             console.error('Error reading config file');
             console.log('Creating new config file with default values.');
             await this.writeConfig(this.defaultConfig);
